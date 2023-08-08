@@ -1,0 +1,6 @@
+framework module ContextMenuSDK {
+  umbrella header "ContextMenuSDK-umbrella.h"
+
+  export *
+  module * { export * }
+}

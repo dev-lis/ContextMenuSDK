@@ -1,0 +1,16 @@
+PODS:
+  - ContextMenuSDK (0.1.0)
+
+DEPENDENCIES:
+  - ContextMenuSDK (from `../`)
+
+EXTERNAL SOURCES:
+  ContextMenuSDK:
+    :path: "../"
+
+SPEC CHECKSUMS:
+  ContextMenuSDK: 2ccfcf9669a248fad0391152b91667336cbb0de4
+
+PODFILE CHECKSUM: 992612f9ddacfa0df6b0adbb68c2cd5f16356e4e
+
+COCOAPODS: 1.12.1
