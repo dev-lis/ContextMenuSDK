@@ -7,18 +7,43 @@
 //
 
 import UIKit
+import ContextMenuSDK
 
 class ViewController: UIViewController {
-
+    
+    @IBOutlet weak var blueView: UIView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        
+        let copy = ContextMenuAction(
+            text: "Copy",
+            image: UIImage(systemName: "doc.on.doc")
+        ) {
+            print("Copy")
+        }
+        let share = ContextMenuAction(
+            text: "Share",
+            image: UIImage(systemName: "square.and.arrow.up")
+        ) {
+            print("Share")
+        }
+        let delete = ContextMenuAction(
+                text: "Delete",
+            type: .negative,
+            image: UIImage(systemName: "trash")
+        ) {
+            print("Delete")
+        }
+        let footer = ContextMenuSection.Footer()
+        let actionSections = [
+            ContextMenuSection(actions: [copy, share], footer: footer),
+            ContextMenuSection(actions: [delete])
+        ]
+        blueView.addContextMenu(
+            with: actionSections,
+            to: .bottomCenter
+        )
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-
 }
 

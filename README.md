@@ -1,6 +1,5 @@
 # ContextMenuSDK
 
-[![CI Status](https://img.shields.io/travis/Aleksandr Lis/ContextMenuSDK.svg?style=flat)](https://travis-ci.org/Aleksandr Lis/ContextMenuSDK)
 [![Version](https://img.shields.io/cocoapods/v/ContextMenuSDK.svg?style=flat)](https://cocoapods.org/pods/ContextMenuSDK)
 [![License](https://img.shields.io/cocoapods/l/ContextMenuSDK.svg?style=flat)](https://cocoapods.org/pods/ContextMenuSDK)
 [![Platform](https://img.shields.io/cocoapods/p/ContextMenuSDK.svg?style=flat)](https://cocoapods.org/pods/ContextMenuSDK)
@@ -22,7 +21,7 @@ pod 'ContextMenuSDK'
 
 ## Author
 
-Aleksandr Lis, a.lis@tinkoff.ru
+Aleksandr Lis, mr.aleksandr.lis@gmail.com
 
 ## License
 
