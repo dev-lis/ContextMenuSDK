@@ -43,7 +43,7 @@ public class Settings {
     public class Animations {
         public var scaleFactor: CGFloat = 4.0
         public var scaleDuration: CGFloat = 0.25
-        public var transitionDuration: TimeInterval = 0.5
+        public var transitionDuration: TimeInterval = 0.25
         public var animationBlock: ((@escaping () -> Void) -> Void)? = nil
     }
 }
