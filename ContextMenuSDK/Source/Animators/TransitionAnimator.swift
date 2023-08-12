@@ -55,10 +55,6 @@ final class PresentTransitionAnimator: NSObject, UIViewControllerAnimatedTransit
         
         UIView.animate(
             withDuration: settings.transitionDuration,
-            delay: 0,
-            usingSpringWithDamping: 0.5,
-            initialSpringVelocity: 5,
-            options: .curveEaseInOut,
             animations: {
                 blurEffectView.effect = UIBlurEffect(style: .systemUltraThinMaterialDark)
         }) { _ in
@@ -105,12 +101,10 @@ final class DismissTransitionAnimator: NSObject, UIViewControllerAnimatedTransit
         
         contentView.hide()
         
+        KeyboardHandler.shared.removeSnapshotIfNeed()
+        
         UIView.animate(
             withDuration: settings.transitionDuration,
-            delay: 0,
-            usingSpringWithDamping: 0.5,
-            initialSpringVelocity: 5,
-            options: .curveEaseInOut,
             animations: {
                 blurEffectView.effect = nil
         }) { _ in
