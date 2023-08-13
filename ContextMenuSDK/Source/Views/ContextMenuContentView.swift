@@ -9,8 +9,8 @@ import UIKit
 
 final class ContextMenuContentView: UIView {
     
-    private var menuSettings = Settings.shared.menu
-    private var animationsSettings = Settings.shared.animations
+    private var menuSettings = ContextMenuSettings.shared.menu
+    private var animationsSettings = ContextMenuSettings.shared.animations
     
     private var startContentY: CGFloat = .zero
     
@@ -46,11 +46,11 @@ final class ContextMenuContentView: UIView {
             self.menuView.transform = .identity
         }
         
-        if let animation = Settings.shared.animations.showMenuAnimation {
+        if let animation = ContextMenuSettings.shared.animations.showMenuAnimation {
             animation((animationBlock, nil))
         } else {
             UIView.animate(
-                withDuration: animationsSettings.scaleDuration,
+                withDuration: animationsSettings.showTransitionDuration,
                 delay: 0,
                 usingSpringWithDamping: 0.75,
                 initialSpringVelocity: 5,
@@ -76,11 +76,11 @@ final class ContextMenuContentView: UIView {
             self.menuView.transform = CGAffineTransform(scaleX: 0.001, y: 0.001)
         }
         
-        if let animation = Settings.shared.animations.showMenuAnimation {
+        if let animation = ContextMenuSettings.shared.animations.hideMenuAnimation {
             animation((animationBlock, nil))
         } else {
             UIView.animate(
-                withDuration: 0.1,
+                withDuration: animationsSettings.hideTransitionDuration,
                 delay: 0,
                 options: .curveEaseIn
             ) {

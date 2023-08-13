@@ -9,7 +9,7 @@ import UIKit
 
 final class ContextMenuActionView: UIView {
     
-    private var settings = Settings.shared.menuAction
+    private var settings = ContextMenuSettings.shared.menuAction
     
     private let action: () -> Void
     private let completion: () -> Void

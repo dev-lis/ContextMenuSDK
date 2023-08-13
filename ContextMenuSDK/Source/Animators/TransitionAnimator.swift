@@ -7,7 +7,7 @@
 
 import UIKit
 
-fileprivate var settings = Settings.shared.animations
+fileprivate var settings = ContextMenuSettings.shared.animations
 
 final class PresentTransitionAnimator: NSObject, UIViewControllerAnimatedTransitioning {
     
@@ -24,7 +24,7 @@ final class PresentTransitionAnimator: NSObject, UIViewControllerAnimatedTransit
     }
     
     func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
-        settings.transitionDuration
+        settings.showTransitionDuration
     }
     
     func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
@@ -63,11 +63,11 @@ final class PresentTransitionAnimator: NSObject, UIViewControllerAnimatedTransit
             transitionContext.completeTransition(true)
         }
         
-        if let animation = Settings.shared.animations.showBlurAnimation {
+        if let animation = ContextMenuSettings.shared.animations.showBlurAnimation {
             animation((animationBlock, completionBlock))
         } else {
             UIView.animate(
-                withDuration: settings.transitionDuration,
+                withDuration: settings.showTransitionDuration,
                 animations: {
                     animationBlock()
             }) { _ in
@@ -86,7 +86,7 @@ final class DismissTransitionAnimator: NSObject, UIViewControllerAnimatedTransit
     }
     
     func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
-        settings.transitionDuration
+        settings.hideTransitionDuration
     }
     
     func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
@@ -112,8 +112,6 @@ final class DismissTransitionAnimator: NSObject, UIViewControllerAnimatedTransit
         
         contentView.hide()
         
-        KeyboardHandler.shared.removeSnapshotIfNeed()
-        
         let animationBlock = {
             blurEffectView.effect = nil
         }
@@ -126,11 +124,11 @@ final class DismissTransitionAnimator: NSObject, UIViewControllerAnimatedTransit
             KeyboardHandler.shared.removeSnapshotIfNeed()
         }
         
-        if let animation = Settings.shared.animations.hideBlurAnimation {
+        if let animation = ContextMenuSettings.shared.animations.hideBlurAnimation {
             animation((animationBlock, completionBlock))
         } else {
             UIView.animate(
-                withDuration: settings.transitionDuration,
+                withDuration: settings.hideTransitionDuration,
                 animations: {
                     animationBlock()
             }) { _ in

@@ -16,42 +16,7 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        Settings.shared.animations.showBlurAnimation = { block in
-            UIView.animate(
-                withDuration: 0.25,
-                animations: {
-                    block.animation()
-            }) { _ in
-                block.completion?()
-            }
-        }
-        Settings.shared.animations.hideBlurAnimation = { block in
-            UIView.animate(
-                withDuration: 5,
-                animations: {
-                    block.animation()
-            }) { _ in
-                block.completion?()
-            }
-        }
-        Settings.shared.animations.showMenuAnimation = { block in
-            UIView.animate(
-                withDuration: 0.25,
-                animations: {
-                    block.animation()
-            }) { _ in
-                block.completion?()
-            }
-        }
-        Settings.shared.animations.hideMenuAnimation = { block in
-            UIView.animate(
-                withDuration: 5,
-                animations: {
-                    block.animation()
-            }) { _ in
-                block.completion?()
-            }
-        }
+        setupSettings()
         
         let copy = ContextMenuAction(
             text: "Copy",
@@ -81,6 +46,45 @@ class ViewController: UIViewController {
             with: actionSections,
             to: .bottomCenter
         )
+    }
+    
+    private func setupSettings() {
+        ContextMenuSettings.shared.animations.showBlurAnimation = { block in
+            UIView.animate(
+                withDuration: 0.25,
+                animations: {
+                    block.animation()
+            }) { _ in
+                block.completion?()
+            }
+        }
+        ContextMenuSettings.shared.animations.hideBlurAnimation = { block in
+            UIView.animate(
+                withDuration: 0.25,
+                animations: {
+                    block.animation()
+            }) { _ in
+                block.completion?()
+            }
+        }
+        ContextMenuSettings.shared.animations.showMenuAnimation = { block in
+            UIView.animate(
+                withDuration: 0.25,
+                animations: {
+                    block.animation()
+            }) { _ in
+                block.completion?()
+            }
+        }
+        ContextMenuSettings.shared.animations.hideMenuAnimation = { block in
+            UIView.animate(
+                withDuration: 0.25,
+                animations: {
+                    block.animation()
+            }) { _ in
+                block.completion?()
+            }
+        }
     }
 }
 
