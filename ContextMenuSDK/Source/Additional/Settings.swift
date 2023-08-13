@@ -7,11 +7,11 @@
 
 import UIKit
 
+public typealias Animation = (animation: () -> Void, completion: (() -> Void)?)
+
 public class Settings {
     
-    public static var shared: Settings {
-        Settings()
-    }
+    public static let shared = Settings()
     
     public var menu: Menu = .init()
     public var menuAction: MenuAction = .init()
@@ -44,6 +44,11 @@ public class Settings {
         public var scaleFactor: CGFloat = 4.0
         public var scaleDuration: CGFloat = 0.25
         public var transitionDuration: TimeInterval = 0.25
-        public var animationBlock: ((@escaping () -> Void) -> Void)? = nil
+        public var showBlurAnimation: ((Animation) -> Void)? = nil
+        public var hideBlurAnimation: ((Animation) -> Void)? = nil
+        public var showMenuAnimation: ((Animation) -> Void)? = nil
+        public var hideMenuAnimation: ((Animation) -> Void)? = nil
+        
+        public init() {}
     }
 }

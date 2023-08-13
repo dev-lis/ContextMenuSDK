@@ -53,15 +53,26 @@ final class PresentTransitionAnimator: NSObject, UIViewControllerAnimatedTransit
         
         contentView.show()
         
-        UIView.animate(
-            withDuration: settings.transitionDuration,
-            animations: {
-                blurEffectView.effect = UIBlurEffect(style: .systemUltraThinMaterialDark)
-        }) { _ in
+        let animationBlock = {
+            blurEffectView.effect = UIBlurEffect(style: .systemUltraThinMaterialDark)
+        }
+        let completionBlock = {
             containerView.addSubview(toViewController.view)
             toViewController.setContent(contentView)
             blurEffectView.removeFromSuperview()
             transitionContext.completeTransition(true)
+        }
+        
+        if let animation = Settings.shared.animations.showBlurAnimation {
+            animation((animationBlock, completionBlock))
+        } else {
+            UIView.animate(
+                withDuration: settings.transitionDuration,
+                animations: {
+                    animationBlock()
+            }) { _ in
+                completionBlock()
+            }
         }
     }
 }
@@ -103,17 +114,28 @@ final class DismissTransitionAnimator: NSObject, UIViewControllerAnimatedTransit
         
         KeyboardHandler.shared.removeSnapshotIfNeed()
         
-        UIView.animate(
-            withDuration: settings.transitionDuration,
-            animations: {
-                blurEffectView.effect = nil
-        }) { _ in
+        let animationBlock = {
+            blurEffectView.effect = nil
+        }
+        let completionBlock = {
             TransitionHandler.shared.removeActiveView()
             ViewPositionHandler.shared.returnViewBack(view: self.view)
             GesturesHandler.shared.returnLongPress(to: self.view)
             blurEffectView.removeFromSuperview()
             transitionContext.completeTransition(true)
             KeyboardHandler.shared.removeSnapshotIfNeed()
+        }
+        
+        if let animation = Settings.shared.animations.hideBlurAnimation {
+            animation((animationBlock, completionBlock))
+        } else {
+            UIView.animate(
+                withDuration: settings.transitionDuration,
+                animations: {
+                    animationBlock()
+            }) { _ in
+                completionBlock()
+            }
         }
     }
 }
