@@ -16,7 +16,7 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setupSettings()
+//        setupSettings()
         
         let copy = ContextMenuAction(
             text: "Copy",
@@ -44,7 +44,7 @@ class ViewController: UIViewController {
         ]
         blueView.addContextMenu(
             with: actionSections,
-            to: .bottomCenter
+            to: .topCenter
         )
     }
     

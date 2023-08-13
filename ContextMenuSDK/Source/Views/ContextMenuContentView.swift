@@ -401,7 +401,18 @@ private extension ContextMenuContentView {
             actionSections: actionSections,
             completion: completion
         )
-        menuView.layer.anchorPoint = CGPoint(x: 0.5, y: 1)
+        
+        switch position {
+        case .topLeft:
+            menuView.layer.anchorPoint = CGPoint(x: 0, y: 1)
+        case .topCenter:
+            menuView.layer.anchorPoint = CGPoint(x: 0.5, y: 1)
+        case .topRight:
+            menuView.layer.anchorPoint = CGPoint(x: 1, y: 1)
+        default:
+            break
+        }
+        
         menuView.frame.origin = CGPoint(
             x: menuX,
             y: 0
@@ -696,7 +707,17 @@ private extension ContextMenuContentView {
             actionSections: actionSections,
             completion: completion
         )
-        menuView.layer.anchorPoint = CGPoint(x: 0.5, y: 0)
+        
+        switch position {
+        case .bottomLeft:
+            menuView.layer.anchorPoint = CGPoint(x: 0, y: 0)
+        case .bottomCenter:
+            menuView.layer.anchorPoint = CGPoint(x: 0.5, y: 0)
+        case .bottomRight:
+            menuView.layer.anchorPoint = CGPoint(x: 1, y: 0)
+        default:
+            break
+        }
         menuView.frame.origin = CGPoint(
             x: menuX,
             y: menuView.frame.origin.y - menuView.frame.height * 0.5
