@@ -14,13 +14,16 @@ final class PresentTransitionAnimator: NSObject, UIViewControllerAnimatedTransit
     private let view: UIView
     private let actionSections: [ContextMenuSection]
     private let position: MenuPosition
+    private let withBlur: Bool
     
     init(view: UIView,
          actionSections: [ContextMenuSection],
-         position: MenuPosition) {
+         position: MenuPosition,
+         withBlur: Bool) {
         self.view = view
         self.actionSections = actionSections
         self.position = position
+        self.withBlur = withBlur
     }
     
     func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
@@ -51,25 +54,37 @@ final class PresentTransitionAnimator: NSObject, UIViewControllerAnimatedTransit
         
         containerView.addSubview(contentView)
         
-        contentView.show()
+        contentView.moveIfNeed()
         
-        let animationBlock = {
-            blurEffectView.effect = UIBlurEffect(style: .systemUltraThinMaterialDark)
-        }
         let completionBlock = {
             containerView.addSubview(toViewController.view)
-            toViewController.setContent(contentView)
-            blurEffectView.removeFromSuperview()
+            toViewController.setContent(contentView, with: blurEffectView)
             transitionContext.completeTransition(true)
         }
         
-        if let animation = ContextMenuSettings.shared.animations.showBlurAnimation {
-            animation((animationBlock, completionBlock))
+        if let animation = settings.showAnimation {
+            animation(
+                blurEffectView,
+                contentView.content,
+                contentView.menuView,
+                completionBlock
+            )
         } else {
             UIView.animate(
                 withDuration: settings.showTransitionDuration,
+                delay: 0,
+                usingSpringWithDamping: 0.75,
+                initialSpringVelocity: 5,
+                options: .curveEaseInOut)
+            {
+                contentView.show()
+            }
+            UIView.animate(
+                withDuration: settings.showTransitionDuration,
                 animations: {
-                    animationBlock()
+                    if self.withBlur {
+                        blurEffectView.effect = UIBlurEffect(style: .systemUltraThinMaterialDark)
+                    }
             }) { _ in
                 completionBlock()
             }
@@ -80,9 +95,12 @@ final class PresentTransitionAnimator: NSObject, UIViewControllerAnimatedTransit
 final class DismissTransitionAnimator: NSObject, UIViewControllerAnimatedTransitioning {
     
     private let view: UIView
+    private let withBlur: Bool
     
-    init(view: UIView) {
+    init(view: UIView,
+         withBlur: Bool) {
         self.view = view
+        self.withBlur = withBlur
     }
     
     func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
@@ -99,8 +117,12 @@ final class DismissTransitionAnimator: NSObject, UIViewControllerAnimatedTransit
         
         let containerView = transitionContext.containerView
         
-        let blurEffectView = BlurHandler.createBlur(with: .systemUltraThinMaterialDark)
-        containerView.addSubview(blurEffectView)
+        var blurEffectView: UIVisualEffectView?
+        if withBlur {
+            let blurView = BlurHandler.createBlur(with: .systemUltraThinMaterialDark)
+            containerView.addSubview(blurView)
+            blurEffectView = blurView
+        }
         
         if let contentView = view.superview {
             let frameOnWindow = contentView.frameOnWindow
@@ -113,13 +135,16 @@ final class DismissTransitionAnimator: NSObject, UIViewControllerAnimatedTransit
         contentView.hide()
         
         let animationBlock = {
-            blurEffectView.effect = nil
+            guard let blurView = blurEffectView else {
+                return
+            }
+            blurView.effect = nil
         }
         let completionBlock = {
             TransitionHandler.shared.removeActiveView()
             ViewPositionHandler.shared.returnViewBack(view: self.view)
             GesturesHandler.shared.returnLongPress(to: self.view)
-            blurEffectView.removeFromSuperview()
+            blurEffectView?.removeFromSuperview()
             transitionContext.completeTransition(true)
             KeyboardHandler.shared.removeSnapshotIfNeed()
         }

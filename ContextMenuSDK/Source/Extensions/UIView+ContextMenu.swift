@@ -37,25 +37,44 @@ extension UIView {
         UIViewPropertyAnimator(duration: animationsSettings.scaleDuration, curve: .easeOut)
     }
     
-    public func addContextMenu(with actionSections: [ContextMenuSection], to position: MenuPosition) {
+    public func addContextMenu(for action: ActionType = .longPress,
+                               with actionSections: [ContextMenuSection],
+                               to position: MenuPosition,
+                               withBlur: Bool = true) {
         let _ = KeyboardHandler.shared
         TransitionHandler.shared.setActions(
             actionSections,
             for: self,
-            to: position
+            to: position,
+            withBlur: withBlur
         )
         
-        let longPress = UILongPressGestureRecognizer(
-            target: self,
-            action: #selector(handleContextMenuPress)
-        )
-        longPress.cancelsTouchesInView = false
-        longPress.minimumPressDuration = 0.01
-        
-        addGestureRecognizer(longPress)
+        switch action {
+        case .tap:
+            let tap = UITapGestureRecognizer(
+                target: self,
+                action: #selector(handleContextMenuTap)
+            )
+            tap.cancelsTouchesInView = false
+            
+            addGestureRecognizer(tap)
+        case .longPress:
+            let longPress = UILongPressGestureRecognizer(
+                target: self,
+                action: #selector(handleContextMenuLongPress)
+            )
+            longPress.cancelsTouchesInView = false
+            longPress.minimumPressDuration = 0.01
+            
+            addGestureRecognizer(longPress)
+        }
     }
     
-    @objc private func handleContextMenuPress(_ sender: UILongPressGestureRecognizer) {
+    @objc private func handleContextMenuTap(_ sender: UITapGestureRecognizer) {
+        openContextMenu()
+    }
+    
+    @objc private func handleContextMenuLongPress(_ sender: UILongPressGestureRecognizer) {
         switch sender.state {
         case .began:
             ScaleAnimator.scale(self) {

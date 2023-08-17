@@ -33,8 +33,8 @@ final class ContextMenuViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let blurEffectView = BlurHandler.createBlur(with: .systemUltraThinMaterialDark)
-        view.addSubview(blurEffectView)
+//        let blurEffectView = BlurHandler.createBlur(with: .systemUltraThinMaterialDark)
+//        view.addSubview(blurEffectView)
         
         view.addSubview(scrollView)
         
@@ -52,7 +52,12 @@ final class ContextMenuViewController: UIViewController {
         statusBarHidden = false
     }
     
-    func setContent(_ contentView: UIView) {
+    func setContent(_ contentView: UIView, with blur: UIView?) {
+//        let blurEffectView = BlurHandler.createBlur(with: .systemUltraThinMaterialDark)
+        if let blur = blur {
+            view.insertSubview(blur, at: 0)
+        }
+        
         scrollView.contentSize = contentView.frame.size
         
         if contentView.frame.origin.y < Screen.SafeArea.top {

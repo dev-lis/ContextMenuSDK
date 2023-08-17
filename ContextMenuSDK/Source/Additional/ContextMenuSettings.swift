@@ -49,6 +49,8 @@ public class ContextMenuSettings {
         public var hideBlurAnimation: ((Animation) -> Void)? = nil
         public var showMenuAnimation: ((Animation) -> Void)? = nil
         public var hideMenuAnimation: ((Animation) -> Void)? = nil
+        public var showAnimation: ((UIVisualEffectView?, UIView, UIView, @escaping () -> Void) -> Void)? = nil
+        public var hideAnimation: ((UIVisualEffectView?, UIView, UIView, @escaping () -> Void) -> Void)? = nil
         
         public init() {}
     }
