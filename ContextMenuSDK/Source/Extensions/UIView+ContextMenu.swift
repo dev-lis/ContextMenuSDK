@@ -93,7 +93,8 @@ extension UIView {
         KeyboardHandler.shared.addSnapshotIfNeed()
         TransitionHandler.shared.setActiveView(self)
         
-        let controller = ContextMenuViewController()
+        let withBlur = TransitionHandler.shared.getBlurValue(for: self)
+        let controller = ContextMenuViewController(withBlur: withBlur)
         controller.modalPresentationStyle = .custom
         controller.modalPresentationCapturesStatusBarAppearance = true
         controller.transitioningDelegate = TransitionHandler.shared

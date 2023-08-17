@@ -43,10 +43,10 @@ class ViewController: UIViewController {
             ContextMenuSection(actions: [delete])
         ]
         blueView.addContextMenu(
-            for: .longPress,
+            for: .tap,
             with: actionSections,
             to: .bottomRight,
-            withBlur: true
+            withBlur: false
         )
     }
     

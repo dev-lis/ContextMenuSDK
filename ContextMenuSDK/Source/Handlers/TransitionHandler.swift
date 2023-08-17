@@ -46,6 +46,13 @@ final class TransitionHandler: NSObject {
     func removeActiveView() {
         view = nil
     }
+    
+    func getBlurValue(for view: UIView) -> Bool {
+        guard let model = models[view] else {
+            return false
+        }
+        return model.withBlur
+    }
 }
 
 extension TransitionHandler: UIViewControllerTransitioningDelegate {

@@ -18,7 +18,7 @@ final class ContextMenuViewController: UIViewController {
         return scrollView
     }()
     
-    private var statusBarHidden = false {
+    private var statusBarHidden = true {
         didSet {
             if oldValue != statusBarHidden {
                 setNeedsStatusBarAppearanceUpdate()
@@ -27,7 +27,22 @@ final class ContextMenuViewController: UIViewController {
     }
 
     override var prefersStatusBarHidden: Bool {
+        guard withBlur else {
+            return false
+        }
         return statusBarHidden
+    }
+    
+    private let withBlur: Bool
+    
+    init(withBlur: Bool) {
+        self.withBlur = withBlur
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    @available(*, unavailable)
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
     override func viewDidLoad() {
