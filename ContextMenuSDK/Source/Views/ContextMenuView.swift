@@ -9,8 +9,8 @@ import UIKit
 
 final class ContextMenuView: UIView {
     
-    private var menuSettings = Settings.shared.menu
-    private var menuActionSettings = Settings.shared.menuAction
+    private var menuSettings = ContextMenuSettings.shared.menu
+    private var menuActionSettings = ContextMenuSettings.shared.menuAction
     
     private var views = [ContextMenuActionView]()
     

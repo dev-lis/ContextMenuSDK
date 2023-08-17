@@ -9,53 +9,72 @@ import UIKit
 
 extension UIView {
     
-    private var settings: Settings.Animations {
-        Settings.shared.animations
+    private var animationsSettings: ContextMenuSettings.Animations {
+        ContextMenuSettings.shared.animations
     }
     
     var modalScaledFrame: CGRect {
         let modelFrame = layer.model().frame
         return CGRect(
-            x: modelFrame.origin.x + settings.scaleFactor,
-            y: modelFrame.origin.y + settings.scaleFactor,
-            width: modelFrame.width - settings.scaleFactor * 2,
-            height: modelFrame.height - settings.scaleFactor * 2
+            x: modelFrame.origin.x + animationsSettings.scaleFactor,
+            y: modelFrame.origin.y + animationsSettings.scaleFactor,
+            width: modelFrame.width - animationsSettings.scaleFactor * 2,
+            height: modelFrame.height - animationsSettings.scaleFactor * 2
         )
     }
     
     private var presentationScaledFrame: CGRect {
         let presentationFrame = layer.presentation()?.frame ?? .zero
         return CGRect(
-            x: presentationFrame.origin.x + settings.scaleFactor,
-            y: presentationFrame.origin.y + settings.scaleFactor,
-            width: presentationFrame.width - settings.scaleFactor * 2,
-            height: presentationFrame.height - settings.scaleFactor * 2
+            x: presentationFrame.origin.x + animationsSettings.scaleFactor,
+            y: presentationFrame.origin.y + animationsSettings.scaleFactor,
+            width: presentationFrame.width - animationsSettings.scaleFactor * 2,
+            height: presentationFrame.height - animationsSettings.scaleFactor * 2
         )
     }
     
     private var animator: UIViewPropertyAnimator {
-        UIViewPropertyAnimator(duration: settings.scaleDuration, curve: .easeOut)
+        UIViewPropertyAnimator(duration: animationsSettings.scaleDuration, curve: .easeOut)
     }
     
-    public func addContextMenu(with actionSections: [ContextMenuSection], to position: MenuPosition) {
+    public func addContextMenu(for action: ActionType = .longPress,
+                               with actionSections: [ContextMenuSection],
+                               to position: MenuPosition,
+                               withBlur: Bool = true) {
         let _ = KeyboardHandler.shared
         TransitionHandler.shared.setActions(
             actionSections,
             for: self,
-            to: position
+            to: position,
+            withBlur: withBlur
         )
         
-        let longPress = UILongPressGestureRecognizer(
-            target: self,
-            action: #selector(handleContextMenuPress)
-        )
-        longPress.cancelsTouchesInView = false
-        longPress.minimumPressDuration = 0.01
-        
-        addGestureRecognizer(longPress)
+        switch action {
+        case .tap:
+            let tap = UITapGestureRecognizer(
+                target: self,
+                action: #selector(handleContextMenuTap)
+            )
+            tap.cancelsTouchesInView = false
+            
+            addGestureRecognizer(tap)
+        case .longPress:
+            let longPress = UILongPressGestureRecognizer(
+                target: self,
+                action: #selector(handleContextMenuLongPress)
+            )
+            longPress.cancelsTouchesInView = false
+            longPress.minimumPressDuration = 0.01
+            
+            addGestureRecognizer(longPress)
+        }
     }
     
-    @objc private func handleContextMenuPress(_ sender: UILongPressGestureRecognizer) {
+    @objc private func handleContextMenuTap(_ sender: UITapGestureRecognizer) {
+        openContextMenu()
+    }
+    
+    @objc private func handleContextMenuLongPress(_ sender: UILongPressGestureRecognizer) {
         switch sender.state {
         case .began:
             ScaleAnimator.scale(self) {
@@ -74,7 +93,8 @@ extension UIView {
         KeyboardHandler.shared.addSnapshotIfNeed()
         TransitionHandler.shared.setActiveView(self)
         
-        let controller = ContextMenuViewController()
+        let withBlur = TransitionHandler.shared.getBlurValue(for: self)
+        let controller = ContextMenuViewController(withBlur: withBlur)
         controller.modalPresentationStyle = .custom
         controller.modalPresentationCapturesStatusBarAppearance = true
         controller.transitioningDelegate = TransitionHandler.shared

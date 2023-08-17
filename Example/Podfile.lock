@@ -1,5 +1,5 @@
 PODS:
-  - ContextMenuSDK (0.1.0)
+  - ContextMenuSDK (0.1.2)
 
 DEPENDENCIES:
   - ContextMenuSDK (from `../`)
@@ -9,8 +9,8 @@ EXTERNAL SOURCES:
     :path: "../"
 
 SPEC CHECKSUMS:
-  ContextMenuSDK: 39eefe82d93e1cbfc35f0cf8f63111a71659088e
+  ContextMenuSDK: f440f0d5a8306dfc324ede5c452becfbc385babb
 
-PODFILE CHECKSUM: f1059f07ecdc1d60531968032cd91250a4c43ff1
+PODFILE CHECKSUM: d8abe28f2c728e1d037df4ce0ec744d9e9644143
 
 COCOAPODS: 1.12.1
