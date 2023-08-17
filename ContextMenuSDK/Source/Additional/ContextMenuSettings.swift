@@ -7,8 +7,6 @@
 
 import UIKit
 
-public typealias Animation = (animation: () -> Void, completion: (() -> Void)?)
-
 public class ContextMenuSettings {
     
     public static let shared = ContextMenuSettings()
@@ -45,10 +43,6 @@ public class ContextMenuSettings {
         public var scaleDuration: CGFloat = 0.2
         public var showTransitionDuration: TimeInterval = 0.25
         public var hideTransitionDuration: TimeInterval = 0.1
-        public var showBlurAnimation: ((Animation) -> Void)? = nil
-        public var hideBlurAnimation: ((Animation) -> Void)? = nil
-        public var showMenuAnimation: ((Animation) -> Void)? = nil
-        public var hideMenuAnimation: ((Animation) -> Void)? = nil
         public var showAnimation: ((UIVisualEffectView?, UIView, UIView, @escaping () -> Void) -> Void)? = nil
         public var hideAnimation: ((UIVisualEffectView?, UIView, UIView, @escaping () -> Void) -> Void)? = nil
         

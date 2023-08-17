@@ -52,6 +52,10 @@ final class ContextMenuContentView: UIView {
         }
     }
     
+    func moveToStartPositionIfNeed() {
+        animateOriginY(to: startContentY)
+    }
+    
     func show() {
         content.transform = .identity
         menuView.transform = .identity
@@ -91,23 +95,7 @@ final class ContextMenuContentView: UIView {
 //    }
     
     func hide() {
-        let animationBlock = {
-            self.menuView.transform = CGAffineTransform(scaleX: 0.001, y: 0.001)
-        }
-        
-        if let animation = ContextMenuSettings.shared.animations.hideMenuAnimation {
-            animation((animationBlock, nil))
-        } else {
-            UIView.animate(
-                withDuration: animationsSettings.hideTransitionDuration,
-                delay: 0,
-                options: .curveEaseIn
-            ) {
-                animationBlock()
-            }
-        }
-        
-        animateOriginY(to: startContentY)
+        menuView.transform = CGAffineTransform(scaleX: 0.001, y: 0.001)
     }
 }
 

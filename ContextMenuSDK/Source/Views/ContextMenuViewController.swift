@@ -18,7 +18,7 @@ final class ContextMenuViewController: UIViewController {
         return scrollView
     }()
     
-    private var statusBarHidden = true {
+    private var statusBarHidden = false {
         didSet {
             if oldValue != statusBarHidden {
                 setNeedsStatusBarAppearanceUpdate()
@@ -27,14 +27,11 @@ final class ContextMenuViewController: UIViewController {
     }
 
     override var prefersStatusBarHidden: Bool {
-        statusBarHidden
+        return statusBarHidden
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-//        let blurEffectView = BlurHandler.createBlur(with: .systemUltraThinMaterialDark)
-//        view.addSubview(blurEffectView)
         
         view.addSubview(scrollView)
         
@@ -53,8 +50,8 @@ final class ContextMenuViewController: UIViewController {
     }
     
     func setContent(_ contentView: UIView, with blur: UIView?) {
-//        let blurEffectView = BlurHandler.createBlur(with: .systemUltraThinMaterialDark)
         if let blur = blur {
+            statusBarHidden = true
             view.insertSubview(blur, at: 0)
         }
         

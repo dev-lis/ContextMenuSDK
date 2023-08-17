@@ -16,7 +16,7 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setupSettings()
+//        setupSettings()
         
         let copy = ContextMenuAction(
             text: "Copy",
@@ -43,9 +43,10 @@ class ViewController: UIViewController {
             ContextMenuSection(actions: [delete])
         ]
         blueView.addContextMenu(
-            for: .tap,
+            for: .longPress,
             with: actionSections,
-            to: .bottomRight
+            to: .bottomRight,
+            withBlur: true
         )
     }
     
@@ -61,42 +62,16 @@ class ViewController: UIViewController {
                 completion()
             }
         }
-//        ContextMenuSettings.shared.animations.showBlurAnimation = { block in
-//            UIView.animate(
-//                withDuration: 0.25,
-//                animations: {
-//                    block.animation()
-//            }) { _ in
-//                block.completion?()
-//            }
-//        }
-//        ContextMenuSettings.shared.animations.hideBlurAnimation = { block in
-//            UIView.animate(
-//                withDuration: 0.25,
-//                animations: {
-//                    block.animation()
-//            }) { _ in
-//                block.completion?()
-//            }
-//        }
-//        ContextMenuSettings.shared.animations.showMenuAnimation = { block in
-//            UIView.animate(
-//                withDuration: 0.25,
-//                animations: {
-//                    block.animation()
-//            }) { _ in
-//                block.completion?()
-//            }
-//        }
-//        ContextMenuSettings.shared.animations.hideMenuAnimation = { block in
-//            UIView.animate(
-//                withDuration: 0.25,
-//                animations: {
-//                    block.animation()
-//            }) { _ in
-//                block.completion?()
-//            }
-//        }
+        ContextMenuSettings.shared.animations.hideAnimation = { blur, _, menu, completion in
+            UIView.animate(
+                withDuration: 3,
+                animations: {
+                    menu.transform = CGAffineTransform(scaleX: 0.001, y: 0.001)
+                    blur?.effect = UIBlurEffect(style: .light)
+            }) { _ in
+                completion()
+            }
+        }
     }
 }
 
