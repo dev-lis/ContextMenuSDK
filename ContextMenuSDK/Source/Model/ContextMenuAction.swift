@@ -8,7 +8,7 @@
 import UIKit
 
 public struct ContextMenuAction {
-    private let settings = Settings.shared.menuAction
+    private let settings = ContextMenuSettings.shared.menuAction
     
     let text: String
     let font: UIFont?

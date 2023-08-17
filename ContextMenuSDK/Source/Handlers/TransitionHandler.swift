@@ -10,6 +10,7 @@ import UIKit
 fileprivate struct MenuModel {
     let actionSections: [ContextMenuSection]
     let position: MenuPosition
+    let withBlur: Bool
 }
 
 final class TransitionHandler: NSObject {
@@ -24,10 +25,14 @@ final class TransitionHandler: NSObject {
     /// Набор экшенов и позиция для каждой вью устанавливается,
     /// когда вылывается метод addContextMenu(), поэтому их нужно сохранить локально&
     /// для каждой вью по отдельности
-    func setActions(_ actionSections: [ContextMenuSection], for view: UIView, to position: MenuPosition) {
+    func setActions(_ actionSections: [ContextMenuSection],
+                    for view: UIView,
+                    to position: MenuPosition,
+                    withBlur: Bool) {
         self.models[view] = MenuModel(
             actionSections: actionSections,
-            position: position
+            position: position,
+            withBlur: withBlur
         )
     }
     
@@ -40,6 +45,13 @@ final class TransitionHandler: NSObject {
     /// Метод вызывается когда контекстное меню закрывается
     func removeActiveView() {
         view = nil
+    }
+    
+    func getBlurValue(for view: UIView) -> Bool {
+        guard let model = models[view] else {
+            return false
+        }
+        return model.withBlur
     }
 }
 
@@ -54,15 +66,22 @@ extension TransitionHandler: UIViewControllerTransitioningDelegate {
         return PresentTransitionAnimator(
             view: view,
             actionSections: model.actionSections,
-            position: model.position
+            position: model.position,
+            withBlur: model.withBlur
         )
     }
 
     
     public func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        guard let view else {
+        guard
+            let view,
+            let model = models[view]
+        else {
             return nil
         }
-        return DismissTransitionAnimator(view: view)
+        return DismissTransitionAnimator(
+            view: view,
+            withBlur: model.withBlur
+        )
     }
 }

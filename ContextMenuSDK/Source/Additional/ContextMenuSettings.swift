@@ -1,5 +1,5 @@
 //
-//  Settings.swift
+//  ContextMenuSettings.swift
 //  ContextMenu
 //
 //  Created by Aleksandr Lis on 06.08.2023.
@@ -7,11 +7,9 @@
 
 import UIKit
 
-public class Settings {
+public class ContextMenuSettings {
     
-    public static var shared: Settings {
-        Settings()
-    }
+    public static let shared = ContextMenuSettings()
     
     public var menu: Menu = .init()
     public var menuAction: MenuAction = .init()
@@ -42,8 +40,12 @@ public class Settings {
     
     public class Animations {
         public var scaleFactor: CGFloat = 4.0
-        public var scaleDuration: CGFloat = 0.25
-        public var transitionDuration: TimeInterval = 0.25
-        public var animationBlock: ((@escaping () -> Void) -> Void)? = nil
+        public var scaleDuration: CGFloat = 0.2
+        public var showTransitionDuration: TimeInterval = 0.25
+        public var hideTransitionDuration: TimeInterval = 0.1
+        public var showAnimation: ((UIVisualEffectView?, UIView, UIView, @escaping () -> Void) -> Void)? = nil
+        public var hideAnimation: ((UIVisualEffectView?, UIView, UIView, @escaping () -> Void) -> Void)? = nil
+        
+        public init() {}
     }
 }
