@@ -43,11 +43,39 @@ class ViewController: UIViewController {
             ContextMenuSection(actions: [delete])
         ]
         blueView.addContextMenu(
-            for: .tap,
+            for: .longPress,
             with: actionSections,
             to: .bottomRight,
+            withBlur: true
+        )
+        
+        if let image = UIImage(systemName: "trash"), let image2 = UIImage(systemName: "folder.badge.plus") {
+            let item = UIBarButtonItem(
+                image: image,
+                for: .tap,
+                with: actionSections,
+                to: .bottomCenter,
+                withBlur: false
+            )
+            let item2 = UIBarButtonItem(
+                image: image2,
+                for: .longPress,
+                with: actionSections,
+                to: .bottomCenter,
+                withBlur: true
+            )
+            navigationItem.rightBarButtonItems = [item, item2]
+        }
+        
+        let item = UIBarButtonItem(
+            title: "add",
+            for: .tap,
+            with: actionSections,
+            to: .bottomCenter,
             withBlur: false
         )
+        navigationItem.leftBarButtonItem = item
+        
     }
     
     private func setupSettings() {

@@ -38,7 +38,7 @@ final class ContextMenuContentView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func moveIfNeed() {
+    func moveToNewPositionIfNeed() {
         startContentY = frame.origin.y
         
         let windowHeight = window?.frame.height ?? .zero
@@ -60,39 +60,6 @@ final class ContextMenuContentView: UIView {
         content.transform = .identity
         menuView.transform = .identity
     }
-    
-//    func show() {
-//        startContentY = frame.origin.y
-//
-//        let animationBlock = {
-//            self.content.transform = .identity
-//            self.menuView.transform = .identity
-//        }
-//
-//        if let animation = ContextMenuSettings.shared.animations.showMenuAnimation {
-//            animation((animationBlock, nil))
-//        } else {
-//            UIView.animate(
-//                withDuration: animationsSettings.showTransitionDuration,
-//                delay: 0,
-//                usingSpringWithDamping: 0.75,
-//                initialSpringVelocity: 5,
-//                options: .curveEaseInOut)
-//            {
-//                animationBlock()
-//            }
-//        }
-//
-//        let windowHeight = window?.frame.height ?? .zero
-//
-//        if frame.origin.y > Screen.SafeArea.top, frame.maxY > windowHeight - Screen.SafeArea.bottom {
-//            let diff = frame.maxY - windowHeight
-//            let y = frame.origin.y - diff - Screen.SafeArea.bottom - menuSettings.indentOfContent
-//            animateOriginY(to: y)
-//        } else if frame.origin.y < Screen.SafeArea.top {
-//            animateOriginY(to: Screen.SafeArea.top + menuSettings.indentOfContent)
-//        }
-//    }
     
     func hide() {
         menuView.transform = CGAffineTransform(scaleX: 0.001, y: 0.001)

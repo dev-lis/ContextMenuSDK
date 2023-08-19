@@ -52,6 +52,12 @@ final class ViewPositionHandler {
         view.removeConstraints(sourceViewСonstraints)
         translatesAutoresizingMaskIntoConstraints = view.translatesAutoresizingMaskIntoConstraints
         view.translatesAutoresizingMaskIntoConstraints = true
+        let widthInset = view.frame.width * (1 - view.transform.a)
+        let heightInset = view.frame.height / view.transform.d
+        
+        if view.transform.a == 1, view.transform.d == 1 {
+            placeholderView.frame.origin = view.frame.origin
+        }
     }
     
     /// Когда контекстное меню закрывается снова меняем местами контент и плейсхолдер

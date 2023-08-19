@@ -11,6 +11,7 @@ fileprivate struct MenuModel {
     let actionSections: [ContextMenuSection]
     let position: MenuPosition
     let withBlur: Bool
+    let shouldMoveContentIfNeed: Bool
 }
 
 final class TransitionHandler: NSObject {
@@ -28,11 +29,13 @@ final class TransitionHandler: NSObject {
     func setActions(_ actionSections: [ContextMenuSection],
                     for view: UIView,
                     to position: MenuPosition,
-                    withBlur: Bool) {
+                    withBlur: Bool,
+                    shouldMoveContentIfNeed: Bool) {
         self.models[view] = MenuModel(
             actionSections: actionSections,
             position: position,
-            withBlur: withBlur
+            withBlur: withBlur,
+            shouldMoveContentIfNeed: shouldMoveContentIfNeed
         )
     }
     
@@ -67,7 +70,8 @@ extension TransitionHandler: UIViewControllerTransitioningDelegate {
             view: view,
             actionSections: model.actionSections,
             position: model.position,
-            withBlur: model.withBlur
+            withBlur: model.withBlur,
+            shouldMoveContentIfNeed: model.shouldMoveContentIfNeed
         )
     }
 
@@ -81,7 +85,8 @@ extension TransitionHandler: UIViewControllerTransitioningDelegate {
         }
         return DismissTransitionAnimator(
             view: view,
-            withBlur: model.withBlur
+            withBlur: model.withBlur,
+            shouldMoveContentIfNeed: model.shouldMoveContentIfNeed
         )
     }
 }
