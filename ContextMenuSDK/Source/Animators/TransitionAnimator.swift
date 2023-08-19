@@ -54,7 +54,7 @@ final class PresentTransitionAnimator: NSObject, UIViewControllerAnimatedTransit
         
         containerView.addSubview(contentView)
         
-        contentView.moveIfNeed()
+        contentView.moveToNewPositionIfNeed()
         
         let completion = {
             containerView.addSubview(toViewController.view)
@@ -112,15 +112,18 @@ final class DismissTransitionAnimator: NSObject, UIViewControllerAnimatedTransit
     func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
         guard
             let fromViewController = transitionContext.viewController(forKey: .from) as? ContextMenuViewController,
-            let contentView = view.superview as? ContextMenuContentView
+            // контент складывается в дополнительный контейнер, чтобы коректно отрабатывали UIBarItems
+            let contentView = view.superview?.superview as? ContextMenuContentView
         else {
             return
         }
         
         let containerView = transitionContext.containerView
         
-        let blurEffectView = BlurHandler.createBlur(with: withBlur ? .systemUltraThinMaterialDark : nil)
-        containerView.addSubview(blurEffectView)
+        let blurEffectView = fromViewController.blurEffectView
+        if let blurEffectView = blurEffectView {
+            containerView.addSubview(blurEffectView)
+        }
         
         if let contentView = view.superview {
             let frameOnWindow = contentView.frameOnWindow
@@ -136,7 +139,7 @@ final class DismissTransitionAnimator: NSObject, UIViewControllerAnimatedTransit
             TransitionHandler.shared.removeActiveView()
             ViewPositionHandler.shared.returnViewBack(view: self.view)
             GesturesHandler.shared.returnLongPress(to: self.view)
-            blurEffectView.removeFromSuperview()
+            blurEffectView?.removeFromSuperview()
             transitionContext.completeTransition(true)
             KeyboardHandler.shared.removeSnapshotIfNeed()
         }
@@ -152,7 +155,7 @@ final class DismissTransitionAnimator: NSObject, UIViewControllerAnimatedTransit
             UIView.animate(
                 withDuration: settings.hideTransitionDuration,
                 animations: {
-                    blurEffectView.effect = nil
+                    blurEffectView?.effect = nil
                     contentView.hide()
             }) { _ in
                 completion()
