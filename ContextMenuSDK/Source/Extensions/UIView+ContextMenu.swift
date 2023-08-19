@@ -7,21 +7,6 @@
 
 import UIKit
 
-extension UIBarButtonItem {
-    public func addContextMenu(for action: ActionType = .longPress,
-                               with actionSections: [ContextMenuSection],
-                               to position: MenuPosition,
-                               withBlur: Bool = true) {
-        let view = value(forKey: "view") as? UIView
-        view?.addContextMenu(
-            for: action,
-            with: actionSections,
-            to: position,
-            withBlur: withBlur
-        )
-    }
-}
-
 extension UIView {
     
     private var animationsSettings: ContextMenuSettings.Animations {
@@ -55,13 +40,15 @@ extension UIView {
     public func addContextMenu(for action: ActionType = .longPress,
                                with actionSections: [ContextMenuSection],
                                to position: MenuPosition,
-                               withBlur: Bool = true) {
+                               withBlur: Bool = true,
+                               shouldMoveContentIfNeed: Bool = true) {
         let _ = KeyboardHandler.shared
         TransitionHandler.shared.setActions(
             actionSections,
             for: self,
             to: position,
-            withBlur: withBlur
+            withBlur: withBlur,
+            shouldMoveContentIfNeed: shouldMoveContentIfNeed
         )
         
         switch action {

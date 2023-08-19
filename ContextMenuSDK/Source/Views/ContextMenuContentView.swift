@@ -669,16 +669,8 @@ private extension ContextMenuContentView {
                          contentY: CGFloat,
                          contentHeightInset: CGFloat,
                          menuX: CGFloat) {
-        // Заворачиваем контент в дополнительный контейнер, чтобы коректно отрабатывали UIBarItems
-        content.frame.origin = .zero
-        
-        let contentContainerView = UIView()
-        contentContainerView.frame = CGRect(
-            origin: CGPoint(x: contentX, y: contentY),
-            size: content.bounds.size
-        )
-        contentContainerView.addSubview(content)
-        addSubview(contentContainerView)
+        content.frame.origin = CGPoint(x: contentX, y: contentY)
+        addSubview(content)
         
         let origin = CGPoint(
             x: menuX,

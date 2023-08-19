@@ -35,7 +35,6 @@ extension UIView {
 
 extension UIView {
     var activeTextField: UITextField? {
-        
         let totalTextFields = getTextFieldsInView(view: self)
         
         for textField in totalTextFields{
@@ -49,7 +48,6 @@ extension UIView {
     }
     
     func getTextFieldsInView(view: UIView) -> [UITextField] {
-        
         var totalTextFields = [UITextField]()
         
         for subview in view.subviews as [UIView] {

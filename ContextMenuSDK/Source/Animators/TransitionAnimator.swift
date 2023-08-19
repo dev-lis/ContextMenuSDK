@@ -15,15 +15,18 @@ final class PresentTransitionAnimator: NSObject, UIViewControllerAnimatedTransit
     private let actionSections: [ContextMenuSection]
     private let position: MenuPosition
     private let withBlur: Bool
+    private let shouldMoveContentIfNeed: Bool
     
     init(view: UIView,
          actionSections: [ContextMenuSection],
          position: MenuPosition,
-         withBlur: Bool) {
+         withBlur: Bool,
+         shouldMoveContentIfNeed: Bool) {
         self.view = view
         self.actionSections = actionSections
         self.position = position
         self.withBlur = withBlur
+        self.shouldMoveContentIfNeed = shouldMoveContentIfNeed
     }
     
     func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
@@ -54,7 +57,9 @@ final class PresentTransitionAnimator: NSObject, UIViewControllerAnimatedTransit
         
         containerView.addSubview(contentView)
         
-        contentView.moveToNewPositionIfNeed()
+        if shouldMoveContentIfNeed {
+            contentView.moveToNewPositionIfNeed()
+        }
         
         let completion = {
             containerView.addSubview(toViewController.view)
@@ -98,11 +103,14 @@ final class DismissTransitionAnimator: NSObject, UIViewControllerAnimatedTransit
     
     private let view: UIView
     private let withBlur: Bool
+    private let shouldMoveContentIfNeed: Bool
     
     init(view: UIView,
-         withBlur: Bool) {
+         withBlur: Bool,
+         shouldMoveContentIfNeed: Bool) {
         self.view = view
         self.withBlur = withBlur
+        self.shouldMoveContentIfNeed = shouldMoveContentIfNeed
     }
     
     func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
@@ -112,8 +120,7 @@ final class DismissTransitionAnimator: NSObject, UIViewControllerAnimatedTransit
     func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
         guard
             let fromViewController = transitionContext.viewController(forKey: .from) as? ContextMenuViewController,
-            // контент складывается в дополнительный контейнер, чтобы коректно отрабатывали UIBarItems
-            let contentView = view.superview?.superview as? ContextMenuContentView
+            let contentView = view.superview as? ContextMenuContentView
         else {
             return
         }
@@ -133,7 +140,9 @@ final class DismissTransitionAnimator: NSObject, UIViewControllerAnimatedTransit
         
         fromViewController.view.removeFromSuperview()
         
-        contentView.moveToStartPositionIfNeed()
+        if shouldMoveContentIfNeed {
+            contentView.moveToStartPositionIfNeed()
+        }
 
         let completion = {
             TransitionHandler.shared.removeActiveView()
