@@ -100,7 +100,7 @@ extension UIView {
         controller.modalPresentationStyle = .custom
         controller.modalPresentationCapturesStatusBarAppearance = true
         controller.transitioningDelegate = TransitionHandler.shared
-        window?.rootViewController?.present(controller, animated: true)
+        window?.firstViewControllerAvailableToPresent()?.present(controller, animated: true)
     }
 }
 
