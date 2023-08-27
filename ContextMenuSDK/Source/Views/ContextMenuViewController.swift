@@ -67,7 +67,9 @@ final class ContextMenuViewController: UIViewController {
         statusBarHidden = false
     }
     
-    func setContent(_ contentView: UIView, with blur: UIVisualEffectView?) {
+    func setContent(_ contentView: UIView,
+                    with blur: UIVisualEffectView?,
+                    for position: MenuPosition) {
         if let blur = blur {
             statusBarHidden = true
             view.insertSubview(blur, at: 0)
@@ -86,9 +88,12 @@ final class ContextMenuViewController: UIViewController {
         scrollView.addSubview(contentView)
         
         if contentView.frame.maxY > contentView.window?.frame.height ?? .zero {
+            let y = position.top
+            ? 0
+            : scrollView.contentSize.height - scrollView.bounds.height - scrollView.contentInset.bottom
             let offset = CGPoint(
                 x: 0,
-                y: scrollView.contentSize.height - scrollView.bounds.height - scrollView.contentInset.bottom
+                y: y
             )
             scrollView.setContentOffset(offset, animated: false)
         } else {
