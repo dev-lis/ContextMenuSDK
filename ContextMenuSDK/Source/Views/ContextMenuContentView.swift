@@ -43,7 +43,7 @@ final class ContextMenuContentView: UIView {
         
         let windowHeight = window?.frame.height ?? .zero
         
-        if frame.origin.y > Screen.SafeArea.top, frame.maxY > windowHeight - Screen.SafeArea.bottom {
+        if frame.maxY > windowHeight - Screen.SafeArea.bottom {
             let diff = frame.maxY - windowHeight
             let y = frame.origin.y - diff - Screen.SafeArea.bottom - menuSettings.indentOfContent
             animateOriginY(to: y)
