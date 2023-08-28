@@ -12,7 +12,7 @@ final class ContextMenuContentView: UIView {
     private var menuSettings = ContextMenuSettings.shared.menu
     private var animationsSettings = ContextMenuSettings.shared.animations
     
-    private var startContentY: CGFloat = .zero
+    private var startContentY: CGFloat
     
     let content: UIView
     private(set) var menuView: UIView!
@@ -29,6 +29,7 @@ final class ContextMenuContentView: UIView {
         self.actionSections = actionSections
         self.position = position
         self.completion = completion
+        self.startContentY = content.frameOnWindow.origin.y
         super.init(frame: .zero)
         setup()
     }
@@ -39,13 +40,13 @@ final class ContextMenuContentView: UIView {
     }
     
     func moveToNewPositionIfNeed() {
-        startContentY = frame.origin.y
-        
         let windowHeight = window?.frame.height ?? .zero
         
         if frame.maxY > windowHeight - Screen.SafeArea.bottom {
             let diff = frame.maxY - windowHeight
-            let y = frame.origin.y - diff - Screen.SafeArea.bottom - menuSettings.indentOfContent
+            let y = position.top
+            ? Screen.SafeArea.top + menuSettings.indentOfContent
+            : frame.origin.y - diff - Screen.SafeArea.bottom - menuSettings.indentOfContent
             animateOriginY(to: y)
         } else if frame.origin.y < Screen.SafeArea.top {
             animateOriginY(to: Screen.SafeArea.top + menuSettings.indentOfContent)
@@ -53,7 +54,8 @@ final class ContextMenuContentView: UIView {
     }
     
     func moveToStartPositionIfNeed() {
-        animateOriginY(to: startContentY)
+        // FIXME: почему то при возвразении на исходную позицию объект оказывается на 134 поинта ниже. Нужно с этим разобраться!
+        animateOriginY(to: startContentY - 134)
     }
     
     func show() {
@@ -97,7 +99,7 @@ private extension ContextMenuContentView {
     
     func animateOriginY(to y: CGFloat) {
         UIView.animate(
-            withDuration: 0.15,
+            withDuration: animationsSettings.hideTransitionDuration,
             delay: 0,
             options: .curveEaseIn
         ) {
