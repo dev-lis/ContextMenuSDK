@@ -65,7 +65,9 @@ final class PresentTransitionAnimator: NSObject, UIViewControllerAnimatedTransit
             containerView.addSubview(toViewController.view)
             toViewController.setContent(
                 contentView,
-                with: self.withBlur ? blurEffectView : nil)
+                with: self.withBlur ? blurEffectView : nil,
+                for: self.position
+            )
             transitionContext.completeTransition(true)
         }
         

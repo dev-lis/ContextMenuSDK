@@ -13,8 +13,7 @@ final class ContextMenuViewController: UIViewController {
         let scrollView = UIScrollView()
         scrollView.showsVerticalScrollIndicator = false
         scrollView.showsHorizontalScrollIndicator = false
-        scrollView.contentInset.top = -Screen.SafeArea.top
-        scrollView.contentInset.bottom = Screen.SafeArea.top + Screen.SafeArea.bottom
+        scrollView.contentInset.bottom = menuSettings.indentOfContent
         return scrollView
     }()
     
@@ -27,6 +26,8 @@ final class ContextMenuViewController: UIViewController {
             }
         }
     }
+    
+    private let menuSettings = ContextMenuSettings.shared.menu
 
     override var prefersStatusBarHidden: Bool {
         guard withBlur else {
@@ -66,7 +67,9 @@ final class ContextMenuViewController: UIViewController {
         statusBarHidden = false
     }
     
-    func setContent(_ contentView: UIView, with blur: UIVisualEffectView?) {
+    func setContent(_ contentView: UIView,
+                    with blur: UIVisualEffectView?,
+                    for position: MenuPosition) {
         if let blur = blur {
             statusBarHidden = true
             view.insertSubview(blur, at: 0)
@@ -78,16 +81,16 @@ final class ContextMenuViewController: UIViewController {
         if contentView.frame.origin.y < Screen.SafeArea.top {
             contentView.frame.origin = CGPoint(
                 x: contentView.frame.origin.x,
-                y: Screen.SafeArea.top
+                y: 0
             )
         }
         
         scrollView.addSubview(contentView)
         
         if contentView.frame.maxY > contentView.window?.frame.height ?? .zero {
-            let y = contentView.frame.size.height > view.window?.frame.height ?? 0
+            let y = position.top
             ? 0
-            : scrollView.contentSize.height - scrollView.bounds.height
+            : scrollView.contentSize.height - scrollView.bounds.height - scrollView.contentInset.bottom
             let offset = CGPoint(
                 x: 0,
                 y: y

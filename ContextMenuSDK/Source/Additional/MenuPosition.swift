@@ -14,4 +14,18 @@ public enum MenuPosition {
     case bottomLeft
     case bottomCenter
     case bottomRight
+    
+    var top: Bool {
+        guard self == .topLeft || self == .topCenter || self == .topRight else {
+            return false
+        }
+        return true
+    }
+    
+    var bottom: Bool {
+        guard self == .bottomLeft || self == .bottomCenter || self == .bottomRight else {
+            return false
+        }
+        return true
+    }
 }
