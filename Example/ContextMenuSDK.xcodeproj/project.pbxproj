@@ -12,6 +12,7 @@
 		607FACDB1AFB9204008FA782 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 607FACD91AFB9204008FA782 /* Main.storyboard */; };
 		607FACDD1AFB9204008FA782 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDC1AFB9204008FA782 /* Images.xcassets */; };
 		607FACE01AFB9204008FA782 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDE1AFB9204008FA782 /* LaunchScreen.xib */; };
+		EA469B3E2A9E8469007F1671 /* SecondViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA469B3D2A9E8469007F1671 /* SecondViewController.swift */; };
 		EB5DF9368DACC1E4B7B7E5C9 /* Pods_ContextMenuSDK_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A67C6FECB7CD121F2E1C16C5 /* Pods_ContextMenuSDK_Example.framework */; };
 /* End PBXBuildFile section */
 
@@ -28,6 +29,7 @@
 		679472D4DFDDB1C521E1A555 /* Pods-ContextMenuSDK_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ContextMenuSDK_Example.debug.xcconfig"; path = "Target Support Files/Pods-ContextMenuSDK_Example/Pods-ContextMenuSDK_Example.debug.xcconfig"; sourceTree = "<group>"; };
 		91860065C525D4C7139CAF57 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 		A67C6FECB7CD121F2E1C16C5 /* Pods_ContextMenuSDK_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ContextMenuSDK_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		EA469B3D2A9E8469007F1671 /* SecondViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondViewController.swift; sourceTree = "<group>"; };
 		FCE8A8744FEFCD1E48AA252B /* Pods-ContextMenuSDK_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ContextMenuSDK_Example.release.xcconfig"; path = "Target Support Files/Pods-ContextMenuSDK_Example/Pods-ContextMenuSDK_Example.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -76,6 +78,7 @@
 			children = (
 				607FACD51AFB9204008FA782 /* AppDelegate.swift */,
 				607FACD71AFB9204008FA782 /* ViewController.swift */,
+				EA469B3D2A9E8469007F1671 /* SecondViewController.swift */,
 				607FACD91AFB9204008FA782 /* Main.storyboard */,
 				607FACDC1AFB9204008FA782 /* Images.xcassets */,
 				607FACDE1AFB9204008FA782 /* LaunchScreen.xib */,
@@ -229,6 +232,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EA469B3E2A9E8469007F1671 /* SecondViewController.swift in Sources */,
 				607FACD81AFB9204008FA782 /* ViewController.swift in Sources */,
 				607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */,
 			);

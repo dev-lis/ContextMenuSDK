@@ -39,7 +39,7 @@ public class ContextMenuSettings {
     }
     
     public class Animations {
-        public var scaleFactor: CGFloat = 4.0
+        public var scaleFactor: CGFloat = 5.0
         public var scaleDuration: CGFloat = 0.2
         public var showTransitionDuration: TimeInterval = 0.25
         public var hideTransitionDuration: TimeInterval = 0.1

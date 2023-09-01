@@ -55,7 +55,7 @@ final class ContextMenuContentView: UIView {
     
     func moveToStartPositionIfNeed() {
         // FIXME: почему то при возвразении на исходную позицию объект оказывается на 134 поинта ниже. Нужно с этим разобраться!
-        animateOriginY(to: startContentY - 134)
+        animateOriginY(to: startContentY)
     }
     
     func show() {

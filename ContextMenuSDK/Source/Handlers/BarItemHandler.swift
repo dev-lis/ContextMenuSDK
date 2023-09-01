@@ -57,7 +57,11 @@ class BarItemHandler {
                                            with actionSections: [ContextMenuSection],
                                            to position: MenuPosition,
                                            withBlur: Bool) {
-        let containerView = UIView(frame: view.bounds)
+        if view.superview is BarContainerView {
+            return
+        }
+        
+        let containerView = BarContainerView(frame: view.frame)
         view.superview?.addSubview(containerView)
         containerView.addSubview(view)
         
@@ -75,5 +79,20 @@ class BarItemHandler {
             withBlur: withBlur,
             shouldMoveContentIfNeed: false
         )
+    }
+}
+
+class BarContainerView: UIView {
+    
+    private var observer: NSKeyValueObservation?
+    
+    override func addSubview(_ view: UIView) {
+        super.addSubview(view)
+        observer = subviews.first?.observe(\.frame) { object, _ in
+            guard object.frame.origin != .zero else {
+                return
+            }
+            object.frame.origin = .zero
+        }
     }
 }
