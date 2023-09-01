@@ -73,6 +73,7 @@ extension UIView {
     }
     
     @objc private func handleContextMenuTap(_ sender: UITapGestureRecognizer) {
+        GesturesHandler.shared.removeGesture(sender)
         openContextMenu()
     }
     
@@ -80,7 +81,7 @@ extension UIView {
         switch sender.state {
         case .began:
             ScaleAnimator.scale(self) {
-                GesturesHandler.shared.removeLongPress(sender)
+                GesturesHandler.shared.removeGesture(sender)
                 self.openContextMenu()
             }
         case .ended, .cancelled:
