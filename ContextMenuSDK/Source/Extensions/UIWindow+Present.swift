@@ -8,7 +8,7 @@
 import UIKit
 
 extension UIWindow {
-    /// Рекурсивно ищем первый жоступный для презентации контроллер
+    /// Рекурсивно ищем первый доступный для презентации контроллер
     func firstViewControllerAvailableToPresent(_ controller: UIViewController? = nil) -> UIViewController? {
         let rootController = controller ?? rootViewController
         if let presentedViewController = rootController?.presentedViewController {

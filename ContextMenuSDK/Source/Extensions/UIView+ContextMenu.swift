@@ -13,26 +13,6 @@ extension UIView {
         ContextMenuSettings.shared.animations
     }
     
-    var modalScaledFrame: CGRect {
-        let modelFrame = layer.model().frame
-        return CGRect(
-            x: modelFrame.origin.x + animationsSettings.scaleFactor,
-            y: modelFrame.origin.y + animationsSettings.scaleFactor,
-            width: modelFrame.width - animationsSettings.scaleFactor * 2,
-            height: modelFrame.height - animationsSettings.scaleFactor * 2
-        )
-    }
-    
-    private var presentationScaledFrame: CGRect {
-        let presentationFrame = layer.presentation()?.frame ?? .zero
-        return CGRect(
-            x: presentationFrame.origin.x + animationsSettings.scaleFactor,
-            y: presentationFrame.origin.y + animationsSettings.scaleFactor,
-            width: presentationFrame.width - animationsSettings.scaleFactor * 2,
-            height: presentationFrame.height - animationsSettings.scaleFactor * 2
-        )
-    }
-    
     private var animator: UIViewPropertyAnimator {
         UIViewPropertyAnimator(duration: animationsSettings.scaleDuration, curve: .easeOut)
     }

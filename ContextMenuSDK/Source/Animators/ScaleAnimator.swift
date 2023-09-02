@@ -12,11 +12,13 @@ enum ScaleAnimator {
     
     static func scale(_ view: UIView, completion: @escaping () -> Void) {
         
-        // нужно включить перед анимацией, наче анимация работает криво
-        let scaleFactorX = (view.frame.width - ContextMenuSettings.shared.animations.scaleFactor * 2) / view.frame.width
-        let scaleFactorY = (view.frame.height - ContextMenuSettings.shared.animations.scaleFactor * 2) / view.frame.height
+        let scaleFactor = ContextMenuSettings.shared.animations.scaleFactor
+        
+        let scaledX = 1 - view.frame.width * scaleFactor / view.frame.width
+        let scaledY = 1 - view.frame.height * scaleFactor / view.frame.height
+        
         animator.addAnimations {
-            view.transform = CGAffineTransform(scaleX: scaleFactorX, y: scaleFactorY)
+            view.transform = CGAffineTransform(scaleX: scaledX, y: scaledY)
         }
         animator.addCompletion {
             view.translatesAutoresizingMaskIntoConstraints = false

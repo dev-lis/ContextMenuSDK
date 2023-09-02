@@ -370,7 +370,7 @@ private extension ContextMenuContentView {
                       menuX: CGFloat) {
         let origin = CGPoint(
             x: menuX,
-            y: content.frame.maxY + menuSettings.indentOfContent
+            y: 0
         )
         menuView = ContextMenuView(
             origin: origin,
@@ -397,21 +397,23 @@ private extension ContextMenuContentView {
         
         addSubview(menuView)
         
+        let heightDiff = (content.bounds.height - content.frame.height) / 2
+        
         content.frame.origin = CGPoint(
             x: contentX,
-            y: menuView.bounds.height + menuSettings.indentOfContent
+            y: menuView.bounds.height + menuSettings.indentOfContent + heightDiff
         )
         
         addSubview(content)
         
-        let height = menuView.bounds.height + menuSettings.indentOfContent + content.frame.height + contentHeightInset / 2
+        let height = menuView.bounds.height + menuSettings.indentOfContent + content.bounds.height + contentHeightInset / 2
         let y = contentOnWindowY + content.bounds.height - height < 0
         ? contentY - menuView.bounds.height - menuSettings.indentOfContent - contentOnWindowY
         : contentOnWindowY - menuView.bounds.height - menuSettings.indentOfContent - contentHeightInset / 2
         
         frame = CGRect(
             x: containerX,
-            y: y,
+            y: y - heightDiff,
             width: containerWidth,
             height: height
         )
@@ -676,7 +678,7 @@ private extension ContextMenuContentView {
         
         let origin = CGPoint(
             x: menuX,
-            y: content.frame.maxY + menuSettings.indentOfContent
+            y: content.bounds.maxY + menuSettings.indentOfContent
         )
         menuView = ContextMenuView(
             origin: origin,

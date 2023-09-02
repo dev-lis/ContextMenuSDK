@@ -11,7 +11,6 @@ extension UITabBarItem {
     
     public convenience init(image: UIImage,
                             title: String?,
-                            for action: ActionType = .longPress,
                             with actionSections: [ContextMenuSection],
                             to position: MenuPosition,
                             withBlur: Bool = true) {
@@ -21,7 +20,7 @@ extension UITabBarItem {
             tag: 0
         )
         addContextMenu(
-            for: action,
+            for: .longPress,
             with: actionSections,
             to: position,
             withBlur: withBlur
