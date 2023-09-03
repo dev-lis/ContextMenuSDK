@@ -42,19 +42,108 @@ final class ContextMenuContentView: UIView {
     func moveToNewPositionIfNeed() {
         let windowHeight = window?.frame.height ?? .zero
         
-        if frame.maxY > windowHeight - Screen.SafeArea.bottom {
-            let diff = frame.maxY - windowHeight
-            let y = position.top
-            ? Screen.SafeArea.top + menuSettings.indentOfContent
-            : frame.origin.y - diff - Screen.SafeArea.bottom - menuSettings.indentOfContent
-            animateOriginY(to: y)
-        } else if frame.origin.y < Screen.SafeArea.top {
-            animateOriginY(to: Screen.SafeArea.top + menuSettings.indentOfContent)
+        /// 1. если выста больше высоты экрана
+        ///     - если меню находится ниже
+        ///     - если меню находится выше
+        ///
+        /// 2. если высота меньше высоты экрана
+        ///     - если нижняя часть находится ниже экрана
+        ///     - если верхняя часть находится выше экрана
+        ///
+        
+        if frame.height > UIScreen.main.bounds.height - Screen.SafeArea.top - Screen.SafeArea.bottom {
+            ///
+            /// ---------
+            /// |                  |
+            /// --------------------------------
+            /// |                  |
+            /// |                  |
+            /// |                  |
+            /// |   content   |
+            /// |                  |
+            /// |                  |
+            /// |                  |
+            /// --------------------------------
+            /// |                  |
+            /// ---------
+            ///
+            ///
+            /// ----------------
+            /// |  1. Action                  |
+            /// ----------------
+            /// |  2. Action                  |
+            /// --------------------------------
+            /// |  3. Action                  |
+            /// ----------------
+            /// ---------
+            /// |                  |
+            /// |                  |
+            /// |   content   |
+            /// |                  |
+            /// |                  |
+            /// |                  |
+            /// --------------------------------
+            /// |                  |
+            /// ---------
+        } else {
+            /// Если часть контента или меню оказывается за гранью экрана,
+            /// то подскроливаем до минимального отступа от края
+            ///
+            /// ---------
+            /// |                  |
+            /// |   content   |
+            /// --------------------------------
+            /// |                  |
+            /// ---------
+            /// ----------------
+            /// |  1. Action                  |
+            /// ----------------
+            /// |  2. Action                  |
+            /// ----------------
+            /// |  3. Action                  |
+            /// ----------------
+            ///
+            ///      OR
+            ///
+            /// ----------------
+            /// |  1. Action                  |
+            /// ----------------
+            /// |  2. Action                  |
+            /// ----------------
+            /// |  3. Action                  |
+            /// ----------------
+            /// ---------
+            /// |                  |
+            /// |   content   |
+            /// --------------------------------
+            /// |                  |
+            /// ---------
+            ///
+            
+            if frame.maxY > UIScreen.main.bounds.maxY - Screen.SafeArea.bottom {
+                let diff = frame.origin.y + frame.height - (window?.bounds.height ?? 0)
+                let y = frame.origin.y - diff - Screen.SafeArea.bottom - menuSettings.indentOfSide
+                animateOriginY(to: y)
+            } else if frame.origin.y < Screen.SafeArea.top {
+                let y = Screen.SafeArea.top + menuSettings.indentOfSide
+                animateOriginY(to: y)
+            }
         }
+        
+//        if frame.maxY > windowHeight - Screen.SafeArea.bottom {
+//            let diff = frame.maxY - windowHeight
+//            let y = position.top
+//            ? Screen.SafeArea.top + menuSettings.indentOfContent
+//            : frame.origin.y - diff - Screen.SafeArea.bottom - menuSettings.indentOfContent
+//            animateOriginY(to: y)
+//        } else if frame.origin.y < Screen.SafeArea.top {
+//            animateOriginY(to: Screen.SafeArea.top + menuSettings.indentOfContent)
+//        }
     }
     
     func moveToStartPositionIfNeed() {
         // FIXME: почему то при возвразении на исходную позицию объект оказывается на 134 поинта ниже. Нужно с этим разобраться!
+        print("y = \(frame.origin.y)   startContentY = \(startContentY)")
         animateOriginY(to: startContentY)
     }
     
@@ -406,7 +495,7 @@ private extension ContextMenuContentView {
         
         addSubview(content)
         
-        let height = menuView.bounds.height + menuSettings.indentOfContent + content.bounds.height + contentHeightInset / 2
+        let height = menuView.bounds.height + menuSettings.indentOfContent + content.bounds.height
         let y = contentOnWindowY + content.bounds.height - height < 0
         ? contentY - menuView.bounds.height - menuSettings.indentOfContent - contentOnWindowY
         : contentOnWindowY - menuView.bounds.height - menuSettings.indentOfContent - contentHeightInset / 2
@@ -708,7 +797,7 @@ private extension ContextMenuContentView {
             x: containerX,
             y: containerY,
             width: containerWidth,
-            height: content.frame.height + menuView.bounds.height + menuSettings.indentOfContent + contentHeightInset / 2
+            height: content.bounds.height + menuView.bounds.height + menuSettings.indentOfContent
         )
     }
 }
