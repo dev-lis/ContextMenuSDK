@@ -40,7 +40,7 @@ final class ContextMenuContentView: UIView {
     }
     
     func moveToNewPositionIfNeed() {
-        let windowHeight = window?.frame.height ?? .zero
+        let windowHeight = window?.bounds.height ?? .zero
         
         /// 1. если выста больше высоты экрана
         ///     - если меню находится ниже
@@ -85,6 +85,16 @@ final class ContextMenuContentView: UIView {
             /// --------------------------------
             /// |                  |
             /// ---------
+            
+            if position.top {
+                let y = Screen.SafeArea.top + menuSettings.indentOfSide
+                animateOriginY(to: y)
+            } else if position.bottom {
+                let diff = frame.origin.y + frame.height - windowHeight
+                let y = frame.origin.y - diff - Screen.SafeArea.bottom - menuSettings.indentOfSide
+                animateOriginY(to: y)
+            }
+            
         } else {
             /// Если часть контента или меню оказывается за гранью экрана,
             /// то подскроливаем до минимального отступа от края
@@ -121,7 +131,7 @@ final class ContextMenuContentView: UIView {
             ///
             
             if frame.maxY > UIScreen.main.bounds.maxY - Screen.SafeArea.bottom {
-                let diff = frame.origin.y + frame.height - (window?.bounds.height ?? 0)
+                let diff = frame.origin.y + frame.height - windowHeight
                 let y = frame.origin.y - diff - Screen.SafeArea.bottom - menuSettings.indentOfSide
                 animateOriginY(to: y)
             } else if frame.origin.y < Screen.SafeArea.top {
@@ -129,16 +139,6 @@ final class ContextMenuContentView: UIView {
                 animateOriginY(to: y)
             }
         }
-        
-//        if frame.maxY > windowHeight - Screen.SafeArea.bottom {
-//            let diff = frame.maxY - windowHeight
-//            let y = position.top
-//            ? Screen.SafeArea.top + menuSettings.indentOfContent
-//            : frame.origin.y - diff - Screen.SafeArea.bottom - menuSettings.indentOfContent
-//            animateOriginY(to: y)
-//        } else if frame.origin.y < Screen.SafeArea.top {
-//            animateOriginY(to: Screen.SafeArea.top + menuSettings.indentOfContent)
-//        }
     }
     
     func moveToStartPositionIfNeed() {
@@ -178,8 +178,8 @@ private extension ContextMenuContentView {
     func contentValues() -> (contentOriginX: CGFloat, contentOriginY: CGFloat, contentWidthInset: CGFloat, contentHeightInset: CGFloat) {
         let contentWidthInset = content.bounds.width - content.frame.width
         let contentHeightInset = content.bounds.height - content.frame.height
-        let contentOriginX = contentWidthInset / 2
-        let contentOriginY = contentHeightInset / 2
+        let contentOriginX = content.frameOnWindow.origin.x - contentWidthInset / 2
+        let contentOriginY = content.frameOnWindow.origin.y - contentHeightInset / 2
         return (contentOriginX: contentOriginX,
                 contentOriginY: contentOriginY,
                 contentWidthInset: contentWidthInset,
@@ -496,13 +496,10 @@ private extension ContextMenuContentView {
         addSubview(content)
         
         let height = menuView.bounds.height + menuSettings.indentOfContent + content.bounds.height
-        let y = contentOnWindowY + content.bounds.height - height < 0
-        ? contentY - menuView.bounds.height - menuSettings.indentOfContent - contentOnWindowY
-        : contentOnWindowY - menuView.bounds.height - menuSettings.indentOfContent - contentHeightInset / 2
-        
+        let y = contentOnWindowY - menuView.bounds.height - menuSettings.indentOfContent
         frame = CGRect(
             x: containerX,
-            y: y - heightDiff,
+            y: y,
             width: containerWidth,
             height: height
         )
@@ -560,14 +557,12 @@ private extension ContextMenuContentView {
             containerX = contentFrameOnWindow.origin.x - contentWidthInset / 2
             contentX = contentWidthInset / 2
         }
-        
         setupBottomMenu(
             containerX: containerX,
-            containerY: contentFrameOnWindow.origin.y - contentOriginY,
+            containerY: contentOriginY,
             containerWidth: containerWidth,
             contentOnWindowY: contentFrameOnWindow.origin.y,
             contentX: contentX,
-            contentY: contentOriginY,
             contentHeightInset: contentHeightInset,
             menuX: 0
         )
@@ -663,11 +658,10 @@ private extension ContextMenuContentView {
         
         setupBottomMenu(
             containerX: containerX,
-            containerY: contentFrameOnWindow.origin.y - contentOriginY,
+            containerY: contentOriginY,
             containerWidth: containerWidth,
             contentOnWindowY: contentFrameOnWindow.origin.y,
             contentX: contentX,
-            contentY: contentOriginY,
             contentHeightInset: contentHeightInset,
             menuX: menuX
         )
@@ -744,11 +738,10 @@ private extension ContextMenuContentView {
         
         setupBottomMenu(
             containerX: containerX,
-            containerY: contentFrameOnWindow.origin.y - contentOriginY,
+            containerY: contentOriginY,
             containerWidth: containerWidth,
             contentOnWindowY: contentFrameOnWindow.origin.y,
             contentX: contentX,
-            contentY: contentOriginY,
             contentHeightInset: contentHeightInset,
             menuX: menuX
         )
@@ -759,9 +752,9 @@ private extension ContextMenuContentView {
                          containerWidth: CGFloat,
                          contentOnWindowY: CGFloat,
                          contentX: CGFloat,
-                         contentY: CGFloat,
                          contentHeightInset: CGFloat,
                          menuX: CGFloat) {
+        let contentY = (content.bounds.height - content.frame.height) / 2
         content.frame.origin = CGPoint(x: contentX, y: contentY)
         addSubview(content)
         
