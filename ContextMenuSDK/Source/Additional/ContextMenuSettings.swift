@@ -17,7 +17,7 @@ public class ContextMenuSettings {
     
     public class Menu {
         public var width: CGFloat = 250.0
-        public var indentOfSide: CGFloat = 8.0
+        public var indentOfSide: CGFloat = 16.0
         public var indentOfContent: CGFloat = 16.0
         public var cornerRadius: CGFloat = 12.0
         public var footerHeight: CGFloat = 12.0

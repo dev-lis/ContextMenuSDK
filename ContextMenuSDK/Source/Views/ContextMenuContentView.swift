@@ -14,6 +14,8 @@ final class ContextMenuContentView: UIView {
     
     private var startContentY: CGFloat
     
+    var y: CGFloat = .zero
+    
     let content: UIView
     private(set) var menuView: UIView!
     
@@ -87,11 +89,11 @@ final class ContextMenuContentView: UIView {
             /// ---------
             
             if position.top {
-                let y = Screen.SafeArea.top + menuSettings.indentOfSide
+                y = Screen.SafeArea.top + menuSettings.indentOfSide
                 animateOriginY(to: y)
             } else if position.bottom {
                 let diff = frame.origin.y + frame.height - windowHeight
-                let y = frame.origin.y - diff - Screen.SafeArea.bottom - menuSettings.indentOfSide
+                y = frame.origin.y - diff - Screen.SafeArea.bottom - menuSettings.indentOfSide
                 animateOriginY(to: y)
             }
             
@@ -132,10 +134,10 @@ final class ContextMenuContentView: UIView {
             
             if frame.maxY > UIScreen.main.bounds.maxY - Screen.SafeArea.bottom {
                 let diff = frame.origin.y + frame.height - windowHeight
-                let y = frame.origin.y - diff - Screen.SafeArea.bottom - menuSettings.indentOfSide
+                y = frame.origin.y - diff - Screen.SafeArea.bottom - menuSettings.indentOfSide
                 animateOriginY(to: y)
             } else if frame.origin.y < Screen.SafeArea.top {
-                let y = Screen.SafeArea.top + menuSettings.indentOfSide
+                y = Screen.SafeArea.top + menuSettings.indentOfSide
                 animateOriginY(to: y)
             }
         }
@@ -143,7 +145,7 @@ final class ContextMenuContentView: UIView {
     
     func moveToStartPositionIfNeed() {
         // FIXME: почему то при возвразении на исходную позицию объект оказывается на 134 поинта ниже. Нужно с этим разобраться!
-        print("y = \(frame.origin.y)   startContentY = \(startContentY)")
+//        print("y = \(frame.origin.y)   startContentY = \(startContentY)")
         animateOriginY(to: startContentY)
     }
     
