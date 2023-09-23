@@ -42,11 +42,21 @@ class ViewController: UIViewController {
             ContextMenuSection(actions: [copy, share], footer: footer),
             ContextMenuSection(actions: [delete])
         ]
-        blueView.addContextMenu(
+//        blueView.addContextMenu(
+//            for: .longPress,
+//            with: actionSections,
+//            to: .bottomRight,
+//            withBlur: true
+//        )
+        
+        let config = ContextMenuConfig(
+            actionSections: actionSections,
+            position: .bottomCenter
+        )
+        ContextMenu.add(
+            to: blueView,
             for: .longPress,
-            with: actionSections,
-            to: .bottomRight,
-            withBlur: true
+            with: config
         )
         
         if let image = UIImage(systemName: "trash"), let image2 = UIImage(systemName: "folder.badge.plus") {

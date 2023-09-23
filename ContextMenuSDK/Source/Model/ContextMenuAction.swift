@@ -18,7 +18,7 @@ public struct ContextMenuAction {
     let action: () -> Void
     
     public init(text: String,
-                type: ActionType = .default,
+                type: TriggerType = .default,
                 font: UIFont? = nil,
                 textColor: UIColor? = nil,
                 image: UIImage? = nil,
@@ -39,7 +39,7 @@ public struct ContextMenuAction {
         }
     }
     
-    public enum ActionType {
+    public enum TriggerType {
         case `default`
         case negative
     }

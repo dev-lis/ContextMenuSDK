@@ -27,7 +27,7 @@ extension UITabBarItem {
         )
     }
     
-    func addContextMenu(for action: ActionType = .longPress,
+    func addContextMenu(for action: TriggerType = .longPress,
                         with actionSections: [ContextMenuSection],
                         to position: MenuPosition,
                         withBlur: Bool = true) {

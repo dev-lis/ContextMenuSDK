@@ -9,7 +9,7 @@ import UIKit
 
 extension UIBarButtonItem {
     public convenience init(image: UIImage,
-                            for action: ActionType = .longPress,
+                            for action: TriggerType = .longPress,
                             with actionSections: [ContextMenuSection],
                             to position: MenuPosition,
                             withBlur: Bool = true) {
@@ -27,7 +27,7 @@ extension UIBarButtonItem {
     public convenience init(title: String,
                             font: UIFont = .systemFont(ofSize: 17),
                             color: UIColor = .systemBlue,
-                            for action: ActionType = .longPress,
+                            for action: TriggerType = .longPress,
                             with actionSections: [ContextMenuSection],
                             to position: MenuPosition,
                             withBlur: Bool = true) {
@@ -46,7 +46,7 @@ extension UIBarButtonItem {
         )
     }
     
-    private func addContextMenu(for action: ActionType = .longPress,
+    private func addContextMenu(for action: TriggerType = .longPress,
                                 with actionSections: [ContextMenuSection],
                                 to position: MenuPosition,
                                 withBlur: Bool = true) {

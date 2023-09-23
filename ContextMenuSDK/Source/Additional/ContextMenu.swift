@@ -1,13 +1,15 @@
 //
-//  UIView+ContextMenu.swift
-//  ContextMenu
+//  ContextMenu.swift
+//  ContextMenuSDK
 //
-//  Created by Aleksandr Lis on 01.05.2023.
+//  Created by Aleksandr Lis on 23.09.2023.
 //
 
-import UIKit
+import Foundation
 
-extension UIView {
+public class ContextMenu {
+    
+    private init() {}
     
     private var animationsSettings: ContextMenuSettings.Animations {
         ContextMenuSettings.shared.animations
@@ -17,21 +19,13 @@ extension UIView {
         UIViewPropertyAnimator(duration: animationsSettings.scaleDuration, curve: .easeOut)
     }
     
-    public func addContextMenu(for action: TriggerType = .longPress,
-                               with actionSections: [ContextMenuSection],
-                               to position: MenuPosition,
-                               withBlur: Bool = true,
-                               shouldMoveContentIfNeed: Bool = true) {
+    public static func add(to view: UIView,
+                           for trigger: TriggerType,
+                           with config: ContextMenuConfig) {
         let _ = KeyboardHandler.shared
-        TransitionHandler.shared.setActions(
-            actionSections,
-            for: self,
-            to: position,
-            withBlur: withBlur,
-            shouldMoveContentIfNeed: shouldMoveContentIfNeed
-        )
+        TransitionHandler.shared.setConfig(config, for: view)
         
-        switch action {
+        switch trigger {
         case .tap:
             let tap = UITapGestureRecognizer(
                 target: self,
@@ -39,7 +33,7 @@ extension UIView {
             )
             tap.cancelsTouchesInView = false
             
-            addGestureRecognizer(tap)
+            view.addGestureRecognizer(tap)
         case .longPress:
             let longPress = UILongPressGestureRecognizer(
                 target: self,
@@ -48,21 +42,29 @@ extension UIView {
             longPress.cancelsTouchesInView = false
             longPress.minimumPressDuration = 0.01
             
-            addGestureRecognizer(longPress)
+            view.addGestureRecognizer(longPress)
         }
     }
     
-    @objc private func handleContextMenuTap(_ sender: UITapGestureRecognizer) {
+    @objc static private func handleContextMenuTap(_ sender: UITapGestureRecognizer) {
+        guard let view = sender.view else {
+            return
+        }
+        
         GesturesHandler.shared.removeGesture(sender)
-        openContextMenu()
+        openContextMenu(for: view)
     }
     
-    @objc private func handleContextMenuLongPress(_ sender: UILongPressGestureRecognizer) {
+    @objc static private func handleContextMenuLongPress(_ sender: UILongPressGestureRecognizer) {
+        guard let view = sender.view else {
+            return
+        }
+        
         switch sender.state {
         case .began:
-            ScaleAnimator.scale(self) {
+            ScaleAnimator.scale(view) {
                 GesturesHandler.shared.removeGesture(sender)
-                self.openContextMenu()
+                openContextMenu(for: view)
             }
         case .ended, .cancelled:
             ScaleAnimator.cancel()
@@ -71,22 +73,17 @@ extension UIView {
         }
     }
     
-    private func openContextMenu() {
+    private static func openContextMenu(for view: UIView) {
         FeedbackGenerator.generateFeedback(type: .impact(feedbackStyle: .medium))
         KeyboardHandler.shared.saveFirstResponderIfNeed()
-        TransitionHandler.shared.setActiveView(self)
+        TransitionHandler.shared.setActiveView(view)
         
-        let withBlur = TransitionHandler.shared.getBlurValue(for: self)
+        let withBlur = TransitionHandler.shared.getBlurValue(for: view)
         let controller = ContextMenuViewController(withBlur: withBlur)
         controller.modalPresentationStyle = .custom
         controller.modalPresentationCapturesStatusBarAppearance = true
         controller.transitioningDelegate = TransitionHandler.shared
-        window?.firstViewControllerAvailableToPresent()?.present(controller, animated: true)
+        view.window?.firstViewControllerAvailableToPresent()?.present(controller, animated: true)
     }
 }
 
-extension UIView {
-    var frameOnWindow: CGRect {
-        superview?.convert(frame, to: nil) ?? .zero
-    }
-}

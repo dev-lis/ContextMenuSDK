@@ -12,21 +12,12 @@ fileprivate var settings = ContextMenuSettings.shared.animations
 final class PresentTransitionAnimator: NSObject, UIViewControllerAnimatedTransitioning {
     
     private let view: UIView
-    private let actionSections: [ContextMenuSection]
-    private let position: MenuPosition
-    private let withBlur: Bool
-    private let shouldMoveContentIfNeed: Bool
+    private let config: ContextMenuConfig
     
     init(view: UIView,
-         actionSections: [ContextMenuSection],
-         position: MenuPosition,
-         withBlur: Bool,
-         shouldMoveContentIfNeed: Bool) {
+         config: ContextMenuConfig) {
         self.view = view
-        self.actionSections = actionSections
-        self.position = position
-        self.withBlur = withBlur
-        self.shouldMoveContentIfNeed = shouldMoveContentIfNeed
+        self.config = config
     }
     
     func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
@@ -49,15 +40,15 @@ final class PresentTransitionAnimator: NSObject, UIViewControllerAnimatedTransit
         
         let contentView = ContextMenuContentView(
             content: view,
-            actionSections: actionSections,
-            position: position
+            actionSections: config.actionSections,
+            position: config.position
         ) {
             toViewController.dismiss(animated: true)
         }
         
         containerView.addSubview(contentView)
         
-        if shouldMoveContentIfNeed {
+        if config.shouldMoveContentIfNeed {
             contentView.moveToNewPositionIfNeed()
         }
         
@@ -65,8 +56,8 @@ final class PresentTransitionAnimator: NSObject, UIViewControllerAnimatedTransit
             containerView.addSubview(toViewController.view)
             toViewController.setContent(
                 contentView,
-                with: self.withBlur ? blurEffectView : nil,
-                for: self.position
+                with: self.config.withBlur ? blurEffectView : nil,
+                for: self.config.position
             )
             transitionContext.completeTransition(true)
         }
@@ -91,7 +82,7 @@ final class PresentTransitionAnimator: NSObject, UIViewControllerAnimatedTransit
             UIView.animate(
                 withDuration: settings.showTransitionDuration,
                 animations: {
-                    if self.withBlur {
+                    if self.config.withBlur {
                         blurEffectView.effect = UIBlurEffect(style: .systemUltraThinMaterialDark)
                     }
             }) { _ in

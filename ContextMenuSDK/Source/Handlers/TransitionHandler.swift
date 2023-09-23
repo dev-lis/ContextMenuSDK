@@ -20,6 +20,7 @@ final class TransitionHandler: NSObject {
     
     private var view: UIView?
     private var models: [UIView: MenuModel] = [:]
+    private var configs: [UIView: ContextMenuConfig] = [:]
     
     private override init() {}
     
@@ -37,6 +38,11 @@ final class TransitionHandler: NSObject {
             withBlur: withBlur,
             shouldMoveContentIfNeed: shouldMoveContentIfNeed
         )
+    }
+    
+    func setConfig(_ config: ContextMenuConfig,
+                   for view: UIView) {
+        self.configs[view] = config
     }
     
     /// Метод вызывается перед тем как запуститься нанимация перехода,
@@ -62,31 +68,25 @@ extension TransitionHandler: UIViewControllerTransitioningDelegate {
     public func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         guard
             let view = view,
-            let model = models[view]
+            let config = configs[view]
         else {
             return nil
         }
-        return PresentTransitionAnimator(
-            view: view,
-            actionSections: model.actionSections,
-            position: model.position,
-            withBlur: model.withBlur,
-            shouldMoveContentIfNeed: model.shouldMoveContentIfNeed
-        )
+        return PresentTransitionAnimator(view: view, config: config)
     }
 
     
     public func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         guard
             let view,
-            let model = models[view]
+            let config = configs[view]
         else {
             return nil
         }
         return DismissTransitionAnimator(
             view: view,
-            withBlur: model.withBlur,
-            shouldMoveContentIfNeed: model.shouldMoveContentIfNeed
+            withBlur: config.withBlur,
+            shouldMoveContentIfNeed: config.shouldMoveContentIfNeed
         )
     }
 }

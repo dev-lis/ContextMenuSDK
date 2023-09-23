@@ -19,7 +19,7 @@ import UIKit
 class BarItemHandler {
     
     private struct Model {
-        let action: ActionType
+        let action: TriggerType
         let actionSections: [ContextMenuSection]
         let position: MenuPosition
         let withBlur: Bool
@@ -53,7 +53,7 @@ class BarItemHandler {
     }
     
     func addViewOnContainerWithContextMenu(_ view: UIView,
-                                           for action: ActionType,
+                                           for action: TriggerType,
                                            with actionSections: [ContextMenuSection],
                                            to position: MenuPosition,
                                            withBlur: Bool) {
