@@ -88,11 +88,11 @@ final class ContextMenuContentView: UIView {
             /// ---------
             
             if position.top {
-                y = Screen.SafeArea.top + menuSettings.indentOfSide
+                y = Screen.SafeArea.top + menuSettings.insetOfLeftAndRight
                 animateOriginY(to: y)
             } else if position.bottom {
                 let diff = frame.origin.y + frame.height - windowHeight
-                y = frame.origin.y - diff - Screen.SafeArea.bottom - menuSettings.indentOfSide
+                y = frame.origin.y - diff - Screen.SafeArea.bottom - menuSettings.insetOfLeftAndRight
                 animateOriginY(to: y)
             }
             
@@ -133,10 +133,10 @@ final class ContextMenuContentView: UIView {
             
             if frame.maxY > UIScreen.main.bounds.maxY - Screen.SafeArea.bottom {
                 let diff = frame.origin.y + frame.height - windowHeight
-                y = frame.origin.y - diff - Screen.SafeArea.bottom - menuSettings.indentOfSide
+                y = frame.origin.y - diff - Screen.SafeArea.bottom - menuSettings.insetOfLeftAndRight
                 animateOriginY(to: y)
             } else if frame.origin.y < Screen.SafeArea.top {
-                y = Screen.SafeArea.top + menuSettings.indentOfSide
+                y = Screen.SafeArea.top + menuSettings.insetOfLeftAndRight
                 animateOriginY(to: y)
             }
         }
@@ -217,7 +217,7 @@ private extension ContextMenuContentView {
         var containerX: CGFloat
         let contentX: CGFloat
         
-        if contentFrameOnWindow.origin.x + menuSettings.width > UIScreen.main.bounds.width - menuSettings.indentOfContent {
+        if contentFrameOnWindow.origin.x + menuSettings.width > UIScreen.main.bounds.width - menuSettings.insetOfContent {
             /// Если правый край меню, должен оказаться за пределами экрана
             /// В этом случае меню располагается на минимальном отступе от правог края
             /// Вплоть до расположения эквивалентного .topLeft
@@ -234,7 +234,7 @@ private extension ContextMenuContentView {
             ///   ---------
             ///
             
-            containerX = UIScreen.main.bounds.width - menuSettings.width - menuSettings.indentOfSide
+            containerX = UIScreen.main.bounds.width - menuSettings.width - menuSettings.insetOfLeftAndRight
             contentX = contentFrameOnWindow.origin.x - containerX
         } else {
             /// Меню располагается по левому краю контента
@@ -298,7 +298,7 @@ private extension ContextMenuContentView {
             containerX = contentFrameOnWindow.origin.x - contentOriginX
             contentX = contentOriginX
             menuX = contentFrameOnWindow.width / 2 + contentWidthInset / 2 - menuSettings.width / 2
-        } else if contentFrameOnWindow.midX - containerWidth / 2 < menuSettings.indentOfContent {
+        } else if contentFrameOnWindow.midX - containerWidth / 2 < menuSettings.insetOfContent {
             /// Если левый край меню, должен оказаться за пределами экрана
             /// В этом случае меню располагается на минимальном отступе от левого края
             /// Вплоть до расположения эквивалентного .topLeft или .bottomLeft
@@ -315,9 +315,9 @@ private extension ContextMenuContentView {
             ///          ---------
             ///
             
-            containerX = menuSettings.indentOfSide
+            containerX = menuSettings.insetOfLeftAndRight
             contentX = contentFrameOnWindow.origin.x - containerX
-        } else if contentFrameOnWindow.midX + containerWidth / 2 < UIScreen.main.bounds.width - menuSettings.indentOfContent {
+        } else if contentFrameOnWindow.midX + containerWidth / 2 < UIScreen.main.bounds.width - menuSettings.insetOfContent {
             /// Если контен уже чем меню, тогда ширина контейнера будет равна ширине меню
             /// --------------------------------
             /// -----------------
@@ -351,7 +351,7 @@ private extension ContextMenuContentView {
             ///       ---------
             ///
             
-            containerX = UIScreen.main.bounds.width - menuSettings.width - menuSettings.indentOfSide
+            containerX = UIScreen.main.bounds.width - menuSettings.width - menuSettings.insetOfLeftAndRight
             contentX = contentFrameOnWindow.origin.x - containerX
         }
 
@@ -399,7 +399,7 @@ private extension ContextMenuContentView {
             menuX = content.frame.width + contentWidthInset - menuSettings.width
             contentX = contentWidthInset / 2
         } else {
-            if containerX < menuSettings.indentOfContent {
+            if containerX < menuSettings.insetOfContent {
                 /// Если левый край меню, должен оказаться за пределами экрана
                 /// В этом случае меню располагается на минимальном отступе от левого края
                 /// Вплоть до расположения эквивалентного .topLeft или .bottomLeft
@@ -416,7 +416,7 @@ private extension ContextMenuContentView {
                 ///          ---------
                 ///
                 
-                containerX = menuSettings.indentOfSide
+                containerX = menuSettings.insetOfLeftAndRight
                 menuX = 0.0
                 contentX = contentFrameOnWindow.origin.x - containerX - menuX
             } else {
@@ -490,13 +490,13 @@ private extension ContextMenuContentView {
         
         content.frame.origin = CGPoint(
             x: contentX,
-            y: menuView.bounds.height + menuSettings.indentOfContent + heightDiff
+            y: menuView.bounds.height + menuSettings.insetOfContent + heightDiff
         )
         
         addSubview(content)
         
-        let height = menuView.bounds.height + menuSettings.indentOfContent + content.bounds.height
-        let y = contentOnWindowY - menuView.bounds.height - menuSettings.indentOfContent
+        let height = menuView.bounds.height + menuSettings.insetOfContent + content.bounds.height
+        let y = contentOnWindowY - menuView.bounds.height - menuSettings.insetOfContent
         
         startContentY = y
         
@@ -523,7 +523,7 @@ private extension ContextMenuContentView {
         var containerX: CGFloat
         let contentX: CGFloat
         
-        if contentFrameOnWindow.origin.x + menuSettings.width > UIScreen.main.bounds.width - menuSettings.indentOfContent {
+        if contentFrameOnWindow.origin.x + menuSettings.width > UIScreen.main.bounds.width - menuSettings.insetOfContent {
             /// Если правый край меню, должен оказаться за пределами экрана
             /// В этом случае меню располагается на минимальном отступе от правого края
             /// Вплоть до расположения эквивалентного .topLeft или .bottomLeft
@@ -540,7 +540,7 @@ private extension ContextMenuContentView {
             /// -----------------
             ///
             
-            containerX = UIScreen.main.bounds.width - menuSettings.width - menuSettings.indentOfSide
+            containerX = UIScreen.main.bounds.width - menuSettings.width - menuSettings.insetOfLeftAndRight
             contentX = contentFrameOnWindow.origin.x - containerX
         } else {
             /// Меню располагается по левому краю контента
@@ -602,7 +602,7 @@ private extension ContextMenuContentView {
             containerX = contentFrameOnWindow.origin.x - contentOriginX
             contentX = contentOriginX
             menuX = contentFrameOnWindow.width / 2 + contentWidthInset / 2 - menuSettings.width / 2
-        } else if contentFrameOnWindow.midX - containerWidth / 2 < menuSettings.indentOfContent {
+        } else if contentFrameOnWindow.midX - containerWidth / 2 < menuSettings.insetOfContent {
             /// Если левый край меню, должен оказаться за пределами экрана
             /// В этом случае меню располагается на минимальном отступе от левого края
             /// Вплоть до расположения эквивалентного .topLeft или .bottomLeft
@@ -619,9 +619,9 @@ private extension ContextMenuContentView {
             ///        -----------------
             ///
             
-            containerX = menuSettings.indentOfSide
+            containerX = menuSettings.insetOfLeftAndRight
             contentX = contentFrameOnWindow.origin.x - containerX
-        } else if contentFrameOnWindow.midX + containerWidth / 2 < UIScreen.main.bounds.width - menuSettings.indentOfContent {
+        } else if contentFrameOnWindow.midX + containerWidth / 2 < UIScreen.main.bounds.width - menuSettings.insetOfContent {
             /// Если контен уже чем меню, тогда ширина контейнера будет равна ширине меню
             /// --------------------------------
             ///     ---------
@@ -655,7 +655,7 @@ private extension ContextMenuContentView {
             /// -----------------
             ///
             
-            containerX = UIScreen.main.bounds.width - menuSettings.width - menuSettings.indentOfSide
+            containerX = UIScreen.main.bounds.width - menuSettings.width - menuSettings.insetOfLeftAndRight
             contentX = contentFrameOnWindow.origin.x - containerX
         }
         
@@ -700,7 +700,7 @@ private extension ContextMenuContentView {
             containerX = contentFrameOnWindow.origin.x - contentWidthInset / 2
             menuX = content.frame.width + contentWidthInset - menuSettings.width
             contentX = contentWidthInset / 2
-        } else if containerX < menuSettings.indentOfContent {
+        } else if containerX < menuSettings.insetOfContent {
             /// Если левый край меню, должен оказаться за пределами экрана
             /// В этом случае меню располагается на минимальном отступе от левого края
             /// Вплоть до расположения эквивалентного .topLeft или .bottomLeft
@@ -717,7 +717,7 @@ private extension ContextMenuContentView {
             ///        -----------------
             ///
             
-            containerX = menuSettings.indentOfSide
+            containerX = menuSettings.insetOfLeftAndRight
             menuX = 0
             contentX = contentFrameOnWindow.origin.x - containerX
         } else {
@@ -763,7 +763,7 @@ private extension ContextMenuContentView {
         
         let origin = CGPoint(
             x: menuX,
-            y: content.bounds.maxY + menuSettings.indentOfContent
+            y: content.bounds.maxY + menuSettings.insetOfContent
         )
         menuView = ContextMenuView(
             origin: origin,
@@ -795,7 +795,7 @@ private extension ContextMenuContentView {
             x: containerX,
             y: containerY,
             width: containerWidth,
-            height: content.bounds.height + menuView.bounds.height + menuSettings.indentOfContent
+            height: content.bounds.height + menuView.bounds.height + menuSettings.insetOfContent
         )
     }
 }

@@ -34,7 +34,7 @@ final class ContextMenuActionView: UIView {
         if let image = action.image {
             imageView = UIImageView()
             imageView?.frame = CGRect(
-                x: settings.width - settings.imageSize - settings.indentLeftAndRight,
+                x: settings.width - settings.imageSize - settings.insetOfLeftAndRight,
                 y: 0,
                 width: settings.imageSize,
                 height: settings.imageSize
@@ -50,12 +50,12 @@ final class ContextMenuActionView: UIView {
         }
         
         let leftImageInset = imageView == nil
-        ? settings.indentLeftAndRight
-        : settings.indentLeftAndRight * 2 + settings.imageSize
+        ? settings.insetOfLeftAndRight
+        : settings.insetOfLeftAndRight * 2 + settings.imageSize
         let labelFrame = CGRect(
-            x: settings.indentLeftAndRight,
+            x: settings.insetOfLeftAndRight,
             y: settings.insetOfTopAndBottom,
-            width: settings.width - settings.indentLeftAndRight - leftImageInset,
+            width: settings.width - settings.insetOfLeftAndRight - leftImageInset,
             height: 0
         )
         let label = UILabel(frame: labelFrame)
@@ -72,7 +72,7 @@ final class ContextMenuActionView: UIView {
         )
         
         imageView?.frame.origin = CGPoint(
-            x: settings.width - settings.imageSize - settings.indentLeftAndRight,
+            x: settings.width - settings.imageSize - settings.insetOfLeftAndRight,
             y: center.y - settings.imageSize / 2
         )
         

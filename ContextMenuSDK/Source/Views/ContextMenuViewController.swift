@@ -13,7 +13,7 @@ final class ContextMenuViewController: UIViewController {
         let scrollView = UIScrollView()
         scrollView.showsVerticalScrollIndicator = false
         scrollView.showsHorizontalScrollIndicator = false
-        scrollView.contentInset.bottom = menuSettings.indentOfContent
+        scrollView.contentInset.bottom = menuSettings.insetOfContent
         return scrollView
     }()
     
