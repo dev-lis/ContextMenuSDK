@@ -49,13 +49,13 @@ class ViewController: UIViewController {
 //            withBlur: true
 //        )
         
-        let config = ContextMenuConfig(
+        let config = ContextMenuViewConfig(
             actionSections: actionSections,
-            position: .bottomCenter
+            trigger: .longPress,
+            position: .topCenter
         )
         ContextMenu.add(
             to: blueView,
-            for: .longPress,
             with: config
         )
         
@@ -75,25 +75,48 @@ class ViewController: UIViewController {
                 withBlur: true
             )
             navigationItem.rightBarButtonItems = [item, item2]
+            
+            let navBarItemConfig = ContextMenuNavBarItemConfig(
+                actionSections: actionSections,
+                trigger: .tap,
+                withBlur: false
+            )
+            ContextMenu.add(
+                to: item,
+                with: navBarItemConfig
+            )
+            let navBarItemConfig2 = ContextMenuNavBarItemConfig(
+                actionSections: actionSections,
+                trigger: .longPress,
+                withBlur: true
+            )
+            ContextMenu.add(
+                to: item2,
+                with: navBarItemConfig2
+            )
         }
         
-        let item = UIBarButtonItem(
-            title: "add",
-            for: .tap,
-            with: actionSections,
-            to: .bottomCenter,
-            withBlur: false
-        )
-        navigationItem.leftBarButtonItem = item
+//        let item = UIBarButtonItem(
+//            title: "add",
+//            for: .tap,
+//            with: actionSections,
+//            to: .bottomCenter,
+//            withBlur: false
+//        )
+//        navigationItem.leftBarButtonItem = item
         
-        tabBarItem = UITabBarItem(
-            image: UIImage(systemName: "trash") ?? UIImage(),
-            title: "www",
-            with: actionSections,
-            to: .topCenter
-        )
+        tabBarItem = UITabBarItem(title: "first", image:  UIImage(systemName: "trash"), tag: 1)
+        
         tabBarItem.badgeValue = "1"
         tabBarItem.tag = 2
+        
+        let tabBarConfig = ContextMenuTabBarItemConfig(
+            actionSections: actionSections
+        )
+        ContextMenu.add(
+            to: tabBarItem,
+            with: tabBarConfig
+        )
         
     }
     

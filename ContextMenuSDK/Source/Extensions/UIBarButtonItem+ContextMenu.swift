@@ -9,7 +9,7 @@ import UIKit
 
 extension UIBarButtonItem {
     public convenience init(image: UIImage,
-                            for action: TriggerType = .longPress,
+                            for action: Trigger = .longPress,
                             with actionSections: [ContextMenuSection],
                             to position: MenuPosition,
                             withBlur: Bool = true) {
@@ -27,7 +27,7 @@ extension UIBarButtonItem {
     public convenience init(title: String,
                             font: UIFont = .systemFont(ofSize: 17),
                             color: UIColor = .systemBlue,
-                            for action: TriggerType = .longPress,
+                            for action: Trigger = .longPress,
                             with actionSections: [ContextMenuSection],
                             to position: MenuPosition,
                             withBlur: Bool = true) {
@@ -46,19 +46,19 @@ extension UIBarButtonItem {
         )
     }
     
-    private func addContextMenu(for action: TriggerType = .longPress,
+    private func addContextMenu(for action: Trigger = .longPress,
                                 with actionSections: [ContextMenuSection],
                                 to position: MenuPosition,
                                 withBlur: Bool = true) {
         DispatchQueue.main.async {
             if let view = self.value(forKey: "view") as? UIView {
-                BarItemHandler.shared.addViewOnContainerWithContextMenu(
-                    view,
-                    for: action,
-                    with: actionSections,
-                    to: position,
-                    withBlur: withBlur
-                )
+//                BarItemHandler.shared.addViewOnContainerWithContextMenu(
+//                    view,
+//                    for: action,
+//                    with: actionSections,
+//                    to: position,
+//                    withBlur: withBlur
+//                )
                 
             }
         }

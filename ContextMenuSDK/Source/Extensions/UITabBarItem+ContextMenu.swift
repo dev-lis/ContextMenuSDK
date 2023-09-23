@@ -27,19 +27,19 @@ extension UITabBarItem {
         )
     }
     
-    func addContextMenu(for action: TriggerType = .longPress,
+    func addContextMenu(for action: Trigger = .longPress,
                         with actionSections: [ContextMenuSection],
                         to position: MenuPosition,
                         withBlur: Bool = true) {
         DispatchQueue.main.async {
             if let view = self.value(forKey: "view") as? UIView {
-                BarItemHandler.shared.addViewOnContainerWithContextMenu(
-                    view,
-                    for: action,
-                    with: actionSections,
-                    to: position,
-                    withBlur: withBlur
-                )
+//                BarItemHandler.shared.addViewOnContainerWithContextMenu(
+//                    view,
+//                    for: action,
+//                    with: actionSections,
+//                    to: position,
+//                    withBlur: withBlur
+//                )
             }
         }
     }

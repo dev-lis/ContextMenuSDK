@@ -20,12 +20,16 @@ public class ContextMenu {
     }
     
     public static func add(to view: UIView,
-                           for trigger: TriggerType,
-                           with config: ContextMenuConfig) {
+                           with config: ContextMenuViewConfig) {
+        add(to: view, with: config.innerConfig)
+    }
+    
+    static func add(to view: UIView,
+                    with config: ContextMenuInnerConfig) {
         let _ = KeyboardHandler.shared
         TransitionHandler.shared.setConfig(config, for: view)
         
-        switch trigger {
+        switch config.trigger {
         case .tap:
             let tap = UITapGestureRecognizer(
                 target: self,
@@ -43,6 +47,30 @@ public class ContextMenu {
             longPress.minimumPressDuration = 0.01
             
             view.addGestureRecognizer(longPress)
+        }
+    }
+    
+    public static func add(to barItem: UIBarButtonItem,
+                           with config: ContextMenuNavBarItemConfig) {
+        DispatchQueue.main.async {
+            if let view = barItem.value(forKey: "view") as? UIView {
+                BarItemHandler.shared.addViewOnContainerWithContextMenu(
+                    view,
+                    with: config.innerConfig
+                )
+            }
+        }
+    }
+    
+    public static func add(to barItem: UITabBarItem,
+                           with config: ContextMenuTabBarItemConfig) {
+        DispatchQueue.main.async {
+            if let view = barItem.value(forKey: "view") as? UIView {
+                BarItemHandler.shared.addViewOnContainerWithContextMenu(
+                    view,
+                    with: config.innerConfig
+                )
+            }
         }
     }
     

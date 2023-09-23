@@ -7,40 +7,19 @@
 
 import UIKit
 
-fileprivate struct MenuModel {
-    let actionSections: [ContextMenuSection]
-    let position: MenuPosition
-    let withBlur: Bool
-    let shouldMoveContentIfNeed: Bool
-}
-
 final class TransitionHandler: NSObject {
     
     static let shared = TransitionHandler()
     
     private var view: UIView?
-    private var models: [UIView: MenuModel] = [:]
-    private var configs: [UIView: ContextMenuConfig] = [:]
+    private var configs: [UIView: ContextMenuInnerConfig] = [:]
     
     private override init() {}
     
-    /// Набор экшенов и позиция для каждой вью устанавливается,
-    /// когда вылывается метод addContextMenu(), поэтому их нужно сохранить локально&
+    /// Конфиги для каждой вью устанавливается,
+    /// когда вылывается метод addContextMenu(), поэтому их нужно сохранить локально,
     /// для каждой вью по отдельности
-    func setActions(_ actionSections: [ContextMenuSection],
-                    for view: UIView,
-                    to position: MenuPosition,
-                    withBlur: Bool,
-                    shouldMoveContentIfNeed: Bool) {
-        self.models[view] = MenuModel(
-            actionSections: actionSections,
-            position: position,
-            withBlur: withBlur,
-            shouldMoveContentIfNeed: shouldMoveContentIfNeed
-        )
-    }
-    
-    func setConfig(_ config: ContextMenuConfig,
+    func setConfig(_ config: ContextMenuInnerConfig,
                    for view: UIView) {
         self.configs[view] = config
     }
@@ -57,7 +36,7 @@ final class TransitionHandler: NSObject {
     }
     
     func getBlurValue(for view: UIView) -> Bool {
-        guard let model = models[view] else {
+        guard let model = configs[view] else {
             return false
         }
         return model.withBlur

@@ -17,19 +17,19 @@ extension UIView {
         UIViewPropertyAnimator(duration: animationsSettings.scaleDuration, curve: .easeOut)
     }
     
-    public func addContextMenu(for action: TriggerType = .longPress,
+    public func addContextMenu(for action: Trigger = .longPress,
                                with actionSections: [ContextMenuSection],
                                to position: MenuPosition,
                                withBlur: Bool = true,
                                shouldMoveContentIfNeed: Bool = true) {
         let _ = KeyboardHandler.shared
-        TransitionHandler.shared.setActions(
-            actionSections,
-            for: self,
-            to: position,
-            withBlur: withBlur,
-            shouldMoveContentIfNeed: shouldMoveContentIfNeed
-        )
+//        TransitionHandler.shared.setActions(
+//            actionSections,
+//            for: self,
+//            to: position,
+//            withBlur: withBlur,
+//            shouldMoveContentIfNeed: shouldMoveContentIfNeed
+//        )
         
         switch action {
         case .tap:
