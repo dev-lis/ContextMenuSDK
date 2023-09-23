@@ -73,7 +73,7 @@ extension UIView {
     
     private func openContextMenu() {
         FeedbackGenerator.generateFeedback(type: .impact(feedbackStyle: .medium))
-        KeyboardHandler.shared.addSnapshotIfNeed()
+        KeyboardHandler.shared.saveFirstResponderIfNeed()
         TransitionHandler.shared.setActiveView(self)
         
         let withBlur = TransitionHandler.shared.getBlurValue(for: self)

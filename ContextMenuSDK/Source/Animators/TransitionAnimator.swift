@@ -152,7 +152,7 @@ final class DismissTransitionAnimator: NSObject, UIViewControllerAnimatedTransit
             GesturesHandler.shared.returnGesture(to: self.view)
             blurEffectView?.removeFromSuperview()
             transitionContext.completeTransition(true)
-            KeyboardHandler.shared.removeSnapshotIfNeed()
+            KeyboardHandler.shared.becomeFirstResponderIfNeed()
         }
         
         if let animation = settings.hideAnimation {
