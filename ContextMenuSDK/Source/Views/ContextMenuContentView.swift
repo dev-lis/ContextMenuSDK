@@ -12,7 +12,7 @@ final class ContextMenuContentView: UIView {
     private var menuSettings = ContextMenuSettings.shared.menu
     private var animationsSettings = ContextMenuSettings.shared.animations
     
-    private var startContentY: CGFloat
+    private var startContentY: CGFloat = .zero
     
     var y: CGFloat = .zero
     
@@ -31,7 +31,6 @@ final class ContextMenuContentView: UIView {
         self.actionSections = actionSections
         self.position = position
         self.completion = completion
-        self.startContentY = content.frameOnWindow.origin.y
         super.init(frame: .zero)
         setup()
     }
@@ -144,8 +143,6 @@ final class ContextMenuContentView: UIView {
     }
     
     func moveToStartPositionIfNeed() {
-        // FIXME: почему то при возвразении на исходную позицию объект оказывается на 134 поинта ниже. Нужно с этим разобраться!
-//        print("y = \(frame.origin.y)   startContentY = \(startContentY)")
         animateOriginY(to: startContentY)
     }
     
@@ -189,8 +186,9 @@ private extension ContextMenuContentView {
     }
     
     func animateOriginY(to y: CGFloat) {
+        startContentY = frame.origin.y
         UIView.animate(
-            withDuration: animationsSettings.hideTransitionDuration,
+            withDuration: 0.15,
             delay: 0,
             options: .curveEaseIn
         ) {
@@ -499,6 +497,9 @@ private extension ContextMenuContentView {
         
         let height = menuView.bounds.height + menuSettings.indentOfContent + content.bounds.height
         let y = contentOnWindowY - menuView.bounds.height - menuSettings.indentOfContent
+        
+        startContentY = y
+        
         frame = CGRect(
             x: containerX,
             y: y,
@@ -787,6 +788,8 @@ private extension ContextMenuContentView {
         menuView.transform = CGAffineTransform(scaleX: 0.01, y: 0.01)
         
         addSubview(menuView)
+        
+        startContentY = containerY
         
         frame = CGRect(
             x: containerX,
