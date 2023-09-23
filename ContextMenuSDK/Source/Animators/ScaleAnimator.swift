@@ -12,7 +12,7 @@ enum ScaleAnimator {
     
     static func scale(_ view: UIView, completion: @escaping () -> Void) {
         
-        let scaleFactor = ContextMenuSettings.shared.animations.scaleFactor
+        let scaleFactor = Settings.shared.animations.scaleFactor
         
         let scaledX = 1 - view.frame.width * scaleFactor / view.frame.width
         let scaledY = 1 - view.frame.height * scaleFactor / view.frame.height

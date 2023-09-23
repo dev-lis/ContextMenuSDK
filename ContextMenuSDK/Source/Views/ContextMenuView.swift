@@ -9,8 +9,8 @@ import UIKit
 
 final class ContextMenuView: UIView {
     
-    private var menuSettings = ContextMenuSettings.shared.menu
-    private var menuActionSettings = ContextMenuSettings.shared.menuAction
+    private var menuSettings = Settings.shared.menu
+    private var menuActionSettings = Settings.shared.menuAction
     
     private var views = [ContextMenuActionView]()
     
@@ -29,6 +29,7 @@ final class ContextMenuView: UIView {
         self.completion = completion
         super.init(frame: .zero)
         setup()
+        backgroundColor = .red
     }
     
     @available(*, unavailable)

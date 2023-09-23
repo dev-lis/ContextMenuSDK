@@ -9,7 +9,8 @@ import UIKit
 
 final class ContextMenuActionView: UIView {
     
-    private var settings = ContextMenuSettings.shared.menuAction
+    private var menuSettings = Settings.shared.menu
+    private var menuActionSettings = Settings.shared.menuAction
     
     private let action: () -> Void
     private let completion: () -> Void
@@ -28,16 +29,16 @@ final class ContextMenuActionView: UIView {
     }
     
     private func setup(with action: ContextMenuAction) {
-        backgroundColor = settings.defaultBackgroundColor
+        backgroundColor = menuActionSettings.defaultBackgroundColor
         
         var imageView: UIImageView?
         if let image = action.image {
             imageView = UIImageView()
             imageView?.frame = CGRect(
-                x: settings.width - settings.imageSize - settings.insetOfLeftAndRight,
+                x: menuSettings.width - menuActionSettings.imageSize - menuActionSettings.insetOfLeftAndRight,
                 y: 0,
-                width: settings.imageSize,
-                height: settings.imageSize
+                width: menuActionSettings.imageSize,
+                height: menuActionSettings.imageSize
             )
             imageView?.contentMode = .scaleAspectFill
             if let color = action.imageColor {
@@ -50,12 +51,12 @@ final class ContextMenuActionView: UIView {
         }
         
         let leftImageInset = imageView == nil
-        ? settings.insetOfLeftAndRight
-        : settings.insetOfLeftAndRight * 2 + settings.imageSize
+        ? menuActionSettings.insetOfLeftAndRight
+        : menuActionSettings.insetOfLeftAndRight * 2 + menuActionSettings.imageSize
         let labelFrame = CGRect(
-            x: settings.insetOfLeftAndRight,
-            y: settings.insetOfTopAndBottom,
-            width: settings.width - settings.insetOfLeftAndRight - leftImageInset,
+            x: menuActionSettings.insetOfLeftAndRight,
+            y: menuActionSettings.insetOfTopAndBottom,
+            width: menuSettings.width - menuActionSettings.insetOfLeftAndRight - leftImageInset,
             height: 0
         )
         let label = UILabel(frame: labelFrame)
@@ -67,13 +68,13 @@ final class ContextMenuActionView: UIView {
         addSubview(label)
         
         frame.size = CGSize(
-            width: settings.width,
-            height: label.frame.height + settings.insetOfTopAndBottom * 2
+            width: menuSettings.width,
+            height: label.frame.height + menuActionSettings.insetOfTopAndBottom * 2
         )
         
         imageView?.frame.origin = CGPoint(
-            x: settings.width - settings.imageSize - settings.insetOfLeftAndRight,
-            y: center.y - settings.imageSize / 2
+            x: menuSettings.width - menuActionSettings.imageSize - menuActionSettings.insetOfLeftAndRight,
+            y: center.y - menuActionSettings.imageSize / 2
         )
         
         let tap = UITapGestureRecognizer(target: self, action: #selector(didTap))

@@ -1,5 +1,5 @@
 //
-//  ContextMenuSettings.swift
+//  Settings.swift
 //  ContextMenu
 //
 //  Created by Aleksandr Lis on 06.08.2023.
@@ -7,9 +7,11 @@
 
 import UIKit
 
-public class ContextMenuSettings {
+public class Settings {
     
-    public static let shared = ContextMenuSettings()
+    static let shared = Settings()
+    
+    private init() {}
     
     public var menu: Menu = .init()
     public var menuAction: MenuAction = .init()
@@ -27,7 +29,6 @@ public class ContextMenuSettings {
     public class MenuAction {
         public var defaultBackgroundColor: UIColor = .systemGray6
         public var selectedBackgroundColor: UIColor = .systemGray5
-        public var width: CGFloat = 250.0
         public var insetOfTopAndBottom: CGFloat = 8.0
         public var insetOfLeftAndRight: CGFloat = 16.0
         public var imageSize: CGFloat = 20.0

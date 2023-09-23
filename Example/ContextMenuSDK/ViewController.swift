@@ -60,40 +60,40 @@ class ViewController: UIViewController {
         )
         
         if let image = UIImage(systemName: "trash"), let image2 = UIImage(systemName: "folder.badge.plus") {
-            let item = UIBarButtonItem(
-                image: image,
-                for: .tap,
-                with: actionSections,
-                to: .bottomCenter,
-                withBlur: false
-            )
-            let item2 = UIBarButtonItem(
-                image: image2,
-                for: .longPress,
-                with: actionSections,
-                to: .bottomCenter,
-                withBlur: true
-            )
-            navigationItem.rightBarButtonItems = [item, item2]
-            
-            let navBarItemConfig = ContextMenuNavBarItemConfig(
-                actionSections: actionSections,
-                trigger: .tap,
-                withBlur: false
-            )
-            ContextMenu.add(
-                to: item,
-                with: navBarItemConfig
-            )
-            let navBarItemConfig2 = ContextMenuNavBarItemConfig(
-                actionSections: actionSections,
-                trigger: .longPress,
-                withBlur: true
-            )
-            ContextMenu.add(
-                to: item2,
-                with: navBarItemConfig2
-            )
+//            let item = UIBarButtonItem(
+//                image: image,
+//                for: .tap,
+//                with: actionSections,
+//                to: .bottomCenter,
+//                withBlur: false
+//            )
+//            let item2 = UIBarButtonItem(
+//                image: image2,
+//                for: .longPress,
+//                with: actionSections,
+//                to: .bottomCenter,
+//                withBlur: true
+//            )
+//            navigationItem.rightBarButtonItems = [item, item2]
+//            
+//            let navBarItemConfig = ContextMenuNavBarItemConfig(
+//                actionSections: actionSections,
+//                trigger: .tap,
+//                withBlur: false
+//            )
+//            ContextMenu.add(
+//                to: item,
+//                with: navBarItemConfig
+//            )
+//            let navBarItemConfig2 = ContextMenuNavBarItemConfig(
+//                actionSections: actionSections,
+//                trigger: .longPress,
+//                withBlur: true
+//            )
+//            ContextMenu.add(
+//                to: item2,
+//                with: navBarItemConfig2
+//            )
         }
         
 //        let item = UIBarButtonItem(
@@ -121,9 +121,9 @@ class ViewController: UIViewController {
     }
     
     private func setupSettings() {
-        ContextMenuSettings.shared.animations.showAnimation = { blur, content, menu, completion in
+        ContextMenu.settings.animations.showAnimation = { blur, content, menu, completion in
             UIView.animate(
-                withDuration: 0.25,
+                withDuration: 2.5,
                 animations: {
                     content.transform = .identity
                     menu.transform = .identity
@@ -132,7 +132,7 @@ class ViewController: UIViewController {
                 completion()
             }
         }
-        ContextMenuSettings.shared.animations.hideAnimation = { blur, _, menu, completion in
+        ContextMenu.settings.animations.hideAnimation = { blur, _, menu, completion in
             UIView.animate(
                 withDuration: 3,
                 animations: {

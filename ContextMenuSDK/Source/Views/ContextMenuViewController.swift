@@ -27,7 +27,7 @@ final class ContextMenuViewController: UIViewController {
         }
     }
     
-    private let menuSettings = ContextMenuSettings.shared.menu
+    private let menuSettings = Settings.shared.menu
 
     override var prefersStatusBarHidden: Bool {
         guard withBlur else {

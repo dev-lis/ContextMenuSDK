@@ -7,7 +7,7 @@
 
 import UIKit
 
-fileprivate var settings = ContextMenuSettings.shared.animations
+fileprivate var settings = Settings.shared.animations
 
 final class PresentTransitionAnimator: NSObject, UIViewControllerAnimatedTransitioning {
     

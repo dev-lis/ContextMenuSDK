@@ -9,10 +9,12 @@ import Foundation
 
 public class ContextMenu {
     
+    public static var settings = Settings.shared
+    
     private init() {}
     
-    private var animationsSettings: ContextMenuSettings.Animations {
-        ContextMenuSettings.shared.animations
+    private var animationsSettings: Settings.Animations {
+        Settings.shared.animations
     }
     
     private var animator: UIViewPropertyAnimator {

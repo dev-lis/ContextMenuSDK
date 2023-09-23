@@ -39,13 +39,13 @@ class SecondViewController: UIViewController {
             ContextMenuSection(actions: [delete])
         ]
         
-        tabBarItem = UITabBarItem(
-            image: UIImage(systemName: "keyboard") ?? UIImage(),
-            title: "keyboard",
-            with: actionSections,
-            to: .topCenter
-        )
-        tabBarItem.badgeValue = "3"
-        tabBarItem.tag = 3
+//        tabBarItem = UITabBarItem(
+//            image: UIImage(systemName: "keyboard") ?? UIImage(),
+//            title: "keyboard",
+//            with: actionSections,
+//            to: .topCenter
+//        )
+//        tabBarItem.badgeValue = "3"
+//        tabBarItem.tag = 3
     }
 }

@@ -9,8 +9,8 @@ import UIKit
 
 final class ContextMenuContentView: UIView {
     
-    private var menuSettings = ContextMenuSettings.shared.menu
-    private var animationsSettings = ContextMenuSettings.shared.animations
+    private var menuSettings = Settings.shared.menu
+    private var animationsSettings = Settings.shared.animations
     
     private var startContentY: CGFloat = .zero
     
