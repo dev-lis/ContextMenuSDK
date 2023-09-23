@@ -17,8 +17,8 @@ public class ContextMenuSettings {
     
     public class Menu {
         public var width: CGFloat = 250.0
-        public var indentOfSide: CGFloat = 8.0
-        public var indentOfContent: CGFloat = 16.0
+        public var insetOfLeftAndRight: CGFloat = 16.0
+        public var insetOfContent: CGFloat = 8.0
         public var cornerRadius: CGFloat = 12.0
         public var footerHeight: CGFloat = 12.0
         public var separatorColor: UIColor = .systemGray4
@@ -29,7 +29,7 @@ public class ContextMenuSettings {
         public var selectedBackgroundColor: UIColor = .systemGray5
         public var width: CGFloat = 250.0
         public var insetOfTopAndBottom: CGFloat = 8.0
-        public var indentLeftAndRight: CGFloat = 16.0
+        public var insetOfLeftAndRight: CGFloat = 16.0
         public var imageSize: CGFloat = 20.0
         public var font: UIFont? = .systemFont(ofSize: 17)
         public var defaultTextColor: UIColor? = .black
@@ -39,10 +39,10 @@ public class ContextMenuSettings {
     }
     
     public class Animations {
-        public var scaleFactor: CGFloat = 4.0
+        public var scaleFactor: CGFloat = 0.25
         public var scaleDuration: CGFloat = 0.2
         public var showTransitionDuration: TimeInterval = 0.25
-        public var hideTransitionDuration: TimeInterval = 0.1
+        public var hideTransitionDuration: TimeInterval = 0.25
         public var showAnimation: ((UIVisualEffectView?, UIView, UIView, @escaping () -> Void) -> Void)? = nil
         public var hideAnimation: ((UIVisualEffectView?, UIView, UIView, @escaping () -> Void) -> Void)? = nil
         

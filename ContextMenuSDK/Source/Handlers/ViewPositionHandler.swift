@@ -34,9 +34,12 @@ final class ViewPositionHandler {
         
         view.superview?.addSubview(placeholderView)
         placeholderView.copyConstraints(from: view)
+        
+        let widthDiff = (view.bounds.width - view.frame.width) / 2
+        let heightDiff = (view.bounds.height - view.frame.height) / 2
         let origin = CGPoint(
-            x: view.frame.origin.x - ContextMenuSettings.shared.animations.scaleFactor,
-            y: view.frame.origin.y - ContextMenuSettings.shared.animations.scaleFactor
+            x: view.frame.origin.x - widthDiff,
+            y: view.frame.origin.y - heightDiff
         )
         placeholderView.frame = CGRect(
             origin: origin,

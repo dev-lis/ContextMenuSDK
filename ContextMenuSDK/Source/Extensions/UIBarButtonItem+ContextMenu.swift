@@ -50,14 +50,16 @@ extension UIBarButtonItem {
                                 with actionSections: [ContextMenuSection],
                                 to position: MenuPosition,
                                 withBlur: Bool = true) {
-        if let view = value(forKey: "view") as? UIView {
-            DispatchQueue.main.async {
+        DispatchQueue.main.async {
+            if let view = self.value(forKey: "view") as? UIView {
                 BarItemHandler.shared.addViewOnContainerWithContextMenu(
                     view,
                     for: action,
                     with: actionSections,
                     to: position,
-                    withBlur: withBlur)
+                    withBlur: withBlur
+                )
+                
             }
         }
     }

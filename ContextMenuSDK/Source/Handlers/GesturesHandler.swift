@@ -11,27 +11,26 @@ final class GesturesHandler {
     
     static let shared = GesturesHandler()
     
-    private var longPress: UILongPressGestureRecognizer?
     private weak var view: UIView?
     
-    private var gestures: [UIView: UILongPressGestureRecognizer] = [:]
+    private var gestures: [UIView: UIGestureRecognizer] = [:]
     
     private init() {}
     
-    /// Чтобы при открытом меню вьюшка не реагированла на лонгтапы, сохраняем этот жест и удаляем его с вьюшки
-    func removeLongPress(_ longPress: UILongPressGestureRecognizer) {
-        guard let view = longPress.view else {
+    /// Чтобы при открытом меню вьюшка не реагированла на жест, который ее открывает, сохраняем этот жест и удаляем его с вьюшки
+    func removeGesture(_ gesture: UIGestureRecognizer) {
+        guard let view = gesture.view else {
             return
         }
-        gestures[view] = longPress
-        view.removeGestureRecognizer(longPress)
+        gestures[view] = gesture
+        view.removeGestureRecognizer(gesture)
     }
     
-    /// Когда контекстное меню закрывается лонгтап снова нужно добавить на вью
-    func returnLongPress(to view: UIView) {
-        guard let longPress = gestures[view] else {
+    /// Когда контекстное меню закрывается, поэтому исходный жест нужно снова добавить на вью
+    func returnGesture(to view: UIView) {
+        guard let gesture = gestures[view] else {
             return
         }
-        view.addGestureRecognizer(longPress)
+        view.addGestureRecognizer(gesture)
     }
 }

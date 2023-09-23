@@ -13,7 +13,7 @@ final class ContextMenuViewController: UIViewController {
         let scrollView = UIScrollView()
         scrollView.showsVerticalScrollIndicator = false
         scrollView.showsHorizontalScrollIndicator = false
-        scrollView.contentInset.bottom = menuSettings.indentOfContent
+        scrollView.contentInset.bottom = menuSettings.insetOfContent
         return scrollView
     }()
     
@@ -67,7 +67,7 @@ final class ContextMenuViewController: UIViewController {
         statusBarHidden = false
     }
     
-    func setContent(_ contentView: UIView,
+    func setContent(_ contentView: ContextMenuContentView,
                     with blur: UIVisualEffectView?,
                     for position: MenuPosition) {
         if let blur = blur {
@@ -87,19 +87,11 @@ final class ContextMenuViewController: UIViewController {
         
         scrollView.addSubview(contentView)
         
-        if contentView.frame.maxY > contentView.window?.frame.height ?? .zero {
-            let y = position.top
-            ? 0
-            : scrollView.contentSize.height - scrollView.bounds.height - scrollView.contentInset.bottom
-            let offset = CGPoint(
-                x: 0,
-                y: y
-            )
-            scrollView.setContentOffset(offset, animated: false)
-        } else {
-            scrollView.contentInset.top = .zero
-            scrollView.setContentOffset(.zero, animated: false)
-        }
+        let offset = CGPoint(
+            x: 0,
+            y: -contentView.y
+        )
+        scrollView.setContentOffset(offset, animated: false)
     }
     
     @objc private func didTap() {

@@ -76,6 +76,15 @@ class ViewController: UIViewController {
         )
         navigationItem.leftBarButtonItem = item
         
+        tabBarItem = UITabBarItem(
+            image: UIImage(systemName: "trash") ?? UIImage(),
+            title: "www",
+            with: actionSections,
+            to: .topCenter
+        )
+        tabBarItem.badgeValue = "1"
+        tabBarItem.tag = 2
+        
     }
     
     private func setupSettings() {
