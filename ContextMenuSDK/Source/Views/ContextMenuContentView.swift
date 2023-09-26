@@ -467,15 +467,21 @@ private extension ContextMenuContentView {
             completion: completion
         )
         
-        switch position {
-        case .topLeft:
-            menuView.layer.anchorPoint = CGPoint(x: 0, y: 1)
-        case .topCenter:
-            menuView.layer.anchorPoint = CGPoint(x: 0.5, y: 1)
-        case .topRight:
-            menuView.layer.anchorPoint = CGPoint(x: 1, y: 1)
-        default:
-            break
+        let contentCenter = contentX + content.frame.width / 2
+        if content.bounds.width < menuView.bounds.width, menuView.center.x != contentCenter {
+            let x = contentCenter / containerWidth
+            menuView.layer.anchorPoint = CGPoint(x: x, y: 1)
+        } else {
+            switch position {
+            case .topLeft:
+                menuView.layer.anchorPoint = CGPoint(x: 0, y: 1)
+            case .topCenter:
+                menuView.layer.anchorPoint = CGPoint(x: 0.5, y: 1)
+            case .topRight:
+                menuView.layer.anchorPoint = CGPoint(x: 1, y: 1)
+            default:
+                break
+            }
         }
         
         menuView.frame.origin = CGPoint(
@@ -770,17 +776,25 @@ private extension ContextMenuContentView {
             actionSections: actionSections,
             completion: completion
         )
+        backgroundColor = .red
         
-        switch position {
-        case .bottomLeft:
-            menuView.layer.anchorPoint = CGPoint(x: 0, y: 0)
-        case .bottomCenter:
-            menuView.layer.anchorPoint = CGPoint(x: 0.5, y: 0)
-        case .bottomRight:
-            menuView.layer.anchorPoint = CGPoint(x: 1, y: 0)
-        default:
-            break
+        let contentCenter = contentX + content.frame.width / 2
+        if content.bounds.width < menuView.bounds.width, menuView.center.x != contentCenter {
+            let x = contentCenter / containerWidth
+            menuView.layer.anchorPoint = CGPoint(x: x, y: 0)
+        } else {
+            switch position {
+            case .topLeft:
+                menuView.layer.anchorPoint = CGPoint(x: 0, y: 0)
+            case .topCenter:
+                menuView.layer.anchorPoint = CGPoint(x: 0.5, y: 0)
+            case .topRight:
+                menuView.layer.anchorPoint = CGPoint(x: 1, y: 0)
+            default:
+                break
+            }
         }
+        
         menuView.frame.origin = CGPoint(
             x: menuX,
             y: menuView.frame.origin.y - menuView.frame.height * 0.5
