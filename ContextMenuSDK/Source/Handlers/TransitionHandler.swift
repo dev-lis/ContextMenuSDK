@@ -12,14 +12,14 @@ final class TransitionHandler: NSObject {
     static let shared = TransitionHandler()
     
     private var view: UIView?
-    private var configs: [Weak<UIView>: ContextMenuInnerConfig] = [:]
+    private var configs: [Weak<UIView>: ContextMenuViewConfig] = [:]
     
     private override init() {}
     
     /// Конфиги для каждой вью устанавливается,
     /// когда вылывается метод addContextMenu(), поэтому их нужно сохранить локально,
     /// для каждой вью по отдельности
-    func setConfig(_ config: ContextMenuInnerConfig,
+    func setConfig(_ config: ContextMenuViewConfig,
                    for view: UIView) {
         self.configs[Weak(view)] = config
     }

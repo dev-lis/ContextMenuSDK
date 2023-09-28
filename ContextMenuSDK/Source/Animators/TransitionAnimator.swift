@@ -12,10 +12,10 @@ fileprivate var settings = Settings.shared.animations
 final class PresentTransitionAnimator: NSObject, UIViewControllerAnimatedTransitioning {
     
     private let view: UIView
-    private let config: ContextMenuInnerConfig
+    private let config: ContextMenuViewConfig
     
     init(view: UIView,
-         config: ContextMenuInnerConfig) {
+         config: ContextMenuViewConfig) {
         self.view = view
         self.config = config
     }

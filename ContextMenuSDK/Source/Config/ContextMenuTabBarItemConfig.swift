@@ -23,7 +23,7 @@ public struct ContextMenuTabBarItemConfig {
     }
     
     // Таб бар может обрабатывать только longPress и отображать метю только сверху
-    var innerConfig: ContextMenuInnerConfig {
+    var innerConfig: ContextMenuViewConfig {
         .init(
             actionSections: actionSections,
             trigger: .longPress,

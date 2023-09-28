@@ -20,7 +20,7 @@ class BarItemHandler {
     
     static let shared = BarItemHandler()
     
-    private var configs = [Weak<UIView>: ContextMenuInnerConfig]()
+    private var configs = [Weak<UIView>: ContextMenuViewConfig]()
     
     private init() {
         NotificationCenter.default.addObserver(
@@ -45,7 +45,7 @@ class BarItemHandler {
     }
     
     func addViewOnContainerWithContextMenu(_ view: UIView,
-                                           with config: ContextMenuInnerConfig) {
+                                           with config: ContextMenuViewConfig) {
         if view.superview is BarContainerView {
             return
         }

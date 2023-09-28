@@ -30,14 +30,4 @@ public struct ContextMenuViewConfig {
         self.backgroudType = backgroudType
         self.menuWidth = menuWidth
     }
-    
-    var innerConfig: ContextMenuInnerConfig {
-        .init(
-            actionSections: actionSections,
-            trigger: trigger,
-            position: position,
-            backgroudType: backgroudType,
-            menuWidth: menuWidth
-        )
-    }
 }

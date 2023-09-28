@@ -28,7 +28,7 @@ public struct ContextMenuNavBarItemConfig {
     }
     
     // Нав бар может отображать метю только снизу
-    var innerConfig: ContextMenuInnerConfig {
+    var innerConfig: ContextMenuViewConfig {
         .init(
             actionSections: actionSections,
             trigger: trigger,

@@ -23,11 +23,6 @@ public class ContextMenu {
     
     public static func add(to view: UIView,
                            with config: ContextMenuViewConfig) {
-        add(to: view, with: config.innerConfig)
-    }
-    
-    static func add(to view: UIView,
-                    with config: ContextMenuInnerConfig) {
         let _ = KeyboardHandler.shared
         TransitionHandler.shared.setConfig(config, for: view)
         
