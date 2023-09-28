@@ -42,12 +42,6 @@ class ViewController: UIViewController {
             ContextMenuSection(actions: [copy, share], footer: footer),
             ContextMenuSection(actions: [delete])
         ]
-//        blueView.addContextMenu(
-//            for: .longPress,
-//            with: actionSections,
-//            to: .bottomRight,
-//            withBlur: true
-//        )
         
         let config = ContextMenuViewConfig(
             actionSections: actionSections,
@@ -58,52 +52,6 @@ class ViewController: UIViewController {
             to: blueView,
             with: config
         )
-        
-        if let image = UIImage(systemName: "trash"), let image2 = UIImage(systemName: "folder.badge.plus") {
-//            let item = UIBarButtonItem(
-//                image: image,
-//                for: .tap,
-//                with: actionSections,
-//                to: .bottomCenter,
-//                withBlur: false
-//            )
-//            let item2 = UIBarButtonItem(
-//                image: image2,
-//                for: .longPress,
-//                with: actionSections,
-//                to: .bottomCenter,
-//                withBlur: true
-//            )
-//            navigationItem.rightBarButtonItems = [item, item2]
-//            
-//            let navBarItemConfig = ContextMenuNavBarItemConfig(
-//                actionSections: actionSections,
-//                trigger: .tap,
-//                withBlur: false
-//            )
-//            ContextMenu.add(
-//                to: item,
-//                with: navBarItemConfig
-//            )
-//            let navBarItemConfig2 = ContextMenuNavBarItemConfig(
-//                actionSections: actionSections,
-//                trigger: .longPress,
-//                withBlur: true
-//            )
-//            ContextMenu.add(
-//                to: item2,
-//                with: navBarItemConfig2
-//            )
-        }
-        
-//        let item = UIBarButtonItem(
-//            title: "add",
-//            for: .tap,
-//            with: actionSections,
-//            to: .bottomCenter,
-//            withBlur: false
-//        )
-//        navigationItem.leftBarButtonItem = item
         
         tabBarItem = UITabBarItem(title: "first", image:  UIImage(systemName: "trash"), tag: 1)
         
@@ -160,8 +108,7 @@ class ViewController: UIViewController {
         let navBarConfig4 = ContextMenuNavBarItemConfig(
             actionSections: actionSections,
             trigger: .longPress,
-            withBlur: false,
-            menuWidth: 400
+            withBlur: false
         )
         ContextMenu.add(
             to: item4,

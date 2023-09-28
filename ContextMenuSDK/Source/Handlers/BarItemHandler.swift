@@ -20,7 +20,7 @@ class BarItemHandler {
     
     static let shared = BarItemHandler()
     
-    private var viewConfigs = [UIView: ContextMenuInnerConfig]()
+    private var configs = [Weak<UIView>: ContextMenuInnerConfig]()
     
     private init() {
         NotificationCenter.default.addObserver(
@@ -32,8 +32,10 @@ class BarItemHandler {
     }
     
     @objc private func appWillEnterForeground() {
-        viewConfigs.forEach {
-            let view = $0.key
+        configs.forEach {
+            guard let view = $0.key.object else {
+                return
+            }
             let config = $0.value
             addViewOnContainerWithContextMenu(
                 view,
@@ -52,7 +54,7 @@ class BarItemHandler {
         view.superview?.addSubview(containerView)
         containerView.addSubview(view)
         
-        viewConfigs[view] = config
+        configs[Weak(view)] = config
         
         ContextMenu.add(
             to: containerView,

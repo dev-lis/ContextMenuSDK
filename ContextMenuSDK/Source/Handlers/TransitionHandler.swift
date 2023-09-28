@@ -12,7 +12,7 @@ final class TransitionHandler: NSObject {
     static let shared = TransitionHandler()
     
     private var view: UIView?
-    private var configs: [UIView: ContextMenuInnerConfig] = [:]
+    private var configs: [Weak<UIView>: ContextMenuInnerConfig] = [:]
     
     private override init() {}
     
@@ -21,7 +21,7 @@ final class TransitionHandler: NSObject {
     /// для каждой вью по отдельности
     func setConfig(_ config: ContextMenuInnerConfig,
                    for view: UIView) {
-        self.configs[view] = config
+        self.configs[Weak(view)] = config
     }
     
     /// Метод вызывается перед тем как запуститься нанимация перехода,
@@ -36,7 +36,7 @@ final class TransitionHandler: NSObject {
     }
     
     func getBlurValue(for view: UIView) -> Bool {
-        guard let model = configs[view] else {
+        guard let model = configs.first(where: { $0.key.object == view })?.value else {
             return false
         }
         return model.withBlur
@@ -47,7 +47,7 @@ extension TransitionHandler: UIViewControllerTransitioningDelegate {
     public func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         guard
             let view = view,
-            let config = configs[view]
+            let config = configs.first(where: { $0.key.object == view })?.value
         else {
             return nil
         }
@@ -58,7 +58,7 @@ extension TransitionHandler: UIViewControllerTransitioningDelegate {
     public func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         guard
             let view,
-            let config = configs[view]
+            let config = configs.first(where: { $0.key.object == view })?.value
         else {
             return nil
         }

@@ -13,7 +13,7 @@ final class GesturesHandler {
     
     private weak var view: UIView?
     
-    private var gestures: [UIView: UIGestureRecognizer] = [:]
+    private var gestures: [Weak<UIView>: UIGestureRecognizer] = [:]
     
     private init() {}
     
@@ -22,13 +22,13 @@ final class GesturesHandler {
         guard let view = gesture.view else {
             return
         }
-        gestures[view] = gesture
+        gestures[Weak(view)] = gesture
         view.removeGestureRecognizer(gesture)
     }
     
     /// Когда контекстное меню закрывается, поэтому исходный жест нужно снова добавить на вью
     func returnGesture(to view: UIView) {
-        guard let gesture = gestures[view] else {
+        guard let gesture = gestures.first(where: { $0.key.object == view })?.value else {
             return
         }
         view.addGestureRecognizer(gesture)
