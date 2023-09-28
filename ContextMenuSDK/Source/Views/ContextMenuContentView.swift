@@ -785,23 +785,134 @@ private extension ContextMenuContentView {
             menuWidth: menuWidth,
             completion: completion
         )
-        backgroundColor = .red
         
-        let contentCenter = contentX + content.frame.width / 2
-        if content.bounds.width < menuView.bounds.width, menuView.center.x != contentCenter {
-            let x = contentCenter / containerWidth
-            menuView.layer.anchorPoint = CGPoint(x: x, y: 0)
-        } else {
-            switch position {
-            case .topLeft:
+        switch position {
+        case .bottomLeft:
+            let contentOriginX = contentX - (content.bounds.width - content.frame.width) / 2
+            if menuX < contentOriginX {
+                /// Если левый край меню, оказывается левее левого края контента,
+                /// то anchorPoint сдвигается к левому краю контента
+                /// --------------------------------
+                ///    ---------
+                ///    |   content   |
+                ///    ---------
+                ///    ↑
+                /// -----------------
+                /// |  1. Action                    |               |
+                /// -----------------
+                /// |  2. Action                    |  <--->  |
+                /// -----------------
+                /// |  3. Action                    |               |
+                /// -----------------
+                ///
+                let x = contentOriginX / menuView.bounds.width
+                menuView.layer.anchorPoint = CGPoint(x: x, y: 0)
+            } else {
+                /// anchorPoint располагается по левому краю контента
+                /// --------------------------------
+                /// ---------
+                /// |   content   |
+                /// ---------
+                /// ↑
+                /// -----------------
+                /// |  1. Action                    |
+                /// -----------------
+                /// |  2. Action                    |
+                /// -----------------
+                /// |  3. Action                    |
+                /// -----------------
+                ///
                 menuView.layer.anchorPoint = CGPoint(x: 0, y: 0)
-            case .topCenter:
-                menuView.layer.anchorPoint = CGPoint(x: 0.5, y: 0)
-            case .topRight:
-                menuView.layer.anchorPoint = CGPoint(x: 1, y: 0)
-            default:
-                break
             }
+        case .bottomCenter:
+            let contentCenter = contentX + content.frame.width / 2
+            if content.bounds.width < menuView.bounds.width, menuView.center.x != contentCenter {
+                /// Если меню сдвинуто вправо или в лево, то anchorPoint сдвигается к  центру контента
+                /// --------------------------------
+                ///        ---------
+                ///        |   content   |
+                ///        ---------
+                ///            ↑
+                /// -----------------
+                /// |  1. Action                    |
+                /// -----------------
+                /// |  2. Action                    |
+                /// -----------------
+                /// |  3. Action                    |
+                /// -----------------
+                ///
+                /// --------------------------------
+                ///  ---------
+                ///  |   content   |
+                ///  ---------
+                ///      ↑
+                /// -----------------
+                /// |  1. Action                    |
+                /// -----------------
+                /// |  2. Action                    |
+                /// -----------------
+                /// |  3. Action                    |
+                /// -----------------
+                ///
+                let x = contentCenter / containerWidth
+                menuView.layer.anchorPoint = CGPoint(x: x, y: 0)
+            } else {
+                /// Если контен уже чем меню, тогда ширина контейнера будет равна ширине меню
+                /// --------------------------------
+                ///     ---------
+                ///     |   content   |
+                ///     ---------
+                ///         ↑
+                /// -----------------
+                /// |  1. Action                    |
+                /// -----------------
+                /// |  2. Action                    |
+                /// -----------------
+                /// |  3. Action                    |
+                /// -----------------
+                ///
+                menuView.layer.anchorPoint = CGPoint(x: 0.5, y: 0)
+            }
+        case .bottomRight:
+            let contentOriginMaxX = content.bounds.width + contentX - (content.bounds.width - content.frame.width) / 2
+            let menuMaxX = menuX + menuView.bounds.width
+            if menuMaxX > contentOriginMaxX {
+                /// Если правый край меню, оказывается правее правого края контента,
+                /// то anchorPoint сдвигается к правому краю контента
+                /// --------------------------------
+                ///             ---------
+                ///             |   content   |
+                ///             ---------
+                ///                     ↑
+                ///        -----------------
+                /// |               |  1. Action                    |
+                ///        -----------------
+                /// |  <--->  |  2. Action                    |
+                ///        -----------------
+                /// |               |  3. Action                    |
+                ///        -----------------
+                ///
+                let x = contentOriginMaxX / menuMaxX
+                menuView.layer.anchorPoint = CGPoint(x: x, y: 0)
+            } else {
+                /// anchorPoint располагается по правому краю контента
+                /// --------------------------------
+                ///         ---------
+                ///         |   content   |
+                ///         ---------
+                ///                 ↑
+                /// -----------------
+                /// |  1. Action                    |
+                /// -----------------
+                /// |  2. Action                    |
+                /// -----------------
+                /// |  3. Action                    |
+                /// -----------------
+                ///
+                menuView.layer.anchorPoint = CGPoint(x: 1, y: 0)
+            }
+        default:
+            break
         }
         
         menuView.frame.origin = CGPoint(
