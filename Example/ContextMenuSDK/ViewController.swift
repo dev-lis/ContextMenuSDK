@@ -118,6 +118,56 @@ class ViewController: UIViewController {
             with: tabBarConfig
         )
         
+        let label1 = UILabel()
+        label1.text = "Add"
+        let item1 = UIBarButtonItem(customView: label1)
+        let navBarConfig1 = ContextMenuNavBarItemConfig(
+            actionSections: actionSections,
+            trigger: .tap
+        )
+        ContextMenu.add(
+            to: item1,
+            with: navBarConfig1
+        )
+
+        let image2 = UIImageView(image: UIImage(systemName: "trash"))
+        let item2 = UIBarButtonItem(customView: image2)
+        let navBarConfig2 = ContextMenuNavBarItemConfig(
+            actionSections: actionSections,
+            trigger: .tap,
+            withBlur: false
+        )
+        ContextMenu.add(
+            to: item2,
+            with: navBarConfig2
+        )
+        navigationItem.leftBarButtonItems = [item1, item2]
+        
+        let label3 = UILabel()
+        label3.text = "Add"
+        let item3 = UIBarButtonItem(customView: label3)
+        let navBarConfig3 = ContextMenuNavBarItemConfig(
+            actionSections: actionSections,
+            trigger: .longPress
+        )
+        ContextMenu.add(
+            to: item3,
+            with: navBarConfig3
+        )
+
+        let image4 = UIImageView(image: UIImage(systemName: "trash"))
+        let item4 = UIBarButtonItem(customView: image4)
+        let navBarConfig4 = ContextMenuNavBarItemConfig(
+            actionSections: actionSections,
+            trigger: .longPress,
+            withBlur: false,
+            menuWidth: 400
+        )
+        ContextMenu.add(
+            to: item4,
+            with: navBarConfig4
+        )
+        navigationItem.rightBarButtonItems = [item3, item4]
     }
     
     private func setupSettings() {

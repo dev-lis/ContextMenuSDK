@@ -40,7 +40,8 @@ public class Settings {
     }
     
     public class Animations {
-        public var scaleFactor: CGFloat = 0.25
+        public var scaleValue: CGFloat = 6.0
+        public var scaleFactor: CGFloat = 0.2
         public var scaleDuration: CGFloat = 0.2
         public var showTransitionDuration: TimeInterval = 0.25
         public var hideTransitionDuration: TimeInterval = 0.25

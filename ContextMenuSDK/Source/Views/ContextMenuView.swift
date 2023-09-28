@@ -12,6 +12,10 @@ final class ContextMenuView: UIView {
     private var menuSettings = Settings.shared.menu
     private var menuActionSettings = Settings.shared.menuAction
     
+    private var innerMenuWidth: CGFloat {
+        menuWidth ?? menuSettings.width
+    }
+    
     private var views = [ContextMenuActionView]()
     
     private var currentView: UIView?
@@ -19,13 +23,16 @@ final class ContextMenuView: UIView {
     
     private let origin: CGPoint
     private let actionSections: [ContextMenuSection]
+    private let menuWidth: CGFloat?
     private let completion: () -> Void
     
     init(origin: CGPoint,
          actionSections: [ContextMenuSection],
+         menuWidth: CGFloat?,
          completion: @escaping () -> Void) {
         self.origin = origin
         self.actionSections = actionSections
+        self.menuWidth = menuWidth
         self.completion = completion
         super.init(frame: .zero)
         setup()
@@ -49,7 +56,10 @@ final class ContextMenuView: UIView {
         
         for section in actionSections {
             for (index, action) in section.actions.enumerated() {
-                let view = ContextMenuActionView(action: action) { [weak self] in
+                let view = ContextMenuActionView(
+                    action: action,
+                    menuWidth: innerMenuWidth
+                ) { [weak self] in
                     self?.completion()
                 }
                 view.frame.origin = CGPoint(x: 0, y: height)
@@ -66,7 +76,7 @@ final class ContextMenuView: UIView {
                 line.frame = CGRect(
                     x: 0,
                     y: height + view.frame.height,
-                    width: menuSettings.width,
+                    width: innerMenuWidth,
                     height: 0.3
                 )
                 line.backgroundColor = menuSettings.separatorColor
@@ -82,7 +92,7 @@ final class ContextMenuView: UIView {
             sectionSeparator.frame = CGRect(
                 x: 0,
                 y: height,
-                width: menuSettings.width,
+                width: innerMenuWidth,
                 height: footer.height ?? menuSettings.footerHeight
             )
             sectionSeparator.backgroundColor = footer.color ?? menuSettings.separatorColor
@@ -93,7 +103,7 @@ final class ContextMenuView: UIView {
         frame = CGRect(
             x: origin.x,
             y: origin.y,
-            width: menuSettings.width,
+            width: innerMenuWidth,
             height: height
         )
     }

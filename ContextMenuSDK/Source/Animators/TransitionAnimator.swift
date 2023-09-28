@@ -41,7 +41,8 @@ final class PresentTransitionAnimator: NSObject, UIViewControllerAnimatedTransit
         let contentView = ContextMenuContentView(
             content: view,
             actionSections: config.actionSections,
-            position: config.position
+            position: config.position,
+            menuWidth: config.menuWidth
         ) {
             toViewController.dismiss(animated: true)
         }
