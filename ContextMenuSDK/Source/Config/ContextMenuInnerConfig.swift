@@ -11,20 +11,20 @@ struct ContextMenuInnerConfig {
     let actionSections: [ContextMenuSection]
     let trigger: Trigger
     let position: MenuPosition
-    let withBlur: Bool
+    let backgroudType: BackgroudType
     let menuWidth: CGFloat?
     let shouldMoveContentIfNeed: Bool
     
     public init(actionSections: [ContextMenuSection],
                 trigger: Trigger,
                 position: MenuPosition,
-                withBlur: Bool,
+                backgroudType: BackgroudType,
                 menuWidth: CGFloat?,
                 shouldMoveContentIfNeed: Bool) {
         self.actionSections = actionSections
         self.trigger = trigger
         self.position = position
-        self.withBlur = withBlur
+        self.backgroudType = backgroudType
         self.menuWidth = menuWidth
         self.shouldMoveContentIfNeed = shouldMoveContentIfNeed
     }

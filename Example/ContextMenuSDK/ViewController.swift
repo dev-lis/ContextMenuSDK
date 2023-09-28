@@ -82,8 +82,7 @@ class ViewController: UIViewController {
         let item2 = UIBarButtonItem(customView: image2)
         let navBarConfig2 = ContextMenuNavBarItemConfig(
             actionSections: actionSections,
-            trigger: .tap,
-            withBlur: false
+            trigger: .tap
         )
         ContextMenu.add(
             to: item2,
@@ -107,8 +106,7 @@ class ViewController: UIViewController {
         let item4 = UIBarButtonItem(customView: image4)
         let navBarConfig4 = ContextMenuNavBarItemConfig(
             actionSections: actionSections,
-            trigger: .longPress,
-            withBlur: false
+            trigger: .longPress
         )
         ContextMenu.add(
             to: item4,
@@ -118,23 +116,37 @@ class ViewController: UIViewController {
     }
     
     private func setupSettings() {
-        ContextMenu.settings.animations.showAnimation = { blur, content, menu, completion in
+        ContextMenu.settings.animations.showAnimation = { backgroundContent, content, menu, completion in
             UIView.animate(
                 withDuration: 2.5,
                 animations: {
                     content.transform = .identity
                     menu.transform = .identity
-                    blur?.effect = UIBlurEffect(style: .systemUltraThinMaterialDark)
+                    switch backgroundContent {
+                    case let .blur(blur):
+                        blur.effect = UIBlurEffect(style: .systemUltraThinMaterialDark)
+                    case let .view(view):
+                        view.backgroundColor = .red.withAlphaComponent(0.2)
+                    case .none:
+                        break
+                    }
             }) { _ in
                 completion()
             }
         }
-        ContextMenu.settings.animations.hideAnimation = { blur, _, menu, completion in
+        ContextMenu.settings.animations.hideAnimation = { backgroundContent, _, menu, completion in
             UIView.animate(
                 withDuration: 3,
                 animations: {
                     menu.transform = CGAffineTransform(scaleX: 0.001, y: 0.001)
-                    blur?.effect = UIBlurEffect(style: .light)
+                    switch backgroundContent {
+                    case let .blur(blur):
+                        blur.effect = UIBlurEffect(style: .light)
+                    case let .view(view):
+                        view.backgroundColor = .red.withAlphaComponent(0.2)
+                    case .none:
+                        break
+                    }
             }) { _ in
                 completion()
             }

@@ -39,7 +39,7 @@ final class TransitionHandler: NSObject {
         guard let model = configs.first(where: { $0.key.object == view })?.value else {
             return false
         }
-        return model.withBlur
+        return model.backgroudType == .blur
     }
 }
 
@@ -64,7 +64,6 @@ extension TransitionHandler: UIViewControllerTransitioningDelegate {
         }
         return DismissTransitionAnimator(
             view: view,
-            withBlur: config.withBlur,
             shouldMoveContentIfNeed: config.shouldMoveContentIfNeed
         )
     }

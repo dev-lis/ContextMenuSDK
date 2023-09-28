@@ -11,18 +11,18 @@ public struct ContextMenuViewConfig {
     let actionSections: [ContextMenuSection]
     let trigger: Trigger
     let position: MenuPosition
-    let withBlur: Bool
+    let backgroudType: BackgroudType
     let menuWidth: CGFloat?
     
     public init(actionSections: [ContextMenuSection],
                 trigger: Trigger,
                 position: MenuPosition,
-                withBlur: Bool = true,
+                backgroudType: BackgroudType = .blur,
                 menuWidth: CGFloat? = nil) {
         self.actionSections = actionSections
         self.trigger = trigger
         self.position = position
-        self.withBlur = withBlur
+        self.backgroudType = backgroudType
         self.menuWidth = menuWidth
     }
     
@@ -31,7 +31,7 @@ public struct ContextMenuViewConfig {
             actionSections: actionSections,
             trigger: trigger,
             position: position,
-            withBlur: withBlur,
+            backgroudType: backgroudType,
             menuWidth: menuWidth,
             shouldMoveContentIfNeed: true
         )

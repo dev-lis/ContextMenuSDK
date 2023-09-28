@@ -9,14 +9,14 @@ import Foundation
 
 public struct ContextMenuTabBarItemConfig {
     let actionSections: [ContextMenuSection]
-    let withBlur: Bool
+    let backgroudType: BackgroudType
     let menuWidth: CGFloat?
     
     public init(actionSections: [ContextMenuSection],
-                withBlur: Bool = true,
+                backgroudType: BackgroudType = .blur,
                 menuWidth: CGFloat? = nil) {
         self.actionSections = actionSections
-        self.withBlur = withBlur
+        self.backgroudType = backgroudType
         self.menuWidth = menuWidth
     }
     
@@ -26,7 +26,7 @@ public struct ContextMenuTabBarItemConfig {
             actionSections: actionSections,
             trigger: .longPress,
             position: .topCenter,
-            withBlur: withBlur,
+            backgroudType: backgroudType,
             menuWidth: menuWidth,
             shouldMoveContentIfNeed: false
         )

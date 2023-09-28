@@ -10,16 +10,16 @@ import Foundation
 public struct ContextMenuNavBarItemConfig {
     let actionSections: [ContextMenuSection]
     let trigger: Trigger
-    let withBlur: Bool
+    let backgroudType: BackgroudType
     let menuWidth: CGFloat?
     
     public init(actionSections: [ContextMenuSection],
                 trigger: Trigger,
-                withBlur: Bool = true,
+                backgroudType: BackgroudType = .color,
                 menuWidth: CGFloat? = nil) {
         self.actionSections = actionSections
         self.trigger = trigger
-        self.withBlur = withBlur
+        self.backgroudType = backgroudType
         self.menuWidth = menuWidth
     }
     
@@ -29,7 +29,7 @@ public struct ContextMenuNavBarItemConfig {
             actionSections: actionSections,
             trigger: trigger,
             position: .bottomCenter,
-            withBlur: withBlur,
+            backgroudType: backgroudType,
             menuWidth: menuWidth,
             shouldMoveContentIfNeed: false
         )

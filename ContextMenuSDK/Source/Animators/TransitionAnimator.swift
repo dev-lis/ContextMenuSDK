@@ -33,8 +33,26 @@ final class PresentTransitionAnimator: NSObject, UIViewControllerAnimatedTransit
         
         let containerView = transitionContext.containerView
         
-        let blurEffectView = BlurHandler.createBlur(with: nil)
-        containerView.addSubview(blurEffectView)
+        let backgroundContent: BackgroundContent
+        let backgroundCompletion: (() -> Void)?
+        switch config.backgroudType {
+        case .blur:
+            let blurEffectView = BlurHandler.createBlur(with: nil)
+            containerView.addSubview(blurEffectView)
+            backgroundContent = .blur(blurEffectView)
+            backgroundCompletion = {
+                blurEffectView.effect = UIBlurEffect(style: settings.blurStyle)
+            }
+        case .color:
+            let backgroundView = UIView(frame: containerView.frame)
+            backgroundContent = .view(backgroundView)
+            backgroundCompletion = {
+                backgroundView.backgroundColor = settings.backgroundColor
+            }
+        case .none:
+            backgroundContent = .none
+            backgroundCompletion = nil
+        }
         
         ViewPositionHandler.shared.replaceViewWithPlaceholder(view: view)
         
@@ -57,7 +75,7 @@ final class PresentTransitionAnimator: NSObject, UIViewControllerAnimatedTransit
             containerView.addSubview(toViewController.view)
             toViewController.setContent(
                 contentView,
-                with: self.config.withBlur ? blurEffectView : nil,
+                with: backgroundContent,
                 for: self.config.position
             )
             transitionContext.completeTransition(true)
@@ -65,7 +83,7 @@ final class PresentTransitionAnimator: NSObject, UIViewControllerAnimatedTransit
         
         if let animation = settings.showAnimation {
             animation(
-                blurEffectView,
+                backgroundContent,
                 contentView.content,
                 contentView.menuView,
                 completion
@@ -83,9 +101,7 @@ final class PresentTransitionAnimator: NSObject, UIViewControllerAnimatedTransit
             UIView.animate(
                 withDuration: settings.showTransitionDuration,
                 animations: {
-                    if self.config.withBlur {
-                        blurEffectView.effect = UIBlurEffect(style: .systemUltraThinMaterialDark)
-                    }
+                    backgroundCompletion?()
             }) { _ in
                 completion()
             }
@@ -96,14 +112,11 @@ final class PresentTransitionAnimator: NSObject, UIViewControllerAnimatedTransit
 final class DismissTransitionAnimator: NSObject, UIViewControllerAnimatedTransitioning {
     
     private let view: UIView
-    private let withBlur: Bool
     private let shouldMoveContentIfNeed: Bool
     
     init(view: UIView,
-         withBlur: Bool,
          shouldMoveContentIfNeed: Bool) {
         self.view = view
-        self.withBlur = withBlur
         self.shouldMoveContentIfNeed = shouldMoveContentIfNeed
     }
     
@@ -121,9 +134,21 @@ final class DismissTransitionAnimator: NSObject, UIViewControllerAnimatedTransit
         
         let containerView = transitionContext.containerView
         
-        let blurEffectView = fromViewController.blurEffectView
-        if let blurEffectView = blurEffectView {
-            containerView.addSubview(blurEffectView)
+        let backgroundContent = fromViewController.backgroundContent
+        let backgroundCompletion: (() -> Void)?
+        switch backgroundContent {
+        case let .blur(blur):
+            containerView.addSubview(blur)
+            backgroundCompletion = {
+                blur.effect = nil
+            }
+        case let .view(view):
+            containerView.addSubview(view)
+            backgroundCompletion = {
+                view.backgroundColor = .clear
+            }
+        case .none:
+            backgroundCompletion = nil
         }
         
         if let contentView = view.superview {
@@ -142,14 +167,13 @@ final class DismissTransitionAnimator: NSObject, UIViewControllerAnimatedTransit
             TransitionHandler.shared.removeActiveView()
             ViewPositionHandler.shared.returnViewBack(view: self.view)
             GesturesHandler.shared.returnGesture(to: self.view)
-            blurEffectView?.removeFromSuperview()
             transitionContext.completeTransition(true)
             KeyboardHandler.shared.becomeFirstResponderIfNeed()
         }
         
         if let animation = settings.hideAnimation {
             animation(
-                blurEffectView,
+                backgroundContent,
                 contentView.content,
                 contentView.menuView,
                 completion
@@ -158,7 +182,7 @@ final class DismissTransitionAnimator: NSObject, UIViewControllerAnimatedTransit
             UIView.animate(
                 withDuration: settings.hideTransitionDuration,
                 animations: {
-                    blurEffectView?.effect = nil
+                    backgroundCompletion?()
                     contentView.hide()
             }) { _ in
                 completion()

@@ -17,7 +17,7 @@ final class ContextMenuViewController: UIViewController {
         return scrollView
     }()
     
-    private(set) var blurEffectView: UIVisualEffectView?
+    private(set) var backgroundContent: BackgroundContent = .none
     
     private var statusBarHidden = true {
         didSet {
@@ -68,12 +68,22 @@ final class ContextMenuViewController: UIViewController {
     }
     
     func setContent(_ contentView: ContextMenuContentView,
-                    with blur: UIVisualEffectView?,
+                    with backgroundContent: BackgroundContent,
                     for position: MenuPosition) {
-        if let blur = blur {
+        func addBackgroundView(_ backgroundView: UIView) {
             statusBarHidden = true
-            view.insertSubview(blur, at: 0)
-            blurEffectView = blur
+            view.insertSubview(backgroundView, at: 0)
+        }
+        
+        self.backgroundContent = backgroundContent
+        
+        switch backgroundContent {
+        case let .blur(blur):
+            addBackgroundView(blur)
+        case let .view(view):
+            addBackgroundView(view)
+        case .none:
+            break
         }
         
         scrollView.contentSize = contentView.frame.size

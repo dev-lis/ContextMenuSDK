@@ -19,7 +19,7 @@ public class Settings {
     
     public class Menu {
         public var width: CGFloat = 250.0
-        public var insetOfLeftAndRight: CGFloat = 16.0
+        public var insetOfLeftAndRight: CGFloat = 8.0
         public var insetOfContent: CGFloat = 8.0
         public var cornerRadius: CGFloat = 12.0
         public var footerHeight: CGFloat = 12.0
@@ -40,13 +40,15 @@ public class Settings {
     }
     
     public class Animations {
+        public var blurStyle: UIBlurEffect.Style = .systemUltraThinMaterialDark
+        public var backgroundColor: UIColor = .black.withAlphaComponent(0.2)
         public var scaleValue: CGFloat = 6.0
         public var scaleFactor: CGFloat = 0.2
         public var scaleDuration: CGFloat = 0.2
         public var showTransitionDuration: TimeInterval = 0.25
         public var hideTransitionDuration: TimeInterval = 0.25
-        public var showAnimation: ((UIVisualEffectView?, UIView, UIView, @escaping () -> Void) -> Void)? = nil
-        public var hideAnimation: ((UIVisualEffectView?, UIView, UIView, @escaping () -> Void) -> Void)? = nil
+        public var showAnimation: ((BackgroundContent, UIView, UIView, @escaping () -> Void) -> Void)? = nil
+        public var hideAnimation: ((BackgroundContent, UIView, UIView, @escaping () -> Void) -> Void)? = nil
         
         public init() {}
     }
