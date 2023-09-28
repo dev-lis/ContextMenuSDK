@@ -34,8 +34,7 @@ public struct ContextMenuNavBarItemConfig {
             trigger: trigger,
             position: .bottomCenter,
             backgroudType: backgroudType,
-            menuWidth: menuWidth,
-            shouldMoveContentIfNeed: false
+            menuWidth: menuWidth
         )
     }
 }

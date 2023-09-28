@@ -29,8 +29,7 @@ public struct ContextMenuTabBarItemConfig {
             trigger: .longPress,
             position: .topCenter,
             backgroudType: backgroudType,
-            menuWidth: menuWidth,
-            shouldMoveContentIfNeed: false
+            menuWidth: menuWidth
         )
     }
 }

@@ -67,9 +67,9 @@ final class PresentTransitionAnimator: NSObject, UIViewControllerAnimatedTransit
         
         containerView.addSubview(contentView)
         
-        if config.shouldMoveContentIfNeed {
+//        if config.shouldMoveContentIfNeed {
             contentView.moveToNewPositionIfNeed()
-        }
+//        }
         
         let completion = {
             containerView.addSubview(toViewController.view)
@@ -112,12 +112,9 @@ final class PresentTransitionAnimator: NSObject, UIViewControllerAnimatedTransit
 final class DismissTransitionAnimator: NSObject, UIViewControllerAnimatedTransitioning {
     
     private let view: UIView
-    private let shouldMoveContentIfNeed: Bool
     
-    init(view: UIView,
-         shouldMoveContentIfNeed: Bool) {
+    init(view: UIView) {
         self.view = view
-        self.shouldMoveContentIfNeed = shouldMoveContentIfNeed
     }
     
     func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
@@ -159,9 +156,7 @@ final class DismissTransitionAnimator: NSObject, UIViewControllerAnimatedTransit
         
         fromViewController.view.removeFromSuperview()
         
-        if shouldMoveContentIfNeed {
-            contentView.moveToStartPositionIfNeed()
-        }
+        contentView.moveToStartPositionIfNeed()
 
         let completion = {
             TransitionHandler.shared.removeActiveView()

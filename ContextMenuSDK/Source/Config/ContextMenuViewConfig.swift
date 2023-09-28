@@ -37,8 +37,7 @@ public struct ContextMenuViewConfig {
             trigger: trigger,
             position: position,
             backgroudType: backgroudType,
-            menuWidth: menuWidth,
-            shouldMoveContentIfNeed: true
+            menuWidth: menuWidth
         )
     }
 }
