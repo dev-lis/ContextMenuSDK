@@ -52,7 +52,7 @@ class ViewController: UIViewController {
             to: blueView,
             with: config
         )
-        
+        view.layer.shadowRadius
         tabBarItem = UITabBarItem(title: "first", image:  UIImage(systemName: "trash"), tag: 1)
         
         tabBarItem.badgeValue = "1"

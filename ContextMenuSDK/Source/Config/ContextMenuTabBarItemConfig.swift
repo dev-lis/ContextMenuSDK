@@ -9,7 +9,9 @@ import Foundation
 
 public struct ContextMenuTabBarItemConfig {
     let actionSections: [ContextMenuSection]
+    /// Тип бэкграунда
     let backgroudType: BackgroudType
+    /// Ширина меню для конкретного контента (если nil, то значение беерться из Settings)
     let menuWidth: CGFloat?
     
     public init(actionSections: [ContextMenuSection],

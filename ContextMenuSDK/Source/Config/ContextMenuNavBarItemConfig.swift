@@ -8,9 +8,13 @@
 import Foundation
 
 public struct ContextMenuNavBarItemConfig {
+    /// Массив  секция для меню
     let actionSections: [ContextMenuSection]
+    /// Триггер для отображения контекстного меню
     let trigger: Trigger
+    /// Тип бэкграунда
     let backgroudType: BackgroudType
+    /// Ширина меню для конкретного контента (если nil, то значение беерться из Settings)
     let menuWidth: CGFloat?
     
     public init(actionSections: [ContextMenuSection],

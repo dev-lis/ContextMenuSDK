@@ -8,10 +8,15 @@
 import Foundation
 
 struct ContextMenuInnerConfig {
+    /// Массив  секция для меню
     let actionSections: [ContextMenuSection]
+    /// Триггер для отображения контекстного меню
     let trigger: Trigger
+    /// Позиция меню по отношению к контенту
     let position: MenuPosition
+    /// Тип бэкграунда/
     let backgroudType: BackgroudType
+    /// Ширина меню для конкретного контента (если nil, то значение беерться из Settings)
     let menuWidth: CGFloat?
     let shouldMoveContentIfNeed: Bool
     
