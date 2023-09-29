@@ -11,6 +11,7 @@ final class ContextMenuView: UIView {
     
     private var menuSettings = Settings.shared.menu
     private var menuActionSettings = Settings.shared.menuAction
+    private var animationsSettings = Settings.shared.animations
     
     private var innerMenuWidth: CGFloat {
         menuWidth ?? menuSettings.width
@@ -45,9 +46,13 @@ final class ContextMenuView: UIView {
     
     func setup() {
         layer.cornerRadius = menuSettings.cornerRadius
-        clipsToBounds = true
         // добавляем тап без экшена, чтобы по тапу на меню (сепараторы) контекстное меню не закрывалось
         addGestureRecognizer(UITapGestureRecognizer(target: nil, action: nil))
+        
+        let containerView = UIView()
+        containerView.clipsToBounds = true
+        containerView.layer.cornerRadius = menuSettings.cornerRadius
+        addSubview(containerView)
         
         views.removeAll()
         
@@ -62,7 +67,7 @@ final class ContextMenuView: UIView {
                     self?.completion()
                 }
                 view.frame.origin = CGPoint(x: 0, y: height)
-                addSubview(view)
+                containerView.addSubview(view)
                 
                 views.append(view)
                 
@@ -79,7 +84,7 @@ final class ContextMenuView: UIView {
                     height: 0.3
                 )
                 line.backgroundColor = menuSettings.separatorColor
-                addSubview(line)
+                containerView.addSubview(line)
                 
                 height = line.frame.maxY
             }
@@ -95,16 +100,17 @@ final class ContextMenuView: UIView {
                 height: footer.height ?? menuSettings.footerHeight
             )
             sectionSeparator.backgroundColor = footer.color ?? menuSettings.separatorColor
-            addSubview(sectionSeparator)
+            containerView.addSubview(sectionSeparator)
             
             height = sectionSeparator.frame.maxY
         }
-        frame = CGRect(
+        containerView.frame = CGRect(
             x: origin.x,
             y: origin.y,
             width: innerMenuWidth,
             height: height
         )
+        frame = containerView.frame
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {

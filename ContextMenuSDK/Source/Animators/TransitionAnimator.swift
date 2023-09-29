@@ -67,9 +67,7 @@ final class PresentTransitionAnimator: NSObject, UIViewControllerAnimatedTransit
         
         containerView.addSubview(contentView)
         
-//        if config.shouldMoveContentIfNeed {
-            contentView.moveToNewPositionIfNeed()
-//        }
+        contentView.moveToNewPositionIfNeed()
         
         let completion = {
             containerView.addSubview(toViewController.view)

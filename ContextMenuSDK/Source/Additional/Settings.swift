@@ -30,6 +30,8 @@ public class Settings {
         public var footerHeight: CGFloat = 12.0
         /// Цвет сепараторов между ячейками и футера
         public var separatorColor: UIColor = .systemGray4
+        /// Тень
+        public var shadow: Shadow = .init()
     }
     
     public class MenuAction {
@@ -88,9 +90,18 @@ public class Settings {
 }
 
 public struct Shadow {
-    let shadowColor: UIColor = .black.withAlphaComponent(0.15)
-    let shadowOpacity: Float = 0.0
-    let shadowOffset: CGSize = .zero
-    let shadowRadius: CGFloat = 10.0
+    let shadowColor: UIColor
+    let shadowOpacity: Float
+    let shadowOffset: CGSize
+    let shadowRadius: CGFloat
     
+    public init(shadowColor: UIColor = .red,//.black.withAlphaComponent(0.15),
+                shadowOpacity: Float = 1.0,
+                shadowOffset: CGSize = .zero,
+                shadowRadius: CGFloat = 10.0) {
+        self.shadowColor = shadowColor
+        self.shadowOpacity = shadowOpacity
+        self.shadowOffset = shadowOffset
+        self.shadowRadius = shadowRadius
+    }
 }

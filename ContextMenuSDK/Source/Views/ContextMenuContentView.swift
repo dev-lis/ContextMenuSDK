@@ -21,7 +21,7 @@ final class ContextMenuContentView: UIView {
     var y: CGFloat = .zero
     
     private(set) var content: UIView
-    private(set) var menuView: UIView!
+    private(set) var menuView: ContextMenuView!
     
     private let actionSections: [ContextMenuSection]
     private let position: MenuPosition
@@ -156,10 +156,24 @@ final class ContextMenuContentView: UIView {
     func show() {
         content.transform = .identity
         menuView.transform = .identity
+        
+        let animation = CABasicAnimation(keyPath: "shadowOpacity")
+        animation.fromValue = layer.shadowOpacity
+        animation.toValue = menuSettings.shadow.shadowOpacity
+        animation.duration = animationsSettings.showTransitionDuration
+        menuView.layer.add(animation, forKey: animation.keyPath)
+        menuView.layer.shadowOpacity = menuSettings.shadow.shadowOpacity
     }
     
     func hide() {
         menuView.transform = CGAffineTransform(scaleX: 0.001, y: 0.001)
+        
+        let animation = CABasicAnimation(keyPath: "shadowOpacity")
+        animation.fromValue = layer.shadowOpacity
+        animation.toValue = 0
+        animation.duration = animationsSettings.hideTransitionDuration
+        menuView.layer.add(animation, forKey: animation.keyPath)
+        menuView.layer.shadowOpacity = 0
     }
 }
 
@@ -179,6 +193,13 @@ private extension ContextMenuContentView {
         case .bottomRight:
             setupBottomRightMenu()
         }
+        setupMenuShadow()
+    }
+    
+    private func setupMenuShadow() {
+        menuView.layer.shadowRadius = menuSettings.shadow.shadowRadius
+        menuView.layer.shadowOffset = menuSettings.shadow.shadowOffset
+        menuView.layer.shadowColor = menuSettings.shadow.shadowColor.cgColor
     }
     
     func contentValues() -> (contentOriginX: CGFloat, contentOriginY: CGFloat, contentWidthInset: CGFloat, contentHeightInset: CGFloat) {
