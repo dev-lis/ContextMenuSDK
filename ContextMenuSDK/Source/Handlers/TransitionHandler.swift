@@ -57,12 +57,10 @@ extension TransitionHandler: UIViewControllerTransitioningDelegate {
     
     public func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         guard
-            let view,
-            let object = configs.first(where: { $0.key.object == view })
+            let view
         else {
             return nil
         }
-        configs[object.key] = nil
         return DismissTransitionAnimator(view: view)
     }
 }
