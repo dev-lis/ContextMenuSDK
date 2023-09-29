@@ -36,7 +36,6 @@ final class ContextMenuView: UIView {
         self.completion = completion
         super.init(frame: .zero)
         setup()
-        backgroundColor = .red
     }
     
     @available(*, unavailable)
