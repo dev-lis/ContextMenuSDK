@@ -9,6 +9,7 @@ import UIKit
 
 final class ContextMenuContentView: UIView {
     
+    private var contantSettings = Settings.shared.contant
     private var menuSettings = Settings.shared.menu
     private var animationsSettings = Settings.shared.animations
     
@@ -157,22 +158,36 @@ final class ContextMenuContentView: UIView {
         content.transform = .identity
         menuView.transform = .identity
         
-        let animation = CABasicAnimation(keyPath: "shadowOpacity")
-        animation.fromValue = layer.shadowOpacity
-        animation.toValue = menuSettings.shadow.shadowOpacity
-        animation.duration = animationsSettings.showTransitionDuration
-        menuView.layer.add(animation, forKey: animation.keyPath)
+        let contantAnimation = CABasicAnimation(keyPath: "shadowOpacity")
+        contantAnimation.fromValue = layer.shadowOpacity
+        contantAnimation.toValue = contantSettings.shadow.shadowOpacity
+        contantAnimation.duration = animationsSettings.showTransitionDuration
+        content.layer.add(contantAnimation, forKey: contantAnimation.keyPath)
+        content.layer.shadowOpacity = contantSettings.shadow.shadowOpacity
+        
+        let menuAnimation = CABasicAnimation(keyPath: "shadowOpacity")
+        menuAnimation.fromValue = layer.shadowOpacity
+        menuAnimation.toValue = menuSettings.shadow.shadowOpacity
+        menuAnimation.duration = animationsSettings.showTransitionDuration
+        menuView.layer.add(menuAnimation, forKey: menuAnimation.keyPath)
         menuView.layer.shadowOpacity = menuSettings.shadow.shadowOpacity
     }
     
     func hide() {
         menuView.transform = CGAffineTransform(scaleX: 0.001, y: 0.001)
         
-        let animation = CABasicAnimation(keyPath: "shadowOpacity")
-        animation.fromValue = layer.shadowOpacity
-        animation.toValue = 0
-        animation.duration = animationsSettings.hideTransitionDuration
-        menuView.layer.add(animation, forKey: animation.keyPath)
+        let contantAnimation = CABasicAnimation(keyPath: "shadowOpacity")
+        contantAnimation.fromValue = layer.shadowOpacity
+        contantAnimation.toValue = 0
+        contantAnimation.duration = animationsSettings.hideTransitionDuration
+        content.layer.add(contantAnimation, forKey: contantAnimation.keyPath)
+        content.layer.shadowOpacity = 0
+        
+        let menuAnimation = CABasicAnimation(keyPath: "shadowOpacity")
+        menuAnimation.fromValue = layer.shadowOpacity
+        menuAnimation.toValue = 0
+        menuAnimation.duration = animationsSettings.hideTransitionDuration
+        menuView.layer.add(menuAnimation, forKey: menuAnimation.keyPath)
         menuView.layer.shadowOpacity = 0
     }
 }
@@ -193,7 +208,14 @@ private extension ContextMenuContentView {
         case .bottomRight:
             setupBottomRightMenu()
         }
+        setupContantShadow()
         setupMenuShadow()
+    }
+    
+    private func setupContantShadow() {
+        content.layer.shadowRadius = contantSettings.shadow.shadowRadius
+        content.layer.shadowOffset = contantSettings.shadow.shadowOffset
+        content.layer.shadowColor = contantSettings.shadow.shadowColor.cgColor
     }
     
     private func setupMenuShadow() {

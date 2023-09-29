@@ -13,9 +13,15 @@ public class Settings {
     
     private init() {}
     
+    public var contant: Contant = .init()
     public var menu: Menu = .init()
     public var menuAction: MenuAction = .init()
     public var animations: Animations = .init()
+    
+    public class Contant {
+        /// Тень
+        public var shadow: Shadow = .init()
+    }
     
     public class Menu {
         /// Ширина
@@ -95,7 +101,7 @@ public struct Shadow {
     let shadowOffset: CGSize
     let shadowRadius: CGFloat
     
-    public init(shadowColor: UIColor = .red,//.black.withAlphaComponent(0.15),
+    public init(shadowColor: UIColor = .black.withAlphaComponent(0.15),
                 shadowOpacity: Float = 1.0,
                 shadowOffset: CGSize = .zero,
                 shadowRadius: CGFloat = 10.0) {
