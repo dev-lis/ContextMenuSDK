@@ -106,11 +106,15 @@ final class ContextMenuView: UIView {
         }
         containerView.frame = CGRect(
             x: origin.x,
-            y: origin.y,
+            y: 0,
             width: innerMenuWidth,
             height: height
         )
-        frame = containerView.frame
+        frame.origin = CGPoint(
+            x: origin.x,
+            y: origin.y
+        )
+        frame.size = containerView.frame.size
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {

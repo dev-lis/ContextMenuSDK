@@ -48,7 +48,7 @@ class FirstViewController: UIViewController {
         let config = ContextMenuViewConfig(
             actionSections: actionSections,
             trigger: .longPress,
-            position: .topCenter
+            position: .bottomLeft
         )
 //        ContextMenu.add(
 //            to: blueView,
