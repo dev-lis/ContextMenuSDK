@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  FirstViewController.swift
 //  ContextMenuSDK
 //
 //  Created by Aleksandr Lis on 08/08/2023.
@@ -9,12 +9,14 @@
 import UIKit
 import ContextMenuSDK
 
-class ViewController: UIViewController {
+class FirstViewController: UIViewController {
     
     @IBOutlet weak var blueView: UIView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        view.backgroundColor = .yellow
         
 //        setupSettings()
         
@@ -48,15 +50,10 @@ class ViewController: UIViewController {
             trigger: .longPress,
             position: .topCenter
         )
-        ContextMenu.add(
-            to: blueView,
-            with: config
-        )
-        
-        tabBarItem = UITabBarItem(title: "first", image:  UIImage(systemName: "trash"), tag: 1)
-        
-        tabBarItem.badgeValue = "1"
-        tabBarItem.tag = 2
+//        ContextMenu.add(
+//            to: blueView,
+//            with: config
+//        )
         
         let tabBarConfig = ContextMenuTabBarItemConfig(
             actionSections: actionSections

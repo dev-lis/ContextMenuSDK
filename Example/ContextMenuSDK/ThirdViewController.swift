@@ -1,15 +1,15 @@
 //
-//  SecondViewController.swift
+//  ThirdViewController.swift
 //  ContextMenuSDK_Example
 //
-//  Created by Aleksandr Lis on 30.08.2023.
+//  Created by Aleksandr Lis on 16.10.2023.
 //  Copyright © 2023 CocoaPods. All rights reserved.
 //
 
 import ContextMenuSDK
 import UIKit
 
-class SecondViewController: UIViewController {
+class ThirdViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
