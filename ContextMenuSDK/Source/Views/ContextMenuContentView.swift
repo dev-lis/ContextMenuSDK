@@ -158,15 +158,12 @@ final class ContextMenuContentView: UIView {
         content.transform = .identity
         menuView.transform = .identity
         
-        /*
-         TODO: Сейчас не работает на неактивном табе. Нужно пофиксить!
         let contantAnimation = CABasicAnimation(keyPath: "shadowOpacity")
         contantAnimation.fromValue = layer.shadowOpacity
         contantAnimation.toValue = contantSettings.shadow.shadowOpacity
         contantAnimation.duration = animationsSettings.showTransitionDuration
         content.layer.add(contantAnimation, forKey: contantAnimation.keyPath)
         content.layer.shadowOpacity = contantSettings.shadow.shadowOpacity
-         */
         
         let menuAnimation = CABasicAnimation(keyPath: "shadowOpacity")
         menuAnimation.fromValue = layer.shadowOpacity

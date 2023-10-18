@@ -18,7 +18,7 @@ public struct ContextMenuNavBarItemConfig {
     let menuWidth: CGFloat?
     
     public init(actionSections: [ContextMenuSection],
-                trigger: Trigger,
+                trigger: Trigger = .tap,
                 backgroudType: BackgroudType = .color,
                 menuWidth: CGFloat? = nil) {
         self.actionSections = actionSections
