@@ -40,7 +40,7 @@ public static func add(to barItem: UITabBarItem,
 - Contant - Объект, с которым пользователь ваимодействовал.
 - Menu - Контейнер для отображения меню.
 - MenuAction - Ячейки в меню.
-- Animations - Анамацииi.grebenyuk@tinkoff.ru отображения и скрытия.
+- Animations - Анамации отображения и скрытия.
 m м#### Contant
 - shadow - Тень вокруг объекта, с которым пользователь ваимодействовал.
 
