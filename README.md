@@ -19,8 +19,6 @@ it, simply add the following line to your Podfile:
 pod 'ContextMenuSDK ~> 1.0.0'
 ```
 
-## Components
-
 ## Usage
 
 Для использования компонента есть специальная сущность ContextMenu. У нее есть 3 метода для добавления контекстного меню на отдельный элемент, с набором конфигурация:
@@ -101,14 +99,34 @@ public static func add(to barItem: UITabBarItem,
 
 В силу специфики UIBarButtonItem и UITabBarItem, ContextMenuNavBarItemConfig и ContextMenuTabBarItemConfig соответственно, являются ограниченными версиями ContextMenuViewConfig. ContextMenuNavBarItemConfig может позиционироваться только bottomCenter. ContextMenuTabBarItemConfig может позиционироваться только topCenter и реагировать тольок на longPress.
 
+#### ContextMenuSection
+- actions - Массив секций, состоящих из экшенов (ContextMenuAction) для меню.
+- footer - Используется когда нужно разделить несколько секций сепаратором.
 
-## MenuPosition
+#### ContextMenuAction
+- text - Текст ячейки меню.
+- font - Шрифт текста. Имеет больший приоритет, чем значение из настроек (Settings).
+- textColor - Цвет текста. Имеет больший приоритет, чем значение из настроек (Settings).
+- image - Иконка, расположенная справа.
+- imageColor - Цвет иконки.
+- action - Колбек ячейки меню.
+
+#### Trigger
+- tap
+- longPrees
+
+#### MenuPosition
 - topLeft
 - topCenter
 - topRight
 - bottomLeft
 - bottomCenter
 - bottomRight
+
+#### BackgroudType
+- blur
+- color
+- none
 
 Важно отметить, что если выбранная позиция не позволяет уместить меню в пределах экрана, то меню будет смещаться, до минимального отспупа от края.
 
