@@ -18,16 +18,9 @@ import UIKit
 
 class BarItemHandler {
     
-    private struct Model {
-        let action: ActionType
-        let actionSections: [ContextMenuSection]
-        let position: MenuPosition
-        let withBlur: Bool
-    }
-    
     static let shared = BarItemHandler()
     
-    private var viewModels = [UIView: Model]()
+    private var configs = [Weak<UIView>: ContextMenuViewConfig]()
     
     private init() {
         NotificationCenter.default.addObserver(
@@ -39,24 +32,20 @@ class BarItemHandler {
     }
     
     @objc private func appWillEnterForeground() {
-        viewModels.forEach {
-            let view = $0.key
-            let model = $0.value
+        configs.forEach {
+            guard let view = $0.key.object else {
+                return
+            }
+            let config = $0.value
             addViewOnContainerWithContextMenu(
                 view,
-                for: model.action,
-                with: model.actionSections,
-                to: model.position,
-                withBlur: model.withBlur
+                with: config
             )
         }
     }
     
     func addViewOnContainerWithContextMenu(_ view: UIView,
-                                           for action: ActionType,
-                                           with actionSections: [ContextMenuSection],
-                                           to position: MenuPosition,
-                                           withBlur: Bool) {
+                                           with config: ContextMenuViewConfig) {
         if view.superview is BarContainerView {
             return
         }
@@ -65,19 +54,11 @@ class BarItemHandler {
         view.superview?.addSubview(containerView)
         containerView.addSubview(view)
         
-        viewModels[view] = Model(
-            action: action,
-            actionSections: actionSections,
-            position: position,
-            withBlur: withBlur
-        )
+        configs[Weak(view)] = config
         
-        containerView.addContextMenu(
-            for: action,
-            with: actionSections,
-            to: position,
-            withBlur: withBlur,
-            shouldMoveContentIfNeed: false
+        ContextMenu.add(
+            to: containerView,
+            with: config
         )
     }
 }

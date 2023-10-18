@@ -7,36 +7,21 @@
 
 import UIKit
 
-fileprivate struct MenuModel {
-    let actionSections: [ContextMenuSection]
-    let position: MenuPosition
-    let withBlur: Bool
-    let shouldMoveContentIfNeed: Bool
-}
-
 final class TransitionHandler: NSObject {
     
     static let shared = TransitionHandler()
     
     private var view: UIView?
-    private var models: [UIView: MenuModel] = [:]
+    private var configs: [Weak<UIView>: ContextMenuViewConfig] = [:]
     
     private override init() {}
     
-    /// Набор экшенов и позиция для каждой вью устанавливается,
-    /// когда вылывается метод addContextMenu(), поэтому их нужно сохранить локально&
+    /// Конфиги для каждой вью устанавливается,
+    /// когда вылывается метод addContextMenu(), поэтому их нужно сохранить локально,
     /// для каждой вью по отдельности
-    func setActions(_ actionSections: [ContextMenuSection],
-                    for view: UIView,
-                    to position: MenuPosition,
-                    withBlur: Bool,
-                    shouldMoveContentIfNeed: Bool) {
-        self.models[view] = MenuModel(
-            actionSections: actionSections,
-            position: position,
-            withBlur: withBlur,
-            shouldMoveContentIfNeed: shouldMoveContentIfNeed
-        )
+    func setConfig(_ config: ContextMenuViewConfig,
+                   for view: UIView) {
+        self.configs[Weak(view)] = config
     }
     
     /// Метод вызывается перед тем как запуститься нанимация перехода,
@@ -51,10 +36,10 @@ final class TransitionHandler: NSObject {
     }
     
     func getBlurValue(for view: UIView) -> Bool {
-        guard let model = models[view] else {
+        guard let model = configs.first(where: { $0.key.object == view })?.value else {
             return false
         }
-        return model.withBlur
+        return model.backgroudType == .blur
     }
 }
 
@@ -62,31 +47,20 @@ extension TransitionHandler: UIViewControllerTransitioningDelegate {
     public func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         guard
             let view = view,
-            let model = models[view]
+            let config = configs.first(where: { $0.key.object == view })?.value
         else {
             return nil
         }
-        return PresentTransitionAnimator(
-            view: view,
-            actionSections: model.actionSections,
-            position: model.position,
-            withBlur: model.withBlur,
-            shouldMoveContentIfNeed: model.shouldMoveContentIfNeed
-        )
+        return PresentTransitionAnimator(view: view, config: config)
     }
 
     
     public func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         guard
-            let view,
-            let model = models[view]
+            let view
         else {
             return nil
         }
-        return DismissTransitionAnimator(
-            view: view,
-            withBlur: model.withBlur,
-            shouldMoveContentIfNeed: model.shouldMoveContentIfNeed
-        )
+        return DismissTransitionAnimator(view: view)
     }
 }

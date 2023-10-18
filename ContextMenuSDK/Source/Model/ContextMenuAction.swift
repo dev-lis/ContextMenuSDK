@@ -8,7 +8,7 @@
 import UIKit
 
 public struct ContextMenuAction {
-    private let settings = ContextMenuSettings.shared.menuAction
+    private let settings = Settings.shared.menuAction
     
     let text: String
     let font: UIFont?
@@ -18,7 +18,7 @@ public struct ContextMenuAction {
     let action: () -> Void
     
     public init(text: String,
-                type: ActionType = .default,
+                type: Trigger = .default,
                 font: UIFont? = nil,
                 textColor: UIColor? = nil,
                 image: UIImage? = nil,
@@ -39,7 +39,7 @@ public struct ContextMenuAction {
         }
     }
     
-    public enum ActionType {
+    public enum Trigger {
         case `default`
         case negative
     }

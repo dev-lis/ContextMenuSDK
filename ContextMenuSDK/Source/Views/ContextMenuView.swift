@@ -9,8 +9,13 @@ import UIKit
 
 final class ContextMenuView: UIView {
     
-    private var menuSettings = ContextMenuSettings.shared.menu
-    private var menuActionSettings = ContextMenuSettings.shared.menuAction
+    private var menuSettings = Settings.shared.menu
+    private var menuActionSettings = Settings.shared.menuAction
+    private var animationsSettings = Settings.shared.animations
+    
+    private var innerMenuWidth: CGFloat {
+        menuWidth ?? menuSettings.width
+    }
     
     private var views = [ContextMenuActionView]()
     
@@ -19,13 +24,16 @@ final class ContextMenuView: UIView {
     
     private let origin: CGPoint
     private let actionSections: [ContextMenuSection]
+    private let menuWidth: CGFloat?
     private let completion: () -> Void
     
     init(origin: CGPoint,
          actionSections: [ContextMenuSection],
+         menuWidth: CGFloat?,
          completion: @escaping () -> Void) {
         self.origin = origin
         self.actionSections = actionSections
+        self.menuWidth = menuWidth
         self.completion = completion
         super.init(frame: .zero)
         setup()
@@ -38,9 +46,13 @@ final class ContextMenuView: UIView {
     
     func setup() {
         layer.cornerRadius = menuSettings.cornerRadius
-        clipsToBounds = true
         // добавляем тап без экшена, чтобы по тапу на меню (сепараторы) контекстное меню не закрывалось
         addGestureRecognizer(UITapGestureRecognizer(target: nil, action: nil))
+        
+        let containerView = UIView()
+        containerView.clipsToBounds = true
+        containerView.layer.cornerRadius = menuSettings.cornerRadius
+        addSubview(containerView)
         
         views.removeAll()
         
@@ -48,11 +60,14 @@ final class ContextMenuView: UIView {
         
         for section in actionSections {
             for (index, action) in section.actions.enumerated() {
-                let view = ContextMenuActionView(action: action) { [weak self] in
+                let view = ContextMenuActionView(
+                    action: action,
+                    menuWidth: innerMenuWidth
+                ) { [weak self] in
                     self?.completion()
                 }
                 view.frame.origin = CGPoint(x: 0, y: height)
-                addSubview(view)
+                containerView.addSubview(view)
                 
                 views.append(view)
                 
@@ -65,11 +80,11 @@ final class ContextMenuView: UIView {
                 line.frame = CGRect(
                     x: 0,
                     y: height + view.frame.height,
-                    width: menuSettings.width,
+                    width: innerMenuWidth,
                     height: 0.3
                 )
                 line.backgroundColor = menuSettings.separatorColor
-                addSubview(line)
+                containerView.addSubview(line)
                 
                 height = line.frame.maxY
             }
@@ -81,20 +96,25 @@ final class ContextMenuView: UIView {
             sectionSeparator.frame = CGRect(
                 x: 0,
                 y: height,
-                width: menuSettings.width,
+                width: innerMenuWidth,
                 height: footer.height ?? menuSettings.footerHeight
             )
             sectionSeparator.backgroundColor = footer.color ?? menuSettings.separatorColor
-            addSubview(sectionSeparator)
+            containerView.addSubview(sectionSeparator)
             
             height = sectionSeparator.frame.maxY
         }
-        frame = CGRect(
+        containerView.frame = CGRect(
             x: origin.x,
-            y: origin.y,
-            width: menuSettings.width,
+            y: 0,
+            width: innerMenuWidth,
             height: height
         )
+        frame.origin = CGPoint(
+            x: origin.x,
+            y: origin.y
+        )
+        frame.size = containerView.frame.size
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {

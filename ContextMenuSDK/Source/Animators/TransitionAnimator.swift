@@ -7,26 +7,17 @@
 
 import UIKit
 
-fileprivate var settings = ContextMenuSettings.shared.animations
+fileprivate var settings = Settings.shared.animations
 
 final class PresentTransitionAnimator: NSObject, UIViewControllerAnimatedTransitioning {
     
     private let view: UIView
-    private let actionSections: [ContextMenuSection]
-    private let position: MenuPosition
-    private let withBlur: Bool
-    private let shouldMoveContentIfNeed: Bool
+    private let config: ContextMenuViewConfig
     
     init(view: UIView,
-         actionSections: [ContextMenuSection],
-         position: MenuPosition,
-         withBlur: Bool,
-         shouldMoveContentIfNeed: Bool) {
+         config: ContextMenuViewConfig) {
         self.view = view
-        self.actionSections = actionSections
-        self.position = position
-        self.withBlur = withBlur
-        self.shouldMoveContentIfNeed = shouldMoveContentIfNeed
+        self.config = config
     }
     
     func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
@@ -42,38 +33,55 @@ final class PresentTransitionAnimator: NSObject, UIViewControllerAnimatedTransit
         
         let containerView = transitionContext.containerView
         
-        let blurEffectView = BlurHandler.createBlur(with: nil)
-        containerView.addSubview(blurEffectView)
+        let backgroundContent: BackgroundContent
+        let backgroundCompletion: (() -> Void)?
+        switch config.backgroudType {
+        case .blur:
+            let blurEffectView = BlurHandler.createBlur(with: nil)
+            containerView.addSubview(blurEffectView)
+            backgroundContent = .blur(blurEffectView)
+            backgroundCompletion = {
+                blurEffectView.effect = UIBlurEffect(style: settings.blurStyle)
+            }
+        case .color:
+            let backgroundView = UIView(frame: containerView.frame)
+            backgroundContent = .view(backgroundView)
+            backgroundCompletion = {
+                backgroundView.backgroundColor = settings.backgroundColor
+            }
+        case .none:
+            backgroundContent = .none
+            backgroundCompletion = nil
+        }
         
         ViewPositionHandler.shared.replaceViewWithPlaceholder(view: view)
         
         let contentView = ContextMenuContentView(
             content: view,
-            actionSections: actionSections,
-            position: position
+            actionSections: config.actionSections,
+            position: config.position,
+            menuWidth: config.menuWidth
         ) {
             toViewController.dismiss(animated: true)
         }
         
         containerView.addSubview(contentView)
         
-        if shouldMoveContentIfNeed {
-            contentView.moveToNewPositionIfNeed()
-        }
+        contentView.moveToNewPositionIfNeed()
         
         let completion = {
             containerView.addSubview(toViewController.view)
             toViewController.setContent(
                 contentView,
-                with: self.withBlur ? blurEffectView : nil,
-                for: self.position
+                with: backgroundContent,
+                for: self.config.position
             )
             transitionContext.completeTransition(true)
         }
         
         if let animation = settings.showAnimation {
             animation(
-                blurEffectView,
+                backgroundContent,
                 contentView.content,
                 contentView.menuView,
                 completion
@@ -91,9 +99,7 @@ final class PresentTransitionAnimator: NSObject, UIViewControllerAnimatedTransit
             UIView.animate(
                 withDuration: settings.showTransitionDuration,
                 animations: {
-                    if self.withBlur {
-                        blurEffectView.effect = UIBlurEffect(style: .systemUltraThinMaterialDark)
-                    }
+                    backgroundCompletion?()
             }) { _ in
                 completion()
             }
@@ -104,15 +110,9 @@ final class PresentTransitionAnimator: NSObject, UIViewControllerAnimatedTransit
 final class DismissTransitionAnimator: NSObject, UIViewControllerAnimatedTransitioning {
     
     private let view: UIView
-    private let withBlur: Bool
-    private let shouldMoveContentIfNeed: Bool
     
-    init(view: UIView,
-         withBlur: Bool,
-         shouldMoveContentIfNeed: Bool) {
+    init(view: UIView) {
         self.view = view
-        self.withBlur = withBlur
-        self.shouldMoveContentIfNeed = shouldMoveContentIfNeed
     }
     
     func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
@@ -129,9 +129,21 @@ final class DismissTransitionAnimator: NSObject, UIViewControllerAnimatedTransit
         
         let containerView = transitionContext.containerView
         
-        let blurEffectView = fromViewController.blurEffectView
-        if let blurEffectView = blurEffectView {
-            containerView.addSubview(blurEffectView)
+        let backgroundContent = fromViewController.backgroundContent
+        let backgroundCompletion: (() -> Void)?
+        switch backgroundContent {
+        case let .blur(blur):
+            containerView.addSubview(blur)
+            backgroundCompletion = {
+                blur.effect = nil
+            }
+        case let .view(view):
+            containerView.addSubview(view)
+            backgroundCompletion = {
+                view.backgroundColor = .clear
+            }
+        case .none:
+            backgroundCompletion = nil
         }
         
         if let contentView = view.superview {
@@ -142,22 +154,19 @@ final class DismissTransitionAnimator: NSObject, UIViewControllerAnimatedTransit
         
         fromViewController.view.removeFromSuperview()
         
-        if shouldMoveContentIfNeed {
-            contentView.moveToStartPositionIfNeed()
-        }
+        contentView.moveToStartPositionIfNeed()
 
         let completion = {
             TransitionHandler.shared.removeActiveView()
             ViewPositionHandler.shared.returnViewBack(view: self.view)
             GesturesHandler.shared.returnGesture(to: self.view)
-            blurEffectView?.removeFromSuperview()
             transitionContext.completeTransition(true)
             KeyboardHandler.shared.becomeFirstResponderIfNeed()
         }
         
         if let animation = settings.hideAnimation {
             animation(
-                blurEffectView,
+                backgroundContent,
                 contentView.content,
                 contentView.menuView,
                 completion
@@ -166,7 +175,7 @@ final class DismissTransitionAnimator: NSObject, UIViewControllerAnimatedTransit
             UIView.animate(
                 withDuration: settings.hideTransitionDuration,
                 animations: {
-                    blurEffectView?.effect = nil
+                    backgroundCompletion?()
                     contentView.hide()
             }) { _ in
                 completion()
