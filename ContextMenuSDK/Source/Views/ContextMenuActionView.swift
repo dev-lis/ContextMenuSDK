@@ -36,6 +36,7 @@ final class ContextMenuActionView: UIView {
     }
     
     private func setup(with action: ContextMenuAction) {
+        accessibilityIdentifier = action.accessibilityIdentifier
         backgroundColor = menuActionSettings.defaultBackgroundColor
         
         var imageView: UIImageView?

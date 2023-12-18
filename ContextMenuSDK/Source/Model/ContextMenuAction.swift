@@ -15,6 +15,7 @@ public struct ContextMenuAction {
     let textColor: UIColor?
     let image: UIImage?
     let imageColor: UIColor?
+    let accessibilityIdentifier: String?
     let action: () -> Void
     
     public init(text: String,
@@ -23,9 +24,11 @@ public struct ContextMenuAction {
                 textColor: UIColor? = nil,
                 image: UIImage? = nil,
                 imageColor: UIColor? = nil,
+                accessibilityIdentifier: String? = nil,
                 action: @escaping () -> Void) {
         self.text = text
         self.image = image
+        self.accessibilityIdentifier = accessibilityIdentifier
         self.action = action
         self.font = font ?? settings.font
         
