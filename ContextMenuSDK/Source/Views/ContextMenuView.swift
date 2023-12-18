@@ -12,6 +12,7 @@ final class ContextMenuView: UIView {
     private var menuSettings = Settings.shared.menu
     private var menuActionSettings = Settings.shared.menuAction
     private var animationsSettings = Settings.shared.animations
+    private let accessibilityIdentifiers = Settings.shared.accessibilityIdentifiers
     
     private var innerMenuWidth: CGFloat {
         menuWidth ?? menuSettings.width
@@ -45,6 +46,8 @@ final class ContextMenuView: UIView {
     }
     
     func setup() {
+        accessibilityIdentifier = accessibilityIdentifiers.menuView
+        
         layer.cornerRadius = menuSettings.cornerRadius
         // добавляем тап без экшена, чтобы по тапу на меню (сепараторы) контекстное меню не закрывалось
         addGestureRecognizer(UITapGestureRecognizer(target: nil, action: nil))

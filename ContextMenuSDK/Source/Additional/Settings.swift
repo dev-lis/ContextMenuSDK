@@ -17,6 +17,7 @@ public class Settings {
     public var menu: Menu = .init()
     public var menuAction: MenuAction = .init()
     public var animations: Animations = .init()
+    public var accessibilityIdentifiers: AccessibilityIdentifiers = .init()
     
     public class Contant {
         /// Тень
@@ -93,21 +94,30 @@ public class Settings {
         ///     - () -> Void: всегда необходимо вызывать после окончания анимации. В нем обрабатывается завершение перехода
         public var hideAnimation: ((BackgroundContent, UIView, UIView, @escaping () -> Void) -> Void)? = nil
     }
-}
-
-public struct Shadow {
-    let shadowColor: UIColor
-    let shadowOpacity: Float
-    let shadowOffset: CGSize
-    let shadowRadius: CGFloat
     
-    public init(shadowColor: UIColor = .black.withAlphaComponent(0.15),
-                shadowOpacity: Float = 1.0,
-                shadowOffset: CGSize = .zero,
-                shadowRadius: CGFloat = 10.0) {
-        self.shadowColor = shadowColor
-        self.shadowOpacity = shadowOpacity
-        self.shadowOffset = shadowOffset
-        self.shadowRadius = shadowRadius
+    public struct Shadow {
+        let shadowColor: UIColor
+        let shadowOpacity: Float
+        let shadowOffset: CGSize
+        let shadowRadius: CGFloat
+        
+        public init(shadowColor: UIColor = .black.withAlphaComponent(0.15),
+                    shadowOpacity: Float = 1.0,
+                    shadowOffset: CGSize = .zero,
+                    shadowRadius: CGFloat = 10.0) {
+            self.shadowColor = shadowColor
+            self.shadowOpacity = shadowOpacity
+            self.shadowOffset = shadowOffset
+            self.shadowRadius = shadowRadius
+        }
+    }
+    
+    public class AccessibilityIdentifiers {
+        /// Идентификатор основное вью
+        public var mainView: String? = nil
+        /// Идентификатор блюра
+        public var blurView: String? = nil
+        /// Идентификатор меню
+        public var menuView: String? = nil
     }
 }
