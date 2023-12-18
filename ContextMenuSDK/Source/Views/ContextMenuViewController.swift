@@ -28,6 +28,7 @@ final class ContextMenuViewController: UIViewController {
     }
     
     private let menuSettings = Settings.shared.menu
+    private let accessibilityIdentifiers = Settings.shared.accessibilityIdentifiers
 
     override var prefersStatusBarHidden: Bool {
         guard withBlur else {
@@ -79,10 +80,13 @@ final class ContextMenuViewController: UIViewController {
         
         switch backgroundContent {
         case let .blur(blur):
+            blur.accessibilityIdentifier = accessibilityIdentifiers.blurView
             addBackgroundView(blur)
         case let .view(view):
+            view.accessibilityIdentifier = accessibilityIdentifiers.mainView
             addBackgroundView(view)
         case .none:
+            view.accessibilityIdentifier = accessibilityIdentifiers.mainView
             break
         }
         
