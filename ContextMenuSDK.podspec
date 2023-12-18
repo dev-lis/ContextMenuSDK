@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'ContextMenuSDK'
-  s.version          = '1.0.0'
+  s.version          = '1.1.0'
   s.summary          = 'Contextmenu for UI elements'
   s.homepage         = 'https://github.com/dev-lis/ContextMenuSDK'
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
