@@ -59,8 +59,6 @@ public class ContextMenu {
         }
     }
     
-    /*
-     TODO: Нужны доработки
     public static func add(to barItem: UITabBarItem,
                            with config: ContextMenuTabBarItemConfig) {
         DispatchQueue.main.async {
@@ -72,7 +70,6 @@ public class ContextMenu {
             }
         }
     }
-    */
     
     @objc static private func handleContextMenuTap(_ sender: UITapGestureRecognizer) {
         guard let view = sender.view else {

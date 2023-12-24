@@ -3,5 +3,5 @@ use_frameworks!
 platform :ios, '13.0'
 
 target 'ContextMenuSDK_Example' do
-  pod 'ContextMenuSDK', '1.1.0'
+  pod 'ContextMenuSDK', path: '../'
 end
