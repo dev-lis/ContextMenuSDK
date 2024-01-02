@@ -17,7 +17,7 @@ enum ScaleAnimator {
         
         let xValue = (view.bounds.width - scaleValue * 2) / view.bounds.width
         let yValue = (view.bounds.height - scaleValue * 2) / view.bounds.height
-        let value = min(xValue, yValue)
+        let value = max(xValue, yValue)
         
         /// Для болиш вью используется scaleValue, для уменьшения каждой стороны
         /// Если на которое нужно заскейлить вью превышает scaleFactor (в относительном значении)
