@@ -90,20 +90,24 @@ final class ContextMenuViewController: UIViewController {
             break
         }
         
-        scrollView.contentSize = contentView.frame.size
-        
+        scrollView.contentSize = CGSize(
+            width: contentView.bounds.width,
+            height: contentView.bounds.height + menuSettings.insetOfLeftAndRight
+        )
         if contentView.frame.origin.y < Screen.SafeArea.top {
+            let y = position.bottom
+            ? Screen.SafeArea.top + menuSettings.insetOfLeftAndRight
+            : menuSettings.insetOfLeftAndRight
             contentView.frame.origin = CGPoint(
                 x: contentView.frame.origin.x,
-                y: 0
+                y: y
             )
         }
         
         scrollView.addSubview(contentView)
-        
         let offset = CGPoint(
             x: 0,
-            y: -contentView.y
+            y: -contentView.y + menuSettings.insetOfLeftAndRight
         )
         scrollView.setContentOffset(offset, animated: false)
     }
