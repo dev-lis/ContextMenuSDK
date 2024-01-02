@@ -7,15 +7,17 @@
 
 import Foundation
 
-class Weak<T: AnyObject>: Equatable, Hashable {
-    weak var object: T?
+class Weak<T: AnyObject>: Hashable where T: Hashable {
+    weak private(set) var object: T?
+    private(set) var hashValue: Int
     
     init(_ object: T) {
         self.object = object
+        self.hashValue = object.hashValue
     }
     
     func hash(into hasher: inout Hasher) {
-        hasher.combine(ObjectIdentifier(self))
+        hasher.combine(hashValue)
     }
     
     static func == (lhs: Weak<T>, rhs: Weak<T>) -> Bool {
