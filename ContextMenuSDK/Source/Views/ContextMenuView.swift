@@ -108,7 +108,7 @@ final class ContextMenuView: UIView {
             height = sectionSeparator.frame.maxY
         }
         containerView.frame = CGRect(
-            x: origin.x,
+            x: 0,
             y: 0,
             width: innerMenuWidth,
             height: height
