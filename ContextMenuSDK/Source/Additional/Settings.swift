@@ -28,7 +28,7 @@ public class Settings {
         /// Ширина
         public var width: CGFloat = 250.0
         /// Отступы от правого и левого краев
-        public var insetOfLeftAndRight: CGFloat = 8.0
+        public var sideInset: CGFloat = 8.0
         /// Отступ меню от контента
         public var insetOfContent: CGFloat = 8.0
         /// Радиус углов
