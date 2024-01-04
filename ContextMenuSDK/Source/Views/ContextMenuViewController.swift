@@ -72,7 +72,6 @@ final class ContextMenuViewController: UIViewController {
                     with backgroundContent: BackgroundContent,
                     for position: MenuPosition) {
         func addBackgroundView(_ backgroundView: UIView) {
-            statusBarHidden = true
             view.insertSubview(backgroundView, at: 0)
         }
         
