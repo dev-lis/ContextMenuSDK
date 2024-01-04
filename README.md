@@ -45,10 +45,11 @@ public static func add(to barItem: UITabBarItem,
 
 #### Menu
 - width - Ширина меню.
-- insetOfLeftAndRight - Минимальные отстпупы от правого и левого краев экрана.
+- sideInset - Минимальные отстпупы от правого и левого краев экрана.
 - insetOfContent - Отступ меню от контента.
 - cornerRadius - Закругление углов меню.
 - footerHeight - Высота между секциями в меню.
+- backgroundColor - Цвет фона меню
 - separatorColor - Цвет разделителя между ячейками и секциями меню.
 - shadow - Тень вокруг меню.
 
@@ -56,7 +57,7 @@ public static func add(to barItem: UITabBarItem,
 - defaultBackgroundColor - Цвет обычных ячеек в меню.
 - selectedBackgroundColor - Цвет выделенных ячеек в меню.
 - insetOfinsetOfTopAndBottomContent - Отстыпы внутри ячейки от верхнего и нижнего краев.
-- insetOfLeftAndRight - Отстыпы внутри ячейки от правого и левого краев
+- sideInset - Отстыпы внутри ячейки от правого и левого краев
 - imageSize - Размер иконки.
 - font - Шрифт текста.
 - defaultTextColor - Цвет обычного текста.
