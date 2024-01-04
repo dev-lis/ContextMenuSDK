@@ -72,7 +72,6 @@ final class ContextMenuViewController: UIViewController {
                     with backgroundContent: BackgroundContent,
                     for position: MenuPosition) {
         func addBackgroundView(_ backgroundView: UIView) {
-            statusBarHidden = true
             view.insertSubview(backgroundView, at: 0)
         }
         
@@ -90,20 +89,24 @@ final class ContextMenuViewController: UIViewController {
             break
         }
         
-        scrollView.contentSize = contentView.frame.size
-        
+        scrollView.contentSize = CGSize(
+            width: contentView.bounds.width,
+            height: contentView.bounds.height + menuSettings.sideInset
+        )
         if contentView.frame.origin.y < Screen.SafeArea.top {
+            let y = position.bottom
+            ? Screen.SafeArea.top + menuSettings.sideInset
+            : menuSettings.sideInset
             contentView.frame.origin = CGPoint(
                 x: contentView.frame.origin.x,
-                y: 0
+                y: y
             )
         }
         
         scrollView.addSubview(contentView)
-        
         let offset = CGPoint(
             x: 0,
-            y: -contentView.y
+            y: -contentView.y + menuSettings.sideInset
         )
         scrollView.setContentOffset(offset, animated: false)
     }

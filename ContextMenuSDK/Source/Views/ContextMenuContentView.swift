@@ -96,11 +96,11 @@ final class ContextMenuContentView: UIView {
             /// ---------
             
             if position.top {
-                y = Screen.SafeArea.top + menuSettings.insetOfLeftAndRight
+                y = Screen.SafeArea.top + menuSettings.sideInset
                 animateOriginY(to: y)
             } else if position.bottom {
                 let diff = frame.origin.y + frame.height - windowHeight
-                y = frame.origin.y - diff - Screen.SafeArea.bottom - menuSettings.insetOfLeftAndRight
+                y = frame.origin.y - diff - Screen.SafeArea.bottom - menuSettings.sideInset
                 animateOriginY(to: y)
             }
             
@@ -141,10 +141,10 @@ final class ContextMenuContentView: UIView {
             
             if frame.maxY > UIScreen.main.bounds.maxY - Screen.SafeArea.bottom {
                 let diff = frame.origin.y + frame.height - windowHeight
-                y = frame.origin.y - diff - Screen.SafeArea.bottom - menuSettings.insetOfLeftAndRight
+                y = frame.origin.y - diff - Screen.SafeArea.bottom - menuSettings.sideInset
                 animateOriginY(to: y)
             } else if frame.origin.y < Screen.SafeArea.top {
-                y = Screen.SafeArea.top + menuSettings.insetOfLeftAndRight
+                y = Screen.SafeArea.top + menuSettings.sideInset
                 animateOriginY(to: y)
             }
         }
@@ -284,7 +284,7 @@ private extension ContextMenuContentView {
             ///   ---------
             ///
             
-            containerX = UIScreen.main.bounds.width - innerMenuWidth - menuSettings.insetOfLeftAndRight
+            containerX = UIScreen.main.bounds.width - innerMenuWidth - menuSettings.sideInset
             contentX = contentFrameOnWindow.origin.x - containerX
         } else {
             /// Меню располагается по левому краю контента
@@ -365,7 +365,7 @@ private extension ContextMenuContentView {
             ///          ---------
             ///
             
-            containerX = menuSettings.insetOfLeftAndRight
+            containerX = menuSettings.sideInset
             contentX = contentFrameOnWindow.origin.x - containerX
         } else if contentFrameOnWindow.midX + containerWidth / 2 < UIScreen.main.bounds.width - menuSettings.insetOfContent {
             /// Если контен уже чем меню, тогда ширина контейнера будет равна ширине меню
@@ -401,7 +401,7 @@ private extension ContextMenuContentView {
             ///       ---------
             ///
             
-            containerX = UIScreen.main.bounds.width - innerMenuWidth - menuSettings.insetOfLeftAndRight
+            containerX = UIScreen.main.bounds.width - innerMenuWidth - menuSettings.sideInset
             contentX = contentFrameOnWindow.origin.x - containerX
         }
 
@@ -466,7 +466,7 @@ private extension ContextMenuContentView {
                 ///          ---------
                 ///
                 
-                containerX = menuSettings.insetOfLeftAndRight
+                containerX = menuSettings.sideInset
                 menuX = 0.0
                 contentX = contentFrameOnWindow.origin.x - containerX - menuX
             } else {
@@ -715,7 +715,7 @@ private extension ContextMenuContentView {
             /// -----------------
             ///
             
-            containerX = UIScreen.main.bounds.width - innerMenuWidth - menuSettings.insetOfLeftAndRight
+            containerX = UIScreen.main.bounds.width - innerMenuWidth - menuSettings.sideInset
             contentX = contentFrameOnWindow.origin.x - containerX
         } else {
             /// Меню располагается по левому краю контента
@@ -794,7 +794,7 @@ private extension ContextMenuContentView {
             ///        -----------------
             ///
             
-            containerX = menuSettings.insetOfLeftAndRight
+            containerX = menuSettings.sideInset
             contentX = contentFrameOnWindow.origin.x - containerX
         } else if contentFrameOnWindow.midX + containerWidth / 2 < UIScreen.main.bounds.width - menuSettings.insetOfContent {
             /// Если контен уже чем меню, тогда ширина контейнера будет равна ширине меню
@@ -830,7 +830,7 @@ private extension ContextMenuContentView {
             /// -----------------
             ///
             
-            containerX = UIScreen.main.bounds.width - innerMenuWidth - menuSettings.insetOfLeftAndRight
+            containerX = UIScreen.main.bounds.width - innerMenuWidth - menuSettings.sideInset
             contentX = contentFrameOnWindow.origin.x - containerX
         }
         
@@ -892,7 +892,7 @@ private extension ContextMenuContentView {
             ///        -----------------
             ///
             
-            containerX = menuSettings.insetOfLeftAndRight
+            containerX = menuSettings.sideInset
             menuX = 0
             contentX = contentFrameOnWindow.origin.x - containerX
         } else {

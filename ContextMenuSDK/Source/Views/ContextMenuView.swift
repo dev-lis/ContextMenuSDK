@@ -54,6 +54,7 @@ final class ContextMenuView: UIView {
         
         let containerView = UIView()
         containerView.clipsToBounds = true
+        containerView.backgroundColor = menuSettings.backgroundColor
         containerView.layer.cornerRadius = menuSettings.cornerRadius
         addSubview(containerView)
         
@@ -108,7 +109,7 @@ final class ContextMenuView: UIView {
             height = sectionSeparator.frame.maxY
         }
         containerView.frame = CGRect(
-            x: origin.x,
+            x: 0,
             y: 0,
             width: innerMenuWidth,
             height: height
