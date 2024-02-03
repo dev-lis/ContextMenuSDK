@@ -106,6 +106,25 @@ class ViewController: UIViewController {
             to: squareView,
             with: config
         )
+        
+        let redView = UIView()
+        redView.translatesAutoresizingMaskIntoConstraints = false
+        redView.backgroundColor = .systemRed
+        
+        view.addSubview(redView)
+        
+        NSLayoutConstraint.activate([
+            redView.centerYAnchor.constraint(equalTo: squareView.centerYAnchor),
+            redView.leftAnchor.constraint(equalTo: squareView.rightAnchor, constant: 20),
+            redView.widthAnchor.constraint(equalToConstant: 16),
+            redView.heightAnchor.constraint(equalToConstant: 16)
+        ])
+        
+        ContextMenu.add(
+            to: squareView,
+            on: redView,
+            with: config
+        )
     }
     
     private func setupSettings() {
