@@ -26,7 +26,7 @@ public class Settings {
     
     public class Menu {
         /// Ширина
-        public var width: CGFloat = 250.0
+        public var width: MenuWidth = .dynamic(inset: 12)
         /// Отступы от правого и левого краев
         public var sideInset: CGFloat = 8.0
         /// Отступ меню от контента
@@ -122,4 +122,9 @@ public class Settings {
         /// Идентификатор меню
         public var menuView: String? = nil
     }
+}
+
+public enum MenuWidth {
+    case absolute(width: CGFloat)
+    case dynamic(inset: CGFloat)
 }
