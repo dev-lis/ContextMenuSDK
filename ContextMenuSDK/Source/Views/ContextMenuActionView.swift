@@ -11,17 +11,14 @@ final class ContextMenuActionView: UIView {
     
     private var menuSettings = Settings.shared.menu
     private var menuActionSettings = Settings.shared.menuAction
-    
-    private var innerMenuWidth: CGFloat {
-        menuWidth ?? menuSettings.width
-    }
+
     
     private let action: () -> Void
-    private let menuWidth: CGFloat?
+    private let menuWidth: CGFloat
     private let completion: () -> Void
     
     init(action: ContextMenuAction,
-         menuWidth: CGFloat?,
+         menuWidth: CGFloat,
          completion: @escaping () -> Void) {
         self.action = action.action
         self.menuWidth = menuWidth
@@ -43,7 +40,7 @@ final class ContextMenuActionView: UIView {
         if let image = action.image {
             imageView = UIImageView()
             imageView?.frame = CGRect(
-                x: innerMenuWidth - menuActionSettings.imageSize - menuActionSettings.sideInset,
+                x: menuWidth - menuActionSettings.imageSize - menuActionSettings.sideInset,
                 y: 0,
                 width: menuActionSettings.imageSize,
                 height: menuActionSettings.imageSize
@@ -58,13 +55,10 @@ final class ContextMenuActionView: UIView {
             addSubview(imageView!)
         }
         
-        let leftImageInset = imageView == nil
-        ? menuActionSettings.sideInset
-        : menuActionSettings.sideInset * 2 + menuActionSettings.imageSize
         let labelFrame = CGRect(
             x: menuActionSettings.sideInset,
             y: menuActionSettings.insetOfTopAndBottom,
-            width: innerMenuWidth - menuActionSettings.sideInset - leftImageInset,
+            width: action.text.getWidth(with: action.font),
             height: 0
         )
         let label = UILabel(frame: labelFrame)
@@ -76,12 +70,12 @@ final class ContextMenuActionView: UIView {
         addSubview(label)
         
         frame.size = CGSize(
-            width: innerMenuWidth,
+            width: menuWidth,
             height: label.frame.height + menuActionSettings.insetOfTopAndBottom * 2
         )
         
         imageView?.frame.origin = CGPoint(
-            x: innerMenuWidth - menuActionSettings.imageSize - menuActionSettings.sideInset,
+            x: menuWidth - menuActionSettings.imageSize - menuActionSettings.sideInset,
             y: center.y - menuActionSettings.imageSize / 2
         )
         

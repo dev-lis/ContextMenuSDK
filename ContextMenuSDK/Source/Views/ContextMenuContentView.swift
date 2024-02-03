@@ -11,12 +11,37 @@ final class ContextMenuContentView: UIView {
     
     private var contantSettings = Settings.shared.contant
     private var menuSettings = Settings.shared.menu
+    private var menuActionSettings = Settings.shared.menuAction
     private var animationsSettings = Settings.shared.animations
     
     private var startContentY: CGFloat = .zero
+
     
     private var innerMenuWidth: CGFloat {
-        menuWidth ?? menuSettings.width
+        if let menuWidth {
+            return menuWidth
+        }
+        switch menuSettings.width {
+        case let .absolute(width):
+            return width
+        case let .dynamic(inset):
+            return getMaxWith(with: inset)
+        }
+    }
+    
+    func getMaxWith(with inset: CGFloat) -> CGFloat {
+        var widths = [CGFloat]()
+        for section in actionSections {
+            section.actions.forEach {
+                let width = $0.text.getWidth(with: $0.font)
+                widths.append(width)
+            }
+        }
+        let maxWidth = widths.max() ?? .zero
+        let imageSize = menuActionSettings.imageSize
+        let sideInset = menuActionSettings.sideInset * 2
+        let x = maxWidth + imageSize + sideInset + inset
+        return maxWidth + imageSize + sideInset + inset
     }
     
     var y: CGFloat = .zero
@@ -514,7 +539,7 @@ private extension ContextMenuContentView {
         menuView = ContextMenuView(
             origin: origin,
             actionSections: actionSections,
-            menuWidth: menuWidth,
+            menuWidth: innerMenuWidth,
             completion: completion
         )
         
@@ -943,7 +968,7 @@ private extension ContextMenuContentView {
         menuView = ContextMenuView(
             origin: origin,
             actionSections: actionSections,
-            menuWidth: menuWidth,
+            menuWidth: innerMenuWidth,
             completion: completion
         )
         
