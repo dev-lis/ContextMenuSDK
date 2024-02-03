@@ -159,6 +159,8 @@ final class DismissTransitionAnimator: NSObject, UIViewControllerAnimatedTransit
         let completion = {
             TransitionHandler.shared.removeActiveView()
             ViewPositionHandler.shared.returnViewBack(view: self.view)
+            let gestureView = TriggerViewHandler.shared.getTriggerView(for: self.view)
+            GesturesHandler.shared.returnGesture(to: gestureView)
             GesturesHandler.shared.returnGesture(to: self.view)
             transitionContext.completeTransition(true)
             KeyboardHandler.shared.becomeFirstResponderIfNeed()
