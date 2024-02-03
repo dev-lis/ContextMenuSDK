@@ -40,7 +40,6 @@ final class ContextMenuContentView: UIView {
         let maxWidth = widths.max() ?? .zero
         let imageSize = menuActionSettings.imageSize
         let sideInset = menuActionSettings.sideInset * 2
-        let x = maxWidth + imageSize + sideInset + inset
         return maxWidth + imageSize + sideInset + inset
     }
     
