@@ -59,6 +59,20 @@ final class ContextMenuView: UIView {
         var height: CGFloat = 0.0
         
         for section in actionSections {
+            if let header = section.header {
+                let sectionSeparator = UIView()
+                sectionSeparator.frame = CGRect(
+                    x: 0,
+                    y: height,
+                    width: menuWidth,
+                    height: header.height ?? menuSettings.footerHeight
+                )
+                sectionSeparator.backgroundColor = header.color ?? menuSettings.separatorColor
+                containerView.addSubview(sectionSeparator)
+                
+                height = sectionSeparator.frame.maxY
+            }
+            
             for (index, action) in section.actions.enumerated() {
                 let view = ContextMenuActionView(
                     action: action,
@@ -88,21 +102,6 @@ final class ContextMenuView: UIView {
                 
                 height = line.frame.maxY
             }
-            
-            guard let footer = section.footer else {
-                continue
-            }
-            let sectionSeparator = UIView()
-            sectionSeparator.frame = CGRect(
-                x: 0,
-                y: height,
-                width: menuWidth,
-                height: footer.height ?? menuSettings.footerHeight
-            )
-            sectionSeparator.backgroundColor = footer.color ?? menuSettings.separatorColor
-            containerView.addSubview(sectionSeparator)
-            
-            height = sectionSeparator.frame.maxY
         }
         containerView.frame = CGRect(
             x: 0,

@@ -91,10 +91,10 @@ class ViewController: UIViewController {
         ) {
             print("Delete")
         }
-        let footer = ContextMenuSection.Footer()
+        let header = ContextMenuSection.Header()
         let actionSections = [
-            ContextMenuSection(actions: [play, download], footer: footer),
-            ContextMenuSection(actions: [delete])
+            ContextMenuSection(actions: [play, download]),
+            ContextMenuSection(actions: [delete], header: header)
         ]
         
         let config = ContextMenuViewConfig(
