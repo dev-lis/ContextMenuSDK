@@ -22,20 +22,26 @@ public class ContextMenu {
     }
     
     public static func add(to view: UIView,
+                           on triggerView: UIView? = nil,
                            with config: ContextMenuViewConfig) {
         let _ = KeyboardHandler.shared
         TransitionHandler.shared.setConfig(config, for: view)
+        if let triggerView {
+            TriggerViewHandler.shared.setView(view, for: triggerView)
+        }
         
-        switch config.trigger {
-        case .tap:
+        let gestueView = triggerView ?? view
+        
+        /// Если используется TriggerView  то событие обрабатывается только по тапу
+        if triggerView != nil || config.trigger == .tap {
             let tap = UITapGestureRecognizer(
                 target: self,
                 action: #selector(handleContextMenuTap)
             )
             tap.cancelsTouchesInView = false
             
-            view.addGestureRecognizer(tap)
-        case .longPress:
+            gestueView.addGestureRecognizer(tap)
+        } else if config.trigger == .longPress {
             let longPress = UILongPressGestureRecognizer(
                 target: self,
                 action: #selector(handleContextMenuLongPress)
@@ -43,7 +49,7 @@ public class ContextMenu {
             longPress.cancelsTouchesInView = false
             longPress.minimumPressDuration = 0.01
             
-            view.addGestureRecognizer(longPress)
+            gestueView.addGestureRecognizer(longPress)
         }
     }
     
@@ -72,12 +78,22 @@ public class ContextMenu {
     }
     
     @objc static private func handleContextMenuTap(_ sender: UITapGestureRecognizer) {
-        guard let view = sender.view else {
+        guard let gestureView = sender.view else {
             return
         }
         
+        /// Если тап был по TriggerView,
+        /// То нужно брать жест с ContentView
+        let contentView = TriggerViewHandler.shared.getContentView(for: gestureView)
+        contentView.gestureRecognizers?.forEach {
+            guard $0 is UITapGestureRecognizer || $0 is UILongPressGestureRecognizer else {
+                return
+            }
+            GesturesHandler.shared.removeGesture($0)
+        }
+        
         GesturesHandler.shared.removeGesture(sender)
-        openContextMenu(for: view)
+        openContextMenu(for: contentView)
     }
     
     @objc static private func handleContextMenuLongPress(_ sender: UILongPressGestureRecognizer) {
@@ -85,11 +101,13 @@ public class ContextMenu {
             return
         }
         
+        let contentView = TriggerViewHandler.shared.getContentView(for: view)
+        
         switch sender.state {
         case .began:
-            ScaleAnimator.scale(view) {
+            ScaleAnimator.scale(contentView) {
                 GesturesHandler.shared.removeGesture(sender)
-                openContextMenu(for: view)
+                openContextMenu(for: contentView)
             }
         case .ended, .cancelled:
             ScaleAnimator.cancel()
