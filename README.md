@@ -16,7 +16,7 @@ ContextMenuSDK is available through [CocoaPods](https://cocoapods.org). To insta
 it, simply add the following line to your Podfile:
 
 ```ruby
-pod 'ContextMenuSDK ~> 1.2.0'
+pod 'ContextMenuSDK ~> 1.3.0'
 ```
 
 ## Usage
@@ -44,7 +44,7 @@ public static func add(to barItem: UITabBarItem,
 - shadow - Тень вокруг объекта, с которым пользователь ваимодействовал.
 
 #### Menu
-- width - Ширина меню.
+- width - Ширина меню. Может быть фиксированной (absolute) или динамической с отступом иконки от текста (dynamic)
 - sideInset - Минимальные отстпупы от правого и левого краев экрана.
 - insetOfContent - Отступ меню от контента.
 - cornerRadius - Закругление углов меню.
