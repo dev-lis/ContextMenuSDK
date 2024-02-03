@@ -9,15 +9,15 @@ import UIKit
 
 public struct ContextMenuSection {
     let actions: [ContextMenuAction]
-    let footer: Footer?
+    let header: Header?
     
     public init(actions: [ContextMenuAction],
-                footer: Footer? = nil) {
+                header: Header? = nil) {
         self.actions = actions
-        self.footer = footer
+        self.header = header
     }
     
-    public struct Footer {
+    public struct Header {
         let height: CGFloat?
         let color: UIColor?
         
