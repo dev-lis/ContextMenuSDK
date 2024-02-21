@@ -57,11 +57,16 @@ public class ContextMenu {
     public static func add(to barItem: UIBarButtonItem,
                            with config: ContextMenuNavBarItemConfig) {
         DispatchQueue.main.async {
-            if let view = barItem.value(forKey: "view") as? UIView {
-                BarItemHandler.shared.addViewOnContainerWithContextMenu(
-                    view,
-                    with: config.innerConfig
-                )
+            /// Может быть ситуация, когда контекстное меню добавляется, до того, как сформирован стек навигации
+            /// Поэтому ставим даймер и ждем когда стек появится
+            Timer.scheduledTimer(withTimeInterval: 0.5, repeats: true) { timer in
+                if let view = barItem.value(forKey: "view") as? UIView {
+                    timer.invalidate()
+                    BarItemHandler.shared.addViewOnContainerWithContextMenu(
+                        view,
+                        with: config.innerConfig
+                    )
+                }
             }
         }
     }
@@ -69,11 +74,16 @@ public class ContextMenu {
     public static func add(to barItem: UITabBarItem,
                            with config: ContextMenuTabBarItemConfig) {
         DispatchQueue.main.async {
-            if let view = barItem.value(forKey: "view") as? UIView {
-                BarItemHandler.shared.addViewOnContainerWithContextMenu(
-                    view,
-                    with: config.innerConfig
-                )
+            /// Может быть ситуация, когда контекстное меню добавляется, до того, как сформирован стек навигации
+            /// Поэтому ставим даймер и ждем когда стек появится
+            Timer.scheduledTimer(withTimeInterval: 0.5, repeats: true) { timer in
+                if let view = barItem.value(forKey: "view") as? UIView {
+                    timer.invalidate()
+                    BarItemHandler.shared.addViewOnContainerWithContextMenu(
+                        view,
+                        with: config.innerConfig
+                    )
+                }
             }
         }
     }
