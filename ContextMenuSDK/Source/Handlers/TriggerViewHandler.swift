@@ -16,6 +16,11 @@ final class TriggerViewHandler {
     private var views: [Weak<UIView>: Weak<UIView>] = [:]
     
     func setView(_ view: UIView, for trigger: UIView) {
+        views.forEach {
+            if $0.key.object == nil {
+                views[$0.key] = nil
+            }
+        }
         views[Weak(trigger)] = Weak(view)
     }
     
