@@ -31,6 +31,7 @@ public class ContextMenu {
         }
         
         let gestueView = triggerView ?? view
+        gestueView.isUserInteractionEnabled = true
         
         /// Если используется TriggerView  то событие обрабатывается только по тапу
         if triggerView != nil || config.trigger == .tap {

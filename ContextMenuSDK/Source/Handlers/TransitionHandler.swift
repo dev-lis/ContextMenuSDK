@@ -21,6 +21,11 @@ final class TransitionHandler: NSObject {
     /// для каждой вью по отдельности
     func setConfig(_ config: ContextMenuViewConfig,
                    for view: UIView) {
+        configs.forEach {
+            if $0.key.object == nil {
+                configs[$0.key] = nil
+            }
+        }
         self.configs[Weak(view)] = config
     }
     
