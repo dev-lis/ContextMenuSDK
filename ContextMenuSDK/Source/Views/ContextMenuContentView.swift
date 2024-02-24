@@ -251,8 +251,9 @@ private extension ContextMenuContentView {
     func contentValues() -> (contentOriginX: CGFloat, contentOriginY: CGFloat, contentWidthInset: CGFloat, contentHeightInset: CGFloat) {
         let contentWidthInset = content.bounds.width - content.frame.width
         let contentHeightInset = content.bounds.height - content.frame.height
-        let contentOriginX = content.frameOnWindow.origin.x - contentWidthInset / 2
-        let contentOriginY = content.frameOnWindow.origin.y - contentHeightInset / 2
+        let position = ViewPositionHandler.shared.getViewPosition()
+        let contentOriginX = position.x - contentWidthInset / 2
+        let contentOriginY = position.y - contentHeightInset / 2
         return (contentOriginX: contentOriginX,
                 contentOriginY: contentOriginY,
                 contentWidthInset: contentWidthInset,

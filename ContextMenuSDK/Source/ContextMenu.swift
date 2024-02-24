@@ -48,7 +48,7 @@ public class ContextMenu {
                 action: #selector(handleContextMenuLongPress)
             )
             longPress.cancelsTouchesInView = false
-            longPress.minimumPressDuration = 0.01
+            longPress.minimumPressDuration = 0.1
             
             gestueView.addGestureRecognizer(longPress)
         }
@@ -131,6 +131,7 @@ public class ContextMenu {
         FeedbackGenerator.generateFeedback(type: .impact(feedbackStyle: .medium))
         KeyboardHandler.shared.saveFirstResponderIfNeed()
         TransitionHandler.shared.setActiveView(view)
+        ViewPositionHandler.shared.saveViewPosition(view: view)
         
         let withBlur = TransitionHandler.shared.getBlurValue(for: view)
         let controller = ContextMenuViewController(withBlur: withBlur)

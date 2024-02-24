@@ -18,6 +18,10 @@ class KeyboardHandler {
     private var store = Set<AnyCancellable>()
     
     static let shared = KeyboardHandler()
+    
+    var shouldShowKeyboard: Bool {
+        selectedView != nil
+    }
 
     private init() {
         subscribe()

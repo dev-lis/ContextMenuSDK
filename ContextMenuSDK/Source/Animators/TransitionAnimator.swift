@@ -174,8 +174,14 @@ final class DismissTransitionAnimator: NSObject, UIViewControllerAnimatedTransit
                 completion
             )
         } else {
+            /// Если в момент показа контекстного меню на экране был клавиатураб
+            /// то ее нужно показать при закрытии.
+            /// И чтобы анимация скрытия отработала корректно, нужно чтобы она была не меньше чем 0.5 сек.
+            let duration = KeyboardHandler.shared.shouldShowKeyboard
+            ? max(settings.hideTransitionDuration, 0.5)
+            : settings.hideTransitionDuration
             UIView.animate(
-                withDuration: settings.hideTransitionDuration,
+                withDuration: duration,
                 animations: {
                     backgroundCompletion?()
                     contentView.hide()
