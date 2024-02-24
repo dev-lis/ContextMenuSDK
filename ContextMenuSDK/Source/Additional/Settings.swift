@@ -35,8 +35,6 @@ public class Settings {
         public var cornerRadius: CGFloat = 12.0
         /// Высота футеров в секциях
         public var footerHeight: CGFloat = 12.0
-        /// Цвет фона меню
-        public var backgroundColor: UIColor = .clear
         /// Цвет сепараторов между ячейками и футера
         public var separatorColor: UIColor = .systemGray4
         /// Тень
