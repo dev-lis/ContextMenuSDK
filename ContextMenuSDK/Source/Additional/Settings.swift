@@ -26,7 +26,7 @@ public class Settings {
     
     public class Menu {
         /// Ширина
-        public var width: MenuWidth = .dynamic(inset: 48)
+        public var width: MenuWidth = .dynamic(inset: 12)
         /// Отступы от правого и левого краев
         public var sideInset: CGFloat = 8.0
         /// Отступ меню от контента
@@ -35,8 +35,6 @@ public class Settings {
         public var cornerRadius: CGFloat = 12.0
         /// Высота футеров в секциях
         public var footerHeight: CGFloat = 12.0
-        /// Цвет фона меню
-        public var backgroundColor: UIColor = .clear
         /// Цвет сепараторов между ячейками и футера
         public var separatorColor: UIColor = .systemGray4
         /// Тень

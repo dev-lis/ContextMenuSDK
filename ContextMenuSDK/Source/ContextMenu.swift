@@ -31,6 +31,7 @@ public class ContextMenu {
         }
         
         let gestueView = triggerView ?? view
+        gestueView.isUserInteractionEnabled = true
         
         /// Если используется TriggerView  то событие обрабатывается только по тапу
         if triggerView != nil || config.trigger == .tap {
@@ -47,7 +48,7 @@ public class ContextMenu {
                 action: #selector(handleContextMenuLongPress)
             )
             longPress.cancelsTouchesInView = false
-            longPress.minimumPressDuration = 0.01
+            longPress.minimumPressDuration = 0.1
             
             gestueView.addGestureRecognizer(longPress)
         }
@@ -56,11 +57,16 @@ public class ContextMenu {
     public static func add(to barItem: UIBarButtonItem,
                            with config: ContextMenuNavBarItemConfig) {
         DispatchQueue.main.async {
-            if let view = barItem.value(forKey: "view") as? UIView {
-                BarItemHandler.shared.addViewOnContainerWithContextMenu(
-                    view,
-                    with: config.innerConfig
-                )
+            /// Может быть ситуация, когда контекстное меню добавляется, до того, как сформирован стек навигации
+            /// Поэтому ставим даймер и ждем когда стек появится
+            Timer.scheduledTimer(withTimeInterval: 0.5, repeats: true) { timer in
+                if let view = barItem.value(forKey: "view") as? UIView {
+                    timer.invalidate()
+                    BarItemHandler.shared.addViewOnContainerWithContextMenu(
+                        view,
+                        with: config.innerConfig
+                    )
+                }
             }
         }
     }
@@ -68,11 +74,16 @@ public class ContextMenu {
     public static func add(to barItem: UITabBarItem,
                            with config: ContextMenuTabBarItemConfig) {
         DispatchQueue.main.async {
-            if let view = barItem.value(forKey: "view") as? UIView {
-                BarItemHandler.shared.addViewOnContainerWithContextMenu(
-                    view,
-                    with: config.innerConfig
-                )
+            /// Может быть ситуация, когда контекстное меню добавляется, до того, как сформирован стек навигации
+            /// Поэтому ставим даймер и ждем когда стек появится
+            Timer.scheduledTimer(withTimeInterval: 0.5, repeats: true) { timer in
+                if let view = barItem.value(forKey: "view") as? UIView {
+                    timer.invalidate()
+                    BarItemHandler.shared.addViewOnContainerWithContextMenu(
+                        view,
+                        with: config.innerConfig
+                    )
+                }
             }
         }
     }
@@ -120,6 +131,7 @@ public class ContextMenu {
         FeedbackGenerator.generateFeedback(type: .impact(feedbackStyle: .medium))
         KeyboardHandler.shared.saveFirstResponderIfNeed()
         TransitionHandler.shared.setActiveView(view)
+        ViewPositionHandler.shared.saveViewPosition(view: view)
         
         let withBlur = TransitionHandler.shared.getBlurValue(for: view)
         let controller = ContextMenuViewController(withBlur: withBlur)

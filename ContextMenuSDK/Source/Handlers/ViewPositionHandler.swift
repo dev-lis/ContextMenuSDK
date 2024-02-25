@@ -12,9 +12,21 @@ final class ViewPositionHandler {
     static let shared = ViewPositionHandler()
     
     private var placeholderView: UIView?
+    private var position: CGPoint?
     private var translatesAutoresizingMaskIntoConstraints = true
     
     private init() {}
+    
+    /// Если вью находится в скрол вью и скрол зависит от клавиатуры (например чат)
+    /// Нужно сохранить положение вью на экране, до того как будет свернута клавиатура.
+    func saveViewPosition(view: UIView) {
+        position = view.frameOnWindow.origin
+    }
+
+    /// Получаем сохраненное положение
+    func getViewPosition() -> CGPoint {
+        position ?? .zero
+    }
     
     /// Если используется Autolayout, то при перенесении вью,
     /// которая будет отображаться на контекстном меню лэйаут сломается.
@@ -80,5 +92,6 @@ final class ViewPositionHandler {
         
         placeholderView.removeFromSuperview()
         self.placeholderView = nil
+        self.position = nil
     }
 }

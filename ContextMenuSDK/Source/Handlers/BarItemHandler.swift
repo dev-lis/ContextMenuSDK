@@ -54,6 +54,11 @@ class BarItemHandler {
         view.superview?.addSubview(containerView)
         containerView.addSubview(view)
         
+        configs.forEach {
+            if $0.key.object == nil {
+                configs[$0.key] = nil
+            }
+        }
         configs[Weak(view)] = config
         
         ContextMenu.add(

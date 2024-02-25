@@ -50,7 +50,11 @@ final class ContextMenuView: UIView {
         
         let containerView = UIView()
         containerView.clipsToBounds = true
-        containerView.backgroundColor = menuSettings.backgroundColor
+        containerView.backgroundColor = UIColor {
+            $0.userInterfaceStyle == .light
+                ? .white
+                : .black
+        }
         containerView.layer.cornerRadius = menuSettings.cornerRadius
         addSubview(containerView)
         
