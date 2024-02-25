@@ -16,7 +16,7 @@ ContextMenuSDK is available through [CocoaPods](https://cocoapods.org). To insta
 it, simply add the following line to your Podfile:
 
 ```ruby
-pod 'ContextMenuSDK ~> 1.3.0'
+pod 'ContextMenuSDK ~> 1.4.0'
 ```
 
 ## Usage
@@ -102,7 +102,7 @@ public static func add(to barItem: UITabBarItem,
 
 #### ContextMenuSection
 - actions - Массив секций, состоящих из экшенов (ContextMenuAction) для меню.
-- footer - Используется когда нужно разделить несколько секций сепаратором.
+- header - Используется когда нужно разделить несколько секций сепаратором.
 
 #### ContextMenuAction
 - text - Текст ячейки меню.
